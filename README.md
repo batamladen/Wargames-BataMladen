@@ -1,4 +1,4 @@
-# Wargames BataMladen
+# Wargames BataMladen 🚩
 
 **Wargames BataMladen** is an interactive, challenge-based platform for learning and practicing Linux fundamentals and ethical hacking skills through a game-like environment.
 
@@ -7,12 +7,12 @@ Each **challenge** focuses on a specific topic — such as file permissions, net
 Players connect via SSH to isolated container environments hosted on a remote server. To advance, they must solve each level and retrieve a hidden **flag**, which contains the **SSH password for the next challenge**. This chained structure reinforces practical skill development and simulates real-world attack paths.
 
 ---
-# Contact
+# Contact 📬
 
 For questions, write to [wargamesbatamladen@gmail.com](mailto:wargamesbatamladen@gmail.com)
 
 ---
-# Copyright
+# Copyright 🛑
 
 All code, assets, and challenge content in this repository are © Batamladen.com 2025.  
 All rights reserved.
