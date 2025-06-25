@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>404 - Robots Only</title>
+    <style>body { background: #000; color: #6e48aa; text-align: center; font-family: monospace; }</style>
+</head>
+<body>
+    <img src="images/robot.webp" width="200" alt="Broken Robot">
+    <p id="robot-message"></p>
+<script>
+    const msg = "Beep Boop... I have a message for you, but I speak only machine language.";
+    let i = 0;
+    const speed = 40;
+    const typeEffect = () => {
+        if (i < msg.length) {
+            document.getElementById("robot-message").innerHTML += msg.charAt(i);
+            i++;
+            setTimeout(typeEffect, speed);
+        }
+    };
+    typeEffect();
+</script>
+
+    <div style="background: #111; padding: 10px; margin: 20px auto; width: fit-content;">
+        53 63 72 75 4d 62 4c 65 64 5f 45 39 39 73 
+    </div>
+</body>
+</html>

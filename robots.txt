@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /private/
+
+# 🤖 Curious minds shouldn't check /robots.html

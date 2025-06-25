@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wargames BataMladen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --bg-darker: #0a0a0a;
+            --bg-container: #1e1e1e;
+            --accent-color: #6e48aa;
+            --accent-hover: #9d50bb;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --border-color: #333;
+        }
+        
+        .logo {
+            width: 120px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: var(--bg-darker);
+            border-right: 1px solid var(--border-color);
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .sidebar-header h2 {
+            margin: 0;
+            color: var(--accent-color);
+        }
+
+        .challenge-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .challenge-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .challenge-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .challenge-item.active {
+            background-color: rgba(110, 72, 170, 0.2);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .challenge-container {
+            background-color: var(--bg-container);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .challenge-title {
+            color: var(--accent-color);
+            margin-top: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .challenge-description {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .levels-container {
+            margin-top: 30px;
+        }
+
+        .level-item {
+            background-color: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .level-info {
+            flex: 1;
+        }
+
+        .level-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .level-description {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        .start-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .start-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .ssh-info {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            font-family: monospace;
+        }
+
+        .ssh-info.active {
+            display: block;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid var(--accent-color);
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <a href="home.html">
+            <img src="/images/wargames logo.webp" alt="Wargames Logo" class="logo">
+            </a>
+        </div>
+
+        
+        <ul class="challenge-list">
+            <li class="challenge-item active" data-challenge="shadows">The Shadows</li>
+            <li class="challenge-item" data-challenge="tunnel">Dig a Tunnel</li>
+        </ul>
+    </div>
+
+    <!-- The Shadows Content -->
+    <div class="main-content">
+        <div class="challenge-container" id="shadows-container">
+            <h1 class="challenge-title">The Shadows</h1>
+            <div class="challenge-description">
+                <p>Navigate through the shadows to uncover hidden secrets. Each level reveals a piece of the puzzle, with the flag from one level granting access to the next.<br>The password is only given for the <b>Entery Point</b>, you have to find the others yourself through the levels.</p>
+                <p>If you run into some issues or have ideas for new levels, please let me know! </p>
+            </div>
+            
+            <div class="levels-container">
+                <h3>Challenge Levels</h3>
+                
+                <!-- Level 0 -->
+                <div class="level-item">
+                    <div class="level-info">
+                        <div class="level-title">Level 0: Entry Point</div>
+                        <div class="level-description">
+                            SSH into the system to find the password for Level 1. <br>
+                            The password for this level is <code>shadows_level0</code>.
+                        </div>
+                    </div>
+                    <button type="button" class="start-btn" id="start-btn-shadows-0" onclick="startChallenge('shadows', '0')">Start</button>
+                    <div class="ssh-output" id="output-shadows-0"></div>
+
+                </div>
+                
+                <!-- Level 1 -->
+                <div class="level-item">
+                    <div class="level-info">
+                        <div class="level-title">Level 1: Enter the Shadow Realms</div>
+                        <div class="level-description">Roam the shadows to find the flag to unlock Level 2.</div>
+                    </div>
+                    <button type="button" class="start-btn" id="start-btn-shadows-1" onclick="startChallenge('shadows', '1')">Start</button>
+                    <div class="ssh-output" id="output-shadows-1"></div>
+                </div>
+
+                
+
+                 <!-- Level 2 -->
+                <div class="level-item">
+                    <div class="level-info">
+                        <div class="level-title">Level 2: Stealthy</div>
+                        <div class="level-description">Find the hidden flag file.</div>
+                    </div>
+                    <button type="button" class="start-btn" id="start-btn-shadows-2" onclick="startChallenge('shadows', '2')">Start</button>
+                    <div class="ssh-output" id="output-shadows-0"></div>
+
+                </div>
+
+                <!-- Level 3 -->
+                <div class="level-item">
+                    <div class="level-info">
+                        <div class="level-title">Level 3: Broke Character</div>
+                        <div class="level-description">???</div>
+                    </div>
+                    <button type="button" class="start-btn" id="start-btn-shadows-3" onclick="startChallenge('shadows', '3')">Start</button>
+                    <div class="ssh-output" id="output-shadows-0"></div>
+
+                </div>
+
+                 <!-- Level 4 -->
+                <div class="level-item">
+                    <div class="level-info">
+                        <div class="level-title">Level 4: Thick Mist</div>
+                        <div class="level-description">The flag is somewhere among the data in flag.txt</div>
+                    </div>
+                    <button type="button" class="start-btn" id="start-btn-shadows-4" onclick="startChallenge('shadows', '4')">Start</button>
+                    <div class="ssh-output" id="output-shadows-0"></div>
+
+                </div>
+
+                 <!-- Level 5 -->
+                <div class="level-item">
+                    <div class="level-info">
+                        <div class="level-title">Level 5: Shady Atributes</div>
+                        <div class="level-description">This time, its not about the file - but what the file carries with it. Explore metadata of the file from level 4 to fint the flag.</div>
+                    </div>
+                    <button type="button" class="start-btn" id="start-btn-shadows-5" onclick="startChallenge('shadows', '5')">Start</button>
+                    <div class="ssh-output" id="output-shadows-0"></div>
+
+                </div>
+                
+                 <!-- Level 6 -->
+                <div class="level-item">
+                    <div class="level-info">
+                        <div class="level-title">Level 6: Wanderer above the Sea of Fog</div>
+                        <div class="level-description">Search the title of the level on the web. What is it? Thats what you are searching for.</div>
+                    </div>
+                    <button type="button" class="start-btn" id="start-btn-shadows-6" onclick="startChallenge('shadows', '6')">Start</button>
+                    <div class="ssh-output" id="output-shadows-0"></div>
+
+                </div>
+
+                 <!-- Level 7 -->
+                <div class="level-item">
+                    <div class="level-info">
+                        <div class="level-title">Level 7: The History is Written</div>
+                        <div class="level-description">The terminal remembers. Explore the history.</div>
+                    </div>
+                    <button type="button" class="start-btn" id="start-btn-shadows-7" onclick="startChallenge('shadows', '7')">Start</button>
+                    <div class="ssh-output" id="output-shadows-0"></div>
+
+                </div>
+
+                 <!-- Level 8 -->
+                <div class="level-item">
+                    <div class="level-info">
+                        <div class="level-title">Level 8: A cien metros bajo tierra</div>
+                        <div class="level-description">Flag is hidden in 100 nested folders. Is there an easier way to access it?</div>
+                    </div>
+                    <button type="button" class="start-btn" id="start-btn-shadows-8" onclick="startChallenge('shadows', '8')">Start</button>
+                    <div class="ssh-output" id="output-shadows-0"></div>
+
+                </div>
+
+                 <!-- Level 9 -->
+                <div class="level-item">
+                    <div class="level-info">
+                        <div class="level-title">Level 9: What We Do in the Shadows</div>
+                        <div class="level-description">
+                            Who are you when no one is looking?<br>
+                            This is the last push before you get back to the light.<br><br>
+                            The flag is hidden in layers of what you did till now. Deceit, fake clues, invisible names and encrypted data.<br><br>
+                            Step one: Find a hex dump, recreate it – it will provide you with information where a decryption key is.<br>
+                            Step two: Find the decryption key.<br>
+                            Step three: Decrypt the encrypted file.<br>
+                        </div>
+
+                    </div>
+                    <button type="button" class="start-btn" id="start-btn-shadows-9" onclick="startChallenge('shadows', '9')">Start</button>
+                    <div class="ssh-output" id="output-shadows-0"></div>
+
+                </div>    
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+    async function startChallenge(challenge, level) {
+    const startBtn = document.getElementById(`start-btn-${challenge}-${level}`);
+    const outputDiv = document.getElementById(`output-${challenge}-${level}`);
+    
+    startBtn.disabled = true;
+    startBtn.innerText = "Starting...";
+
+    try {
+        const response = await fetch("http://109.123.246.152:5000/api/start", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ challenge, level })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            outputDiv.innerHTML = `
+<pre>
+<b>SSH Access:</b>
+ssh ${data.username}@${data.host} -p ${data.port}
+</pre>`;
+
+            // Hide the start button on success
+            startBtn.style.display = 'none';
+        } else {
+            outputDiv.innerHTML = `<b>Error:</b> ${data.error}`;
+            startBtn.disabled = false;
+            startBtn.innerText = "Start";
+        }
+
+    } catch (error) {
+        outputDiv.innerHTML = `<b>Connection failed:</b> ${error}`;
+        startBtn.disabled = false;
+        startBtn.innerText = "Start";
+    }
+}
+
+    </script>
+</body>
+</html>

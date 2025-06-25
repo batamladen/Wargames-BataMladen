@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wargames</title>
+    <!-- JetBrains Mono Font -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Spinning Logo (Bigger & Higher) */
+        .logo {
+            width: 300px;
+            height: 300px;
+            animation: spin 4s linear infinite;
+            margin-bottom: 30px;
+            margin-top: -50px; 
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Password Box (Purple Accent) */
+        .password-box {
+            padding: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            background: #111;
+            border: 2px solid #6e48aa;
+            color: #ffffff;
+            outline: none;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Submit Button (Hidden) */
+        .submit-btn {
+            display: none;
+        }
+
+        /* Footer Text */
+        .footer {
+            font-size: 14px;
+            opacity: 0.7;
+            color: #8a61cd; /* Purple accent */
+        }
+    </style>
+</head>
+<body>
+    <!-- Spinning Logo (Bigger & Higher) -->
+    <img src="/images/wargames logo.webp" alt="Wargames Logo" class="logo">
+
+    <!-- Password Box -->
+    <form id="login-form">
+        <input 
+            type="password" 
+            class="password-box" 
+            placeholder="Enter Password" 
+            id="password" 
+            autocomplete="off"
+        >
+        <input type="submit" class="submit-btn">
+    </form>
+
+    <!-- Footer Text -->
+    <p class="footer">find your way in
+    </p>
+
+
+    <!-- Password Check Script -->
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            
+            if (password === "ScruMbLed_E99s") {
+                window.location.href = "home.html";
+            }
+
+            else {
+            const funMessages = [
+                "Robots whisper secrets in hex, people dont.",
+                "robots don't lie, but they hide secrets",
+                "The Shadows know, the robots too. Do you?"
+
+                ];
+                alert(funMessages[Math.floor(Math.random() * funMessages.length)]);
+                document.getElementById('password').value = "";
+            }
+
+
+
+        });
+    </script>
+</body>
+</html>

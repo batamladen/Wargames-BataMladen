@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wargames BataMladen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --bg-darker: #0a0a0a;
+            --bg-container: #1e1e1e;
+            --accent-color: #6e48aa;
+            --accent-hover: #9d50bb;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --border-color: #333;
+        }
+        
+        .logo {
+            width: 120px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: var(--bg-darker);
+            border-right: 1px solid var(--border-color);
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .sidebar-header a {
+            text-decoration: none;
+        }
+
+        .challenge-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .challenge-item {
+            padding: 15px 20px;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .challenge-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .challenge-item.active {
+            background-color: rgba(110, 72, 170, 0.2);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        /* Main Content Styles */
+        .content-wrapper {
+            margin-left: 250px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            width: 100%;
+            max-width: 900px;
+            padding: 40px;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin: 0 0 30px;
+        }
+
+        .home-logo {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 50%;
+            animation: rotate 20s linear infinite;
+            box-shadow: 0 0 20px rgba(110, 72, 170, 0.5);
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .title {
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+
+        .welcome-container {
+            background-color: var(--bg-container);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .welcome-container h2 {
+            color: var(--accent-color);
+            margin-top: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .welcome-container p {
+            margin-bottom: 15px;
+        }
+
+        .welcome-container code {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #f8f8f8;
+        }
+
+        .disclaimer {
+            background-color: rgba(174, 0, 0, 0.2);
+            border-left: 4px solid #ae0000;
+            padding: 15px;
+            border-radius: 0 5px 5px 0;
+            margin: 25px 0;
+        }
+
+        .disclaimer strong {
+            color: #ff6b6b;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .challenges-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .challenges-btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(110, 72, 170, 0.4);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .content-wrapper {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <a href="home.html">
+                <img src="/images/wargames logo.webp" alt="Wargames Logo" class="logo">
+            </a>
+        </div>
+        
+        <ul class="challenge-list">
+            <!-- Link "The Shadows" to the-shadows.html -->
+            <li class="challenge-item" data-challenge="shadows">
+                <a href="the-shadows.html" style="color: inherit; text-decoration: none;">The Shadows</a>
+            </li>
+            
+            <li class="challenge-item" data-challenge="tunnel">Dig a Tunnel</li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-wrapper">
+        <div class="main-content">
+            <div class="logo-container">
+                <img src="images/wargames logo.webp" alt="Wargames Logo" class="home-logo">
+            </div>
+
+            <h1 class="title">Wargames by BataMladen</h1>
+
+            <div class="welcome-container">
+                <h2>Welcome</h2>
+                
+                <p>This platform hosts a series of cybersecurity challenges designed to test your red and blue team skills as well as problem-solving abilities. Each challenge consists of multiple levels that progressively increase in difficulty.</p>
+                
+                <h3>How It Works</h3>
+                <p>To participate in the challenges, you'll need to SSH into our systems:</p>
+                <ul>
+                    <li>Each level has its own dedicated port on our server</li>
+                    <li>The <strong>Entry Point</strong> password is always provided for the first level</li>
+                    <li>Subsequent levels require you to find flags that serve as passwords</li>
+                    <li>Each level's flag is the password for the next level</li>
+                </ul>
+                
+                <p>Example SSH command for a challenge:</p>
+                <code>ssh username@123.456.321.654 -p 1234</code>
+                
+                <div class="disclaimer">
+                    <strong>IMPORTANT:</strong> Take notes of all passwords/flags you find! The system won't remember them for you.
+                </div>
+                
+                <p>Ready to test your skills? Click on a challange you like and start conquering.</p>
+                
+            </div>
+        </div>
+    </div>
+</body>
+</html>
