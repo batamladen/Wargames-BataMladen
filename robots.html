@@ -19,6 +19,18 @@
         }
     };
     typeEffect();
+
+
+    // Mobile device detection and toggle display
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        if (isMobile()) {
+            document.getElementById('content').style.display = 'none';
+            document.getElementById('mobile-message').style.display = 'flex';
+        }
+    
 </script>
 
     <div style="background: #111; padding: 10px; margin: 20px auto; width: fit-content;">
