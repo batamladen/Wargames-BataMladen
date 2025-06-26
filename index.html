@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wargames</title>
-    <!-- JetBrains Mono Font -->
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -20,7 +19,6 @@
             overflow: hidden;
         }
 
-        /* Spinning Logo (Bigger & Higher) */
         .logo {
             width: 300px;
             height: 300px;
@@ -34,7 +32,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Password Box (Purple Accent) */
         .password-box {
             padding: 10px;
             font-family: 'JetBrains Mono', monospace;
@@ -46,16 +43,14 @@
             margin-bottom: 20px;
         }
 
-        /* Submit Button (Hidden) */
         .submit-btn {
             display: none;
         }
 
-        /* Footer Text */
         .footer {
             font-size: 14px;
             opacity: 0.7;
-            color: #8a61cd; /* Purple accent */
+            color: #8a61cd; 
         }
     </style>
 </head>
@@ -63,7 +58,6 @@
     <!-- Spinning Logo (Bigger & Higher) -->
     <img src="/images/wargames logo.webp" alt="Wargames Logo" class="logo">
 
-    <!-- Password Box -->
     <form id="login-form">
         <input 
             type="password" 
@@ -75,35 +69,36 @@
         <input type="submit" class="submit-btn">
     </form>
 
-    <!-- Footer Text -->
     <p class="footer">find your way in
     </p>
 
 
-    <!-- Password Check Script -->
     <script>
-        document.getElementById('login-form').addEventListener('submit', function(e) {
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             const password = document.getElementById('password').value;
-            
-            if (password === "ScruMbLed_E99s") {
-                window.location.href = "home.html";
-            }
 
-            else {
-            const funMessages = [
-                "Robots whisper secrets in hex, people dont.",
-                "robots don't lie, but they hide secrets",
-                "The Shadows know, the robots too. Do you?"
+            const response = await fetch("http://109.123.246.152:8080/check-password", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ password })
+            });
 
+            if (response.redirected) {
+                window.location.href = response.url;
+            } else {
+                const funMessages = [
+                    "Robots whisper secrets in hex.",
+                    "Robots don't lie, but they hide secrets.",
+                    "The Shadows know, the robots too. Do you?"
                 ];
                 alert(funMessages[Math.floor(Math.random() * funMessages.length)]);
                 document.getElementById('password').value = "";
             }
-
-
-
         });
+
+
+
     </script>
 </body>
 </html>
