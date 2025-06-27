@@ -214,8 +214,17 @@
         <div class="challenge-container" id="shadows-container">
             <h1 class="challenge-title">The Shadows</h1>
             <div class="challenge-description">
-                <p>Navigate through the shadows to uncover hidden secrets. Each level reveals a piece of the puzzle, with the flag from one level granting access to the next.<br>The password is only given for the <b>Entery Point</b>, you have to find the others yourself through the levels.</p>
-                <p>If you run into some issues or have ideas for new levels, please let me know! </p>
+                <p>
+                    In the depths where light barely reaches, there exists a place known only as The Shadows. <br>
+                    It is a realm suspended between time and memory, where whispers of forgotten choices drift like mist.<br>
+                    Here, faint silhouettes linger — figures caught in endless waiting, their forms thin and fleeting, bound by the weight of things undone.<br>
+                    <br>
+                    Some say the Shadows are haunted — not by beasts or demons, but by something far more relentless.<br>
+                    As you move deeper, the veil will lift — revealing not just the place, but the truth.<br>  
+                    <br>
+                    Can you find your way through before the Shadows claim you, or will you become one of them?<br>
+                    Step carefully. The journey ahead will test more than your skill. It will test your will to act.<br>
+                </p>
             </div>
             
             <div class="levels-container">
@@ -251,21 +260,21 @@
                 <div class="level-item">
                     <div class="level-info">
                         <div class="level-title">Level 2: Stealthy</div>
-                        <div class="level-description">Find the hidden flag file.</div>
+                        <div class="level-description">Hiding from The Walker.</div>
                     </div>
                     <button type="button" class="start-btn" id="start-btn-shadows-2" onclick="startChallenge('shadows', '2')">Start</button>
-                    <div class="ssh-output" id="output-shadows-0"></div>
+                    <div class="ssh-output" id="output-shadows-2"></div>
 
                 </div>
 
                 <!-- Level 3 -->
                 <div class="level-item">
                     <div class="level-info">
-                        <div class="level-title">Level 3: Broke Character</div>
-                        <div class="level-description">???</div>
+                        <div class="level-title">Level 3: The Forgotten Hero</div>
+                        <div class="level-description">Let Him guide you.</div>
                     </div>
                     <button type="button" class="start-btn" id="start-btn-shadows-3" onclick="startChallenge('shadows', '3')">Start</button>
-                    <div class="ssh-output" id="output-shadows-0"></div>
+                    <div class="ssh-output" id="output-shadows-3"></div>
 
                 </div>
 
@@ -356,7 +365,7 @@
     startBtn.innerText = "Starting...";
 
     try {
-        const response = await fetch("http://109.123.246.152:5000/api/start", {
+        const response = await fetch("https://api.wargames.batamladen.com/api/start", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
