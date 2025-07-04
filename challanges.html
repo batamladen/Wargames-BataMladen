@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Challenges – Wargames BataMladen</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" type="image/png" href="images/wargames-logo.ico">
+
+  <style>
+    :root {
+      --bg-dark: #121212;
+      --bg-darker: #0a0a0a;
+      --bg-container: #1e1e1e;
+      --accent-color: #6e48aa;
+      --accent-hover: #9d50bb;
+      --text-primary: #e0e0e0;
+      --text-secondary: #b0b0b0;
+      --border-color: #333;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* Sidebar */
+
+    .challenge-item {
+        display: block;
+        padding: 15px 20px;
+        cursor: pointer;
+        border-left: 3px solid transparent;
+        transition: all 0.2s;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        color: inherit;          /* inherit text color */
+        text-decoration: none;   /* remove underline */
+    }
+
+    .challenge-item:hover,
+    .challenge-item.active {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-left: 3px solid var(--accent-color);
+    }
+
+
+
+
+    .sidebar {
+      width: 250px;
+      background-color: var(--bg-darker);
+      border-right: 1px solid var(--border-color);
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
+    }
+
+    .sidebar-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--border-color);
+      text-align: center;
+    }
+
+    .sidebar-header a {
+      text-decoration: none;
+    }
+
+    .logo {
+      width: 120px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .challenge-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .challenge-item {
+      padding: 15px 20px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .challenge-item:hover,
+    .challenge-item.active {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-left: 3px solid var(--accent-color);
+    }
+
+    .challenge-item a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Main content */
+    .content-wrapper {
+      text-decoration: none;
+      color: inherit;
+      margin-left: 250px;
+      padding: 100px 20px;
+      flex: 1;
+    }
+
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .card {
+      background-color: var(--bg-container);
+      border-radius: 10px;
+      height: 350px; 
+      width: 250px;
+      overflow: hidden;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    }
+
+    .card img {
+      width: 100%;
+      height: 260px;
+      object-fit: contain;
+      padding: 0px;
+      background-color: var(--bg-dark);
+    }
+
+    .card h3 {
+      margin: 0;
+      padding: 20px;
+      font-size: 1.3em;
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .content-wrapper {
+        margin-left: 0;
+        padding: 20px;
+      }
+
+      .grid {
+        justify-content: center;
+      }
+    }
+
+      .content-wrapper a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+
+  </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <a href="home.html">
+            <img src="/images/wargames logo.webp" alt="Wargames Logo" class="logo">
+        </a>
+    </div>
+
+    <ul class="challenge-list">
+        <!-- Challenges List -->
+        <a href="challanges.html" class="challenge-item" data-challenge="challenges">
+            Challenges
+        </a>
+
+        <!-- Write Ups List -->
+        <a href="writeups.html" class="challenge-item" data-challenge="writeups">
+            Write Ups
+        </a>
+
+        <!-- FAQ List -->
+        <a href="faq.html" class="challenge-item" data-challenge="faq">
+            FAQ
+        </a>
+
+        <!-- Contact List -->
+        <a href="contact.html" class="challenge-item" data-challenge="contact">
+            Contact
+        </a>
+    </ul>
+
+</div>
+
+<!-- Main content -->
+<div class="content-wrapper">
+  <div class="grid">
+
+    <!-- Challenge cards -->
+    <a href="the-shadows.html">
+      <div class="card">
+        <img src="images/the_shadows_challange-removebg-preview.png" alt="The Shadows">
+        <h3>The Shadows</h3>
+      </div>
+    </a>
+
+    <a href="dig-a-tunnel.html">
+      <div class="card">
+        <img src="images/dig_a_tunnel_challange-removebg-preview.png" alt="Dig a Tunnel">
+        <h3>Dig a Tunnel</h3>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+</body>
+</html>

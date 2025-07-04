@@ -36,6 +36,25 @@
         }
 
         /* Sidebar Styles */
+
+        .challenge-item {
+            display: block;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: inherit;          /* inherit text color */
+            text-decoration: none;   /* remove underline */
+        }
+
+        .challenge-item:hover,
+        .challenge-item.active {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--accent-color);
+        }
+
+
         .sidebar {
             width: 250px;
             background-color: var(--bg-darker);
@@ -198,23 +217,39 @@
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <a href="home.html">
-                <img src="/images/wargames logo.webp" alt="Wargames Logo" class="logo">
-            </a>
-        </div>
-        
-        <ul class="challenge-list">
-            <!-- Link "The Shadows" to the-shadows.html -->
-            <li class="challenge-item" data-challenge="shadows">
-                <a href="the-shadows.html" style="color: inherit; text-decoration: none;">The Shadows</a>
-            </li>
-            
-            <li class="challenge-item" data-challenge="tunnel">Dig a Tunnel</li>
-        </ul>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <a href="home.html">
+            <img src="/images/wargames logo.webp" alt="Wargames Logo" class="logo">
+        </a>
     </div>
+
+    <ul class="challenge-list">
+        <!-- Challenges List -->
+        <a href="challanges.html" class="challenge-item" data-challenge="challenges">
+            Challenges
+        </a>
+
+        <!-- Write Ups List -->
+        <a href="writeups.html" class="challenge-item" data-challenge="writeups">
+            Write Ups
+        </a>
+
+        <!-- FAQ List -->
+        <a href="faq.html" class="challenge-item" data-challenge="faq">
+            FAQ
+        </a>
+
+        <!-- Contact List -->
+        <a href="contact.html" class="challenge-item" data-challenge="contact">
+            Contact
+        </a>
+    </ul>
+
+</div>
+
 
     <!-- Main Content -->
     <div class="content-wrapper">
@@ -227,9 +262,10 @@
 
             <div class="welcome-container">
                 <h2>Welcome</h2>
-                
+            
                 <p>This platform hosts a series of cybersecurity challenges designed to test your red and blue team skills as well as problem-solving abilities. Each challenge consists of multiple levels that progressively increase in difficulty.</p>
-                
+                <br>
+
                 <h3>How It Works</h3>
                 <p>To participate in the challenges, you'll need to SSH into our systems:</p>
                 <ul>
@@ -238,17 +274,33 @@
                     <li>Subsequent levels require you to find flags that serve as passwords</li>
                     <li>Each level's flag is the password for the next level</li>
                 </ul>
-                
-                <p>Example SSH command for a challenge:</p>
+                <br>
+
+                <h3>Example SSH command for a challenge:</h3>
                 <code>ssh username@123.456.321.654 -p 1234</code>
                 
+                <br><br>
                 <div class="disclaimer">
                     <strong>IMPORTANT:</strong> Take notes of all passwords/flags you find! The system won't remember them for you.
                 </div>
                 
+                
                 <p>Ready to test your skills? Click on a challange you like and start conquering.</p>
                 
             </div>
+
+
+            <div class="welcome-container">
+                <h2>Rules</h2>
+                <ul>
+                    <li>Please no DoS attacks of any kind</li>
+                    <li>Don't bruteforce flag submission</li>
+                    <li>Kindly report any bugs you find</li>
+                    <li>Have Fun!</li>
+                </ul>
+            </div>
+
+
         </div>
     </div>
 </body>

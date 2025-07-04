@@ -37,6 +37,26 @@
         }
 
         /* Sidebar Styles */
+
+        .challenge-item {
+            display: block;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: inherit;          /* inherit text color */
+            text-decoration: none;   /* remove underline */
+        }
+
+        .challenge-item:hover,
+        .challenge-item.active {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--accent-color);
+        }
+
+
+
         .sidebar {
             width: 250px;
             background-color: var(--bg-darker);
@@ -195,20 +215,38 @@
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <a href="home.html">
+    
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <a href="home.html">
             <img src="/images/wargames logo.webp" alt="Wargames Logo" class="logo">
-            </a>
-        </div>
-
-        
-        <ul class="challenge-list">
-            <li class="challenge-item active" data-challenge="shadows">The Shadows</li>
-            <li class="challenge-item" data-challenge="tunnel">Dig a Tunnel</li>
-        </ul>
+        </a>
     </div>
+
+    <ul class="challenge-list">
+        <!-- Challenges List -->
+        <a href="challanges.html" class="challenge-item" data-challenge="challenges">
+            Challenges
+        </a>
+
+        <!-- Write Ups List -->
+        <a href="writeups.html" class="challenge-item" data-challenge="writeups">
+            Write Ups
+        </a>
+
+        <!-- FAQ List -->
+        <a href="faq.html" class="challenge-item" data-challenge="faq">
+            FAQ
+        </a>
+
+        <!-- Contact List -->
+        <a href="contact.html" class="challenge-item" data-challenge="contact">
+            Contact
+        </a>
+    </ul>
+
+</div>
 
     <!-- The Shadows Content -->
     <div class="main-content">
@@ -304,8 +342,8 @@
                  <!-- Level 6 -->
                 <div class="level-item">
                     <div class="level-info">
-                        <div class="level-title">Level 6: Wanderer above the Sea of Fog</div>
-                        <div class="level-description">Search the title of the level on the web. What is it? Thats what you are searching for.</div>
+                        <div class="level-title">Level 6: Reflection</div>
+                        <div class="level-description">Help The Walker Set His Life Priorities.</div>
                     </div>
                     <button type="button" class="start-btn" id="start-btn-shadows-6" onclick="startChallenge('shadows', '6')">Start</button>
                     <div class="ssh-output" id="output-shadows-6"></div>
@@ -315,7 +353,7 @@
                  <!-- Level 7 -->
                 <div class="level-item">
                     <div class="level-info">
-                        <div class="level-title">Level 7: The History is Written</div>
+                        <div class="level-title">Level 7: The History is written</div>
                         <div class="level-description">The terminal remembers. Explore the history.</div>
                     </div>
                     <button type="button" class="start-btn" id="start-btn-shadows-7" onclick="startChallenge('shadows', '7')">Start</button>
