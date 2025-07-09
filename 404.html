@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found | Wargames BataMladen</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/png" href="images/wargames-logo.ico">
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --bg-darker: #0a0a0a;
+            --bg-container: #1e1e1e;
+            --accent-color: #6e48aa;
+            --accent-hover: #9d50bb;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --border-color: #333;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0px;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 30px;
+        }
+
+        .error-container {
+            background-color: var(--bg-container);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .error-code {
+            font-size: 5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin: 10px 0;
+            line-height: 1;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .error-message {
+            font-size: 1.3rem;
+            margin: 20px 0;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .error-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1rem;
+            text-decoration: none;
+        }
+
+        .error-btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(110, 72, 170, 0.4);
+        }
+
+        .terminal-icon {
+            font-size: 4rem;
+            color: var(--accent-color);
+            margin: 10px 0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 3.5rem;
+            }
+            
+            .error-message {
+                font-size: 1.1rem;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .error-btn {
+                width: 100%;
+            }
+            
+            .terminal-icon {
+                font-size: 3rem;
+            }
+        }
+
+        #mobile-warning {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #121212;
+            color: #9d50bb;
+            z-index: 9999;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 1.5rem;
+            line-height: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
+</head>
+<body>
+    <a href="home.html">
+        <img src="/images/wargames logo.webp" alt="Wargames Logo" class="logo">
+    </a>
+    
+    <div class="error-container">
+        <i class="fas fa-terminal terminal-icon"></i>
+        <h1 class="error-code">404</h1>
+        <p class="error-message">
+            Page not found. The resource you're looking for<br>
+            has been encrypted, moved, deleted, or never existed.
+        </p>
+        <div class="btn-container">
+            <a href="home.html" class="error-btn">
+                <i class="fas fa-home"></i> Return Home
+            </a>
+            <a href="contact.html" class="error-btn">
+                <i class="fas fa-envelope"></i> Contact Support
+            </a>
+        </div>
+    </div>
+
+    <div id="mobile-warning">
+        <p>This platform is best experienced on a desktop device.</p>
+        <p>Please visit us using a desktop browser.<br>⚠️</p>
+    </div>
+
+    <script>
+        if (window.innerWidth <= 768) {
+            document.getElementById("mobile-warning").style.display = "block";
+            document.querySelector('.error-container').style.display = 'none';
+            document.querySelector('.logo').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
