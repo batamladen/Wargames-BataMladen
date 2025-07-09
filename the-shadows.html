@@ -6,6 +6,11 @@
     <title>Wargames BataMladen</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" type="image/png" href="images/wargames-logo.ico">
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+
     <style>
         :root {
             --bg-dark: #121212;
@@ -195,6 +200,27 @@
             animation: spin 1s linear infinite;
             margin-left: 10px;
         }
+
+        .swal2-popup.custom-flag-popup {
+            background-image: url("images/the\ shadows\ thumbnail.png"); /* Change to your path */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: rgba(0, 0, 0, 0.6); /* semi-transparent dark overlay */
+            color: white;
+            backdrop-filter: blur(3px); /* optional: adds a nice glass effect */
+        }
+
+        .swal2-popup.custom-error-popup {
+            background-color: #1f1f1f !important; /* Dark gray */
+            color: #f2f2f2;
+            border: 1px solid #333;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+        }
+
+
+
+
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -391,8 +417,20 @@
 
                 </div>    
             </div>
+
+            <!-- Final Flag Submission Section -->
+        <div style="text-align: center; margin-top: 50px; padding-bottom: 40px;">
+            <h3>Final Flag</h3>
+            <input type="text" id="final-flag-input" placeholder="Enter the final flag" style="padding: 6px; margin-left: 100px; width: 230px; border-radius: 5px; border: 1px solid #333;">
+            <button onclick="checkFinalFlag()" style="padding: 7px 20px; margin-left: 10px; border-radius: 5px; background-color: var(--accent-color); color: rgb(255, 255, 255); border: none;">Submit</button>
         </div>
+
+
     </div>
+
+
+    
+
 
 
     <script>
@@ -437,5 +475,55 @@ ssh ${data.username}@${data.host} -p ${data.port}
 }
 
     </script>
+
+
+
+<script>
+function checkFinalFlag() {
+    const correctFlag = "FrEEdOoM!";
+    const input = document.getElementById("final-flag-input").value.trim();
+
+    if (input === correctFlag) {
+        confetti({
+            particleCount: 200,
+            spread: 120,
+            origin: { y: 0.6 }
+        });
+
+        // Show success SweetAlert popup
+        Swal.fire({
+            title: "🎉 Congratulations Walker!",
+            html: `
+                You are not yet lost.<br><br>
+                The Shadows have claimed many, but you still carry a spark.<br>
+                Don’t let regret become your prison.<br><br>
+                Time remains, and with it, the power to choose your path.
+            `,
+            customClass: {
+                popup: 'custom-flag-popup'
+            },
+            confirmButtonText: 'Finish ✨',
+        });
+
+
+    } else {
+        // Show failure SweetAlert popup
+        Swal.fire({
+            title: "❌ Incorrect Flag",
+            text: "The Shadows are not ready to let go yet.",
+            icon: "error",
+            customClass: {
+                popup: 'custom-error-popup'
+            },
+            confirmButtonText: "Try Again"
+        });
+
+    }
+}
+</script>
+
+
+
+
 </body>
 </html>
