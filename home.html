@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wargames BataMladen</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="icon" type="image/png" href="images/wargames-logo.ico">
 
@@ -214,6 +215,26 @@
                 margin-left: 0;
             }
         }
+
+        #mobile-warning {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #121212;
+            color: #9d50bb;
+            z-index: 9999;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 1.5rem;
+            line-height: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+
     </style>
 </head>
 <body>
@@ -303,5 +324,25 @@
 
         </div>
     </div>
+
+    
+    <div id="mobile-warning">
+        <p>This platform is best experienced on a desktop device.</p>
+        <p>Please visit us using a desktop browser.<br>⚠️</p>
+    </div>
+
+    <script>
+        if (window.innerWidth <= 768) {
+            document.getElementById("mobile-warning").style.display = "block";
+
+            // Optionally hide all other body children except #mobile-warning
+            [...document.body.children].forEach(child => {
+                if (child.id !== "mobile-warning") {
+                    child.style.display = "none";
+                }
+            });
+        }
+    </script>
+
 </body>
 </html>
