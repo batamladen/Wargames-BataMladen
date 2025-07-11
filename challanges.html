@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Challenges – Wargames BataMladen</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="images/wargames-logo.ico">
 
   <style>
@@ -174,9 +175,37 @@
       }
 
 
+      .patreon-float {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #f96854;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: bold;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.65rem;
+        z-index: 1000;
+        box-shadow: 0 4px 10px rgba(249, 104, 84, 0.3);
+        transition: background 0.3s ease;
+      }
+
+      .patreon-float:hover {
+        background-color: #e34b39;
+        box-shadow: 0 6px 15px rgba(249, 104, 84, 0.5);
+      }
+    
+
   </style>
 </head>
 <body>
+
+<!-- Patreon -->
+<a href="https://www.patreon.com/WargamesbyBataMladen" target="_blank" class="patreon-float">
+    <i class="fab fa-patreon"></i> Donate!
+</a>
 
 <!-- Sidebar -->
 <div class="sidebar">
