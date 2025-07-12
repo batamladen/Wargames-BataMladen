@@ -179,7 +179,7 @@
 
         .contact-methods {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             flex-wrap: wrap;
             margin-top: 30px;
         }
@@ -187,8 +187,9 @@
         .contact-card {
             background-color: var(--bg-container);
             border-radius: 8px;
-            padding: 20px;
-            width: calc(33.33% - 20px);
+            padding: 5px;
+            width: 100%; /* Changed from calc(33.33% - 20px) to 100% */
+            max-width: 400px; /* Added max-width to prevent it from being too wide */
             margin-bottom: 20px;
             text-align: center;
             border: 1px solid var(--border-color);
@@ -291,7 +292,7 @@
         <h1 class="title">Contact Us</h1>
 
         <div class="contact-container">
-            <h2>Get In Touch</h2>
+            <h2>contact@batamladen.com</h2>
             <p>Have questions about the challenges, found a bug, or want to collaborate? Send us a message and we'll get back to you ASAP.</p>
             
             <!-- Contact Form -->
@@ -320,19 +321,6 @@
                         Send Message
                     </button>
                 </form>
-            </div>
-
-            <h2 style="margin-top: 40px; text-align: center;">Or reach us directly at</h2>
-
-            <div class="contact-methods">
-                <div class="contact-card">
-                    <i class="fas fa-envelope"></i>
-                    <h3>Email</h3>
-                    <p>contact@batamladen.com</p>
-                    <a href="mailto:contact@batamladen.com" style="color: var(--accent-color); text-decoration: none;">
-                        <i class="fas fa-paper-plane"></i> Send Email
-                    </a>
-                </div>
             </div>
         </div>
     </div>
