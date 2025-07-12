@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Wargames BataMladen</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/png" href="images/wargames-logo.ico">
+
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --bg-darker: #0a0a0a;
+            --bg-container: #1e1e1e;
+            --accent-color: #6e48aa;
+            --accent-hover: #9d50bb;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --border-color: #333;
+        }
+        
+        .logo {
+            width: 120px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .challenge-item {
+            display: block;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .challenge-item:hover,
+        .challenge-item.active {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: var(--bg-darker);
+            border-right: 1px solid var(--border-color);
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .sidebar-header a {
+            text-decoration: none;
+        }
+
+        .challenge-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Main Content Styles */
+        .content-wrapper {
+            margin-left: 250px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            width: 100%;
+            max-width: 900px;
+            padding: 40px;
+        }
+
+        .title {
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+
+        /* FAQ Content Styles */
+        .faq-container {
+            background-color: var(--bg-container);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .faq-container h2 {
+            color: var(--accent-color);
+            margin-top: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .faq-content h5 {
+            color: var(--accent-color);
+            margin-top: 30px;
+            font-size: 1.3rem;
+        }
+
+        .faq-content ul {
+            padding-left: 20px;
+        }
+
+        .faq-content li {
+            margin-bottom: 10px;
+        }
+
+        .faq-content code {
+            background-color: var(--bg-dark);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-primary);
+            display: inline-block;
+            margin: 5px 0;
+        }
+
+        .faq-content a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .faq-content a:hover {
+            text-decoration: underline;
+        }
+
+        .note {
+            display: block;
+            background-color: rgba(110, 72, 170, 0.2);
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .note i {
+            margin-right: 8px;
+            color: var(--accent-color);
+        }
+
+        /* Table of Contents */
+        .toc {
+            background-color: var(--bg-darker);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .toc h5 {
+            color: var(--accent-color);
+            margin-top: 0;
+        }
+
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .toc li {
+            margin-bottom: 8px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .content-wrapper {
+                margin-left: 0;
+            }
+        }
+
+        .patreon-float {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #f96854;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(249, 104, 84, 0.3);
+            transition: background 0.3s ease;
+        }
+
+        .patreon-float:hover {
+            background-color: #e34b39;
+            box-shadow: 0 6px 15px rgba(249, 104, 84, 0.5);
+        }
+
+        #mobile-warning {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #121212;
+            color: #9d50bb;
+            z-index: 9999;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            text-align: center;
+            font-size: 1.5rem;
+            line-height: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Patreon -->
+<a href="https://www.patreon.com/WargamesbyBataMladen" target="_blank" class="patreon-float">
+    <i class="fab fa-patreon"></i> Donate!
+</a>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <a href="home.html">
+            <img src="/images/wargames logo.webp" alt="Wargames Logo" class="logo">
+        </a>
+    </div>
+
+    <ul class="challenge-list">
+        <!-- Challenges List -->
+        <a href="challanges.html" class="challenge-item" data-challenge="challenges">
+            Challenges
+        </a>
+
+        <!-- Write Ups List -->
+        <a href="writeups.html" class="challenge-item" data-challenge="writeups">
+            Write Ups
+        </a>
+
+        <!-- FAQ List -->
+        <a href="faq.html" class="challenge-item active" data-challenge="faq">
+            FAQ
+        </a>
+
+        <!-- Contact List -->
+        <a href="contact.html" class="challenge-item" data-challenge="contact">
+            Contact
+        </a>
+    </ul>
+</div>
+
+<!-- Main Content -->
+<div class="content-wrapper">
+    <div class="main-content">
+        <h1 class="title">Frequently Asked Questions</h1>
+
+        <div class="faq-container">
+            <div class="faq-content">
+                <div class="toc">
+                    <h5>Contents</h5>
+                    <ul>
+                        <li><a href="#whatis">What is Wargames BataMladen?</a></li>
+                        <li><a href="#howtoplay">How do I play?</a></li>
+                        <li><a href="#coding">How much coding is involved?</a></li>
+                        <li><a href="#tools">Which tools should I use?</a></li>
+                        <li><a href="#solutions">Can I share my solutions?</a></li>
+                        <li><a href="#ssh">How do I connect to challenges?</a></li>
+                        <li><a href="#rules">What are the rules?</a></li>
+                        <li><a href="#support">How can I support this platform?</a></li>
+                        <li><a href="#contact">How can I contact you?</a></li>
+                    </ul>
+                </div>
+
+                <h5 id="whatis">What is Wargames BataMladen?</h5>
+                <p>Wargames BataMladen is a cybersecurity challenge platform designed to test and improve your hacking skills. The challenges cover various aspects of security including binary exploitation, web security, cryptography, and more.</p>
+
+                <h5 id="howtoplay">How do I play?</h5>
+                <p>Each challenge is hosted on our server and can be accessed via SSH. You'll need to:</p>
+                <ul>
+                    <li>Find the correct port for each challenge</li>
+                    <li>Use the provided credentials for the first level</li>
+                    <li>Find flags that serve as passwords for subsequent levels</li>
+                </ul>
+                <p>Example SSH command: <code>ssh username@123.456.321.654 -p 1234</code></p>
+
+                <h5 id="coding">How much coding is involved?</h5>
+                <p>Many challenges will require you to write small scripts or modify existing code to exploit vulnerabilities. Python is recommended but you can use any language you prefer.</p>
+                
+                <span class="note">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    All code provided in challenges is intentionally vulnerable - don't use it in real projects!
+                </span>
+
+                <h5 id="tools">Which tools should I use?</h5>
+                <p>Tools needed for specific levels are pre-installed.</p>
+                <p>Still, you can install other tools with: <code>sudo apt</code>. Just don't harm the server.</p>
+
+                <h5 id="solutions">Can I share my solutions?</h5>
+                <p>We encourage you to write and share writeups after you've solved challenges, but please:</p>
+                <ul>
+                    <li>Focus on explaining concepts rather than giving answers</li>
+                    <li>Use spoiler tags if sharing in public forums</li>
+                    <li>Send us your write-up so it can be featured on our <a href="write-ups.html">Write Up's</a> page</li>
+
+                </ul>
+
+                <h5 id="ssh">How do I connect to challenges?</h5>
+                <p>Most challenges require an SSH connection. You'll need to:</p>
+                <ol>
+                    <li>Find the correct port for the challenge</li>
+                    <li>Connect using: <code>ssh username@batamalden -p &lt;port&gt;</code></li>
+                    <li>The password for the first level is always provided</li>
+                    <li>To access subsequent levels, find the flags that serve as passwrords stored in the previous level.</li>
+                </ol>
+
+                <h5 id="rules">What are the rules?</h5>
+                <p>Read the rules at the Home page.</p>
+
+                <h5 id="support">How can I support this platform?</h5>
+                <p>This platform is completely free, but if you'd like to support its development:</p>
+                <ul>
+                    <li>Share it with friends</li>
+                    <li>Contribute challenge ideas</li>
+                    <li>Report bugs and issues</li>
+                    <li><a href="https://www.patreon.com/WargamesbyBataMladen" target="_blank">Support on Patreon</a></li>
+                </ul>
+
+                <h5 id="contact">How can I contact you?</h5>
+                <p>For questions, bug reports, or collaboration:</p>
+                <ul>
+                    <li>Email: <a href="mailto:contact@batamladen.com">contact@batamladen.com</a></li>
+                    <li>Use the <a href="contact.html">contact form</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="mobile-warning">
+    <p>This platform is best experienced on a desktop device.</p>
+    <p>Please visit us using a desktop browser.<br>⚠️</p>
+</div>
+
+<script>
+    if (window.innerWidth <= 768) {
+        document.getElementById("mobile-warning").style.display = "block";
+
+        // Optionally hide all other body children except #mobile-warning
+        [...document.body.children].forEach(child => {
+            if (child.id !== "mobile-warning") {
+                child.style.display = "none";
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
