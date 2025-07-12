@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Wargames BataMladen</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/png" href="images/wargames-logo.ico">
+
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --bg-darker: #0a0a0a;
+            --bg-container: #1e1e1e;
+            --accent-color: #6e48aa;
+            --accent-hover: #9d50bb;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --border-color: #333;
+        }
+        
+        .logo {
+            width: 120px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .challenge-item {
+            display: block;
+            padding: 15px 20px;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .challenge-item:hover,
+        .challenge-item.active {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--accent-color);
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: var(--bg-darker);
+            border-right: 1px solid var(--border-color);
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .sidebar-header a {
+            text-decoration: none;
+        }
+
+        .challenge-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Main Content Styles */
+        .content-wrapper {
+            margin-left: 250px;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            width: 100%;
+            max-width: 900px;
+            padding: 40px;
+        }
+
+        .title {
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+
+        .contact-container {
+            background-color: var(--bg-container);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .contact-container h2 {
+            color: var(--accent-color);
+            margin-top: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        /* Contact Form Styles */
+        .contact-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 1.1rem;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        .submit-btn:disabled {
+            background-color: var(--text-secondary);
+            cursor: not-allowed;
+        }
+
+        .contact-methods {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .contact-card {
+            background-color: var(--bg-container);
+            border-radius: 8px;
+            padding: 20px;
+            width: calc(33.33% - 20px);
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .contact-card i {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .contact-card h3 {
+            margin: 0 0 10px;
+            color: var(--accent-color);
+        }
+
+        .contact-card p {
+            margin: 0 0 15px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .content-wrapper {
+                margin-left: 0;
+            }
+            .contact-card {
+                width: 100%;
+            }
+        }
+
+        .patreon-float {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #f96854;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(249, 104, 84, 0.3);
+            transition: background 0.3s ease;
+        }
+
+        .patreon-float:hover {
+            background-color: #e34b39;
+            box-shadow: 0 6px 15px rgba(249, 104, 84, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Patreon -->
+<a href="https://www.patreon.com/WargamesbyBataMladen" target="_blank" class="patreon-float">
+    <i class="fab fa-patreon"></i> Donate!
+</a>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="sidebar-header">
+        <a href="home.html">
+            <img src="/images/wargames logo.webp" alt="Wargames Logo" class="logo">
+        </a>
+    </div>
+
+    <ul class="challenge-list">
+        <!-- Challenges List -->
+        <a href="challanges.html" class="challenge-item" data-challenge="challenges">
+            Challenges
+        </a>
+
+        <!-- Write Ups List -->
+        <a href="writeups.html" class="challenge-item" data-challenge="writeups">
+            Write Ups
+        </a>
+
+        <!-- FAQ List -->
+        <a href="faq.html" class="challenge-item" data-challenge="faq">
+            FAQ
+        </a>
+
+        <!-- Contact List -->
+        <a href="contact.html" class="challenge-item active" data-challenge="contact">
+            Contact
+        </a>
+    </ul>
+</div>
+
+<!-- Main Content -->
+<div class="content-wrapper">
+    <div class="main-content">
+        <h1 class="title">Contact Us</h1>
+
+        <div class="contact-container">
+            <h2>Get In Touch</h2>
+            <p>Have questions about the challenges, found a bug, or want to collaborate? Send us a message and we'll get back to you ASAP.</p>
+            
+            <!-- Contact Form -->
+            <div class="contact-form">
+                <form action="https://api.web3forms.com/submit" method="POST" class="contact-form">
+                    <input type="hidden" name="access_key" value="5e1dbc1b-1300-4e0c-aae5-a15e8081d969">
+                    <input type="hidden" name="redirect" value="https://yourwargamesite.com/thank-you.html">
+                    <input type="checkbox" name="botcheck" style="display:none;">
+
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" name="name" id="name" required placeholder="Enter your name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" name="email" id="email" required placeholder="Enter your email">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea name="message" id="message" required placeholder="Your message here..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitButton">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+
+            <h2 style="margin-top: 40px; text-align: center;">Or reach us directly at</h2>
+
+            <div class="contact-methods">
+                <div class="contact-card">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email</h3>
+                    <p>contact@batamladen.com</p>
+                    <a href="mailto:contact@batamladen.com" style="color: var(--accent-color); text-decoration: none;">
+                        <i class="fas fa-paper-plane"></i> Send Email
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Form submission handling
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('form');
+        const submitButton = document.getElementById('submitButton');
+        
+        if (form) {
+            form.addEventListener('submit', function(e) {
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                submitButton.disabled = true;
+                
+                setTimeout(() => {
+                    submitButton.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+                    setTimeout(() => {
+                        submitButton.innerHTML = 'Send Message';
+                        submitButton.disabled = false;
+                    }, 2000);
+                }, 1500);
+            });
+        }
+    });
+
+    // Mobile warning (consistent with other pages)
+    if (window.innerWidth <= 768) {
+        const mobileWarning = document.createElement('div');
+        mobileWarning.id = 'mobile-warning';
+        mobileWarning.innerHTML = `
+            <p>This platform is best experienced on a desktop device.</p>
+            <p>Please visit us using a desktop browser.<br>⚠️</p>
+        `;
+        mobileWarning.style.display = 'block';
+        mobileWarning.style.position = 'fixed';
+        mobileWarning.style.top = '0';
+        mobileWarning.style.left = '0';
+        mobileWarning.style.width = '100vw';
+        mobileWarning.style.height = '100vh';
+        mobileWarning.style.backgroundColor = '#121212';
+        mobileWarning.style.color = '#9d50bb';
+        mobileWarning.style.zIndex = '9999';
+        mobileWarning.style.padding = '40px 20px';
+        mobileWarning.style.boxSizing = 'border-box';
+        mobileWarning.style.textAlign = 'center';
+        mobileWarning.style.fontSize = '1.5rem';
+        mobileWarning.style.lineHeight = '2rem';
+        mobileWarning.style.fontFamily = "'JetBrains Mono', monospace";
+        
+        document.body.prepend(mobileWarning);
+        
+        // Hide all other content
+        [...document.body.children].forEach(child => {
+            if (child.id !== 'mobile-warning') {
+                child.style.display = 'none';
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
