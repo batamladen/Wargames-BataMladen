@@ -36,8 +36,6 @@
             min-height: 100vh;
         }
 
-        /* Sidebar Styles */
-
         .challenge-item {
             display: block;
             padding: 15px 20px;
@@ -45,8 +43,8 @@
             border-left: 3px solid transparent;
             transition: all 0.2s;
             border-bottom: 1px solid rgba(255,255,255,0.05);
-            color: inherit;          /* inherit text color */
-            text-decoration: none;   /* remove underline */
+            color: inherit;
+            text-decoration: none;
         }
 
         .challenge-item:hover,
@@ -54,7 +52,6 @@
             background-color: rgba(255, 255, 255, 0.05);
             border-left: 3px solid var(--accent-color);
         }
-
 
         .sidebar {
             width: 250px;
@@ -81,25 +78,6 @@
             margin: 0;
         }
 
-        .challenge-item {
-            padding: 15px 20px;
-            cursor: pointer;
-            border-left: 3px solid transparent;
-            transition: all 0.2s;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .challenge-item:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-left: 3px solid var(--accent-color);
-        }
-
-        .challenge-item.active {
-            background-color: rgba(110, 72, 170, 0.2);
-            border-left: 3px solid var(--accent-color);
-        }
-
-        /* Main Content Styles */
         .content-wrapper {
             margin-left: 250px;
             display: flex;
@@ -155,10 +133,6 @@
             padding-bottom: 10px;
         }
 
-        .welcome-container p {
-            margin-bottom: 15px;
-        }
-
         .welcome-container code {
             background-color: rgba(0, 0, 0, 0.3);
             padding: 2px 5px;
@@ -179,32 +153,6 @@
             color: #ff6b6b;
         }
 
-        .btn-container {
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        .challenges-btn {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            font-size: 1.1rem;
-            font-weight: bold;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .challenges-btn:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(110, 72, 170, 0.4);
-        }
-
-        /* Responsive adjustments */
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
@@ -234,7 +182,7 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        .patreon-float {
+        .donate-float {
             position: fixed;
             top: 20px;
             right: 20px;
@@ -242,31 +190,159 @@
             color: white;
             padding: 10px 18px;
             border-radius: 6px;
-            text-decoration: none;
             font-weight: bold;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.65rem;
             z-index: 1000;
             box-shadow: 0 4px 10px rgba(249, 104, 84, 0.3);
-            transition: background 0.3s ease;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
         }
 
-        .patreon-float:hover {
+        .donate-float:hover {
             background-color: #e34b39;
             box-shadow: 0 6px 15px rgba(249, 104, 84, 0.5);
+            transform: translateY(-2px);
         }
 
+        /* Updated Donation Popup */
+        .donation-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--bg-container);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            width: 280px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .donation-popup h3 {
+            color: white;
+            margin: 0 0 15px 0;
+            padding: 0;
+            font-size: 1.2rem;
+            font-weight: normal;
+        }
+
+        .donation-options {
+            margin: 0;
+            padding: 0;
+        }
+
+        .donation-method {
+            margin-bottom: 12px;
+        }
+
+        .donation-method-title {
+            color: white;
+            margin: 0 0 5px 0;
+            font-size: 0.9rem;
+        }
+
+        .donation-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 12px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.2s;
+            border: 1px solid var(--border-color);
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .donation-link:hover {
+            background-color: rgba(110, 72, 170, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        .donation-link i {
+            margin-right: 8px;
+            font-size: 1rem;
+        }
+
+        .donation-link.patreon i {
+            color: #FF424D;
+        }
+
+        .donation-link.tip i {
+            color: #ddd428;
+        }
+
+        .tipmd-badge {
+            height: 18px;
+            margin-right: 8px;
+        }
+
+        .cancel-button {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+
+        .cancel-button:hover {
+            color: var(--text-primary);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
 
-<!-- Patreon -->
-<a href="https://www.patreon.com/WargamesbyBataMladen" target="_blank" class="patreon-float">
-    <i class="fab fa-patreon"></i> Donate!
-</a>
+<button class="donate-float" id="donateButton">Donate!</button>
 
+<div class="overlay" id="overlay"></div>
+<div class="donation-popup" id="donationPopup">
+    <h2>Support Our Work</h2>
+    
+    <div class="donation-options">
 
-<!-- Sidebar -->
+        <div class="donation-method">
+            <div class="donation-method-title">Donate via Patreon</div>
+            <a href="https://www.patreon.com/WargamesBataMladen" target="_blank" class="donation-link patreon">
+                <i class="fab fa-patreon"></i>
+                <span>Patreon</span>
+            </a>
+        </div>
+        
+        <div class="donation-method">
+            <div class="donation-method-title">Donate in cryptocurrency</div>
+            <a href="https://www.tip.md/batamladen" target="_blank" class="donation-link tip">
+                <i class="fab fa-bitcoin"></i>
+                <span>Tip.md</span>
+            </a>
+        </div>
+    </div>
+    
+    <button class="cancel-button" id="closePopup">Close</button>
+</div>
+
 <div class="sidebar">
     <div class="sidebar-header">
         <a href="home.html">
@@ -275,101 +351,102 @@
     </div>
 
     <ul class="challenge-list">
-        <!-- Challenges List -->
         <a href="challanges.html" class="challenge-item" data-challenge="challenges">
             Challenges
         </a>
-
-        <!-- Write Ups List -->
         <a href="writeups.html" class="challenge-item" data-challenge="writeups">
             Write Ups
         </a>
-
-        <!-- FAQ List -->
         <a href="faq.html" class="challenge-item" data-challenge="faq">
             FAQ
         </a>
-
-        <!-- Contact List -->
         <a href="contact.html" class="challenge-item" data-challenge="contact">
             Contact
         </a>
     </ul>
-
 </div>
 
+<div class="content-wrapper">
+    <div class="main-content">
+        <div class="logo-container">
+            <img src="images/wargames logo.webp" alt="Wargames Logo" class="home-logo">
+        </div>
 
-    <!-- Main Content -->
-    <div class="content-wrapper">
-        <div class="main-content">
-            <div class="logo-container">
-                <img src="images/wargames logo.webp" alt="Wargames Logo" class="home-logo">
-            </div>
+        <h1 class="title">Wargames by BataMladen</h1>
 
-            <h1 class="title">Wargames by BataMladen</h1>
+        <div class="welcome-container">
+            <h2>Welcome</h2>
+            <p>This platform hosts a series of cybersecurity challenges designed to test your red and blue team skills as well as problem-solving abilities. Each challenge consists of multiple levels that progressively increase in difficulty.</p>
+            <br>
 
-            <div class="welcome-container">
-                <h2>Welcome</h2>
+            <h3>How It Works</h3>
+            <p>To participate in the challenges, you'll need to SSH into our systems:</p>
+            <ul>
+                <li>Each level has its own dedicated port on our server</li>
+                <li>The <strong>Entry Point</strong> password is always provided for the first level</li>
+                <li>Subsequent levels require you to find flags that serve as passwords</li>
+                <li>Each level's flag is the password for the next level</li>
+            </ul>
+            <br>
+
+            <h3>Example SSH command for a challenge:</h3>
+            <code>ssh username@123.456.321.654 -p 1234</code>
             
-                <p>This platform hosts a series of cybersecurity challenges designed to test your red and blue team skills as well as problem-solving abilities. Each challenge consists of multiple levels that progressively increase in difficulty.</p>
-                <br>
-
-                <h3>How It Works</h3>
-                <p>To participate in the challenges, you'll need to SSH into our systems:</p>
-                <ul>
-                    <li>Each level has its own dedicated port on our server</li>
-                    <li>The <strong>Entry Point</strong> password is always provided for the first level</li>
-                    <li>Subsequent levels require you to find flags that serve as passwords</li>
-                    <li>Each level's flag is the password for the next level</li>
-                </ul>
-                <br>
-
-                <h3>Example SSH command for a challenge:</h3>
-                <code>ssh username@123.456.321.654 -p 1234</code>
-                
-                <br><br>
-                <div class="disclaimer">
-                    <strong>IMPORTANT:</strong> Take notes of all passwords/flags you find! The system won't remember them for you.
-                </div>
-                
-                
-                <p>Ready to test your skills? Click on a challange you like and start conquering.</p>
-                
+            <br><br>
+            <div class="disclaimer">
+                <strong>IMPORTANT:</strong> Take notes of all passwords/flags you find! The system won't remember them for you.
             </div>
+            
+            <p>Ready to test your skills? Click on a challange you like and start conquering.</p>
+        </div>
 
-
-            <div class="welcome-container">
-                <h2>Rules</h2>
-                <ul>
-                    <li>Please no DoS attacks of any kind</li>
-                    <li>Don't bruteforce flag submission</li>
-                    <li>Kindly report any bugs you find</li>
-                    <li>Have Fun!</li>
-                </ul>
-            </div>
-
-
+        <div class="welcome-container">
+            <h2>Rules</h2>
+            <ul>
+                <li>Please no DoS attacks of any kind</li>
+                <li>Don't bruteforce flag submission</li>
+                <li>Kindly report any bugs you find</li>
+                <li>Have Fun!</li>
+            </ul>
         </div>
     </div>
+</div>
 
-    
-    <div id="mobile-warning">
-        <p>This platform is best experienced on a desktop device.</p>
-        <p>Please visit us using a desktop browser.<br>⚠️</p>
-    </div>
+<div id="mobile-warning">
+    <p>This platform is best experienced on a desktop device.</p>
+    <p>Please visit us using a desktop browser.<br>⚠️</p>
+</div>
 
-    <script>
-        if (window.innerWidth <= 768) {
-            document.getElementById("mobile-warning").style.display = "block";
+<script>
+    if (window.innerWidth <= 768) {
+        document.getElementById("mobile-warning").style.display = "block";
+        [...document.body.children].forEach(child => {
+            if (child.id !== "mobile-warning") {
+                child.style.display = "none";
+            }
+        });
+    }
 
-            // Optionally hide all other body children except #mobile-warning
-            [...document.body.children].forEach(child => {
-                if (child.id !== "mobile-warning") {
-                    child.style.display = "none";
-                }
-            });
-        }
-    </script>
+    const donateButton = document.getElementById('donateButton');
+    const donationPopup = document.getElementById('donationPopup');
+    const overlay = document.getElementById('overlay');
+    const closePopup = document.getElementById('closePopup');
+
+    donateButton.addEventListener('click', () => {
+        donationPopup.style.display = 'block';
+        overlay.style.display = 'block';
+    });
+
+    closePopup.addEventListener('click', () => {
+        donationPopup.style.display = 'none';
+        overlay.style.display = 'none';
+    });
+
+    overlay.addEventListener('click', () => {
+        donationPopup.style.display = 'none';
+        overlay.style.display = 'none';
+    });
+</script>
 
 </body>
 </html>

@@ -31,7 +31,6 @@
     }
 
     /* Sidebar */
-
     .challenge-item {
         display: block;
         padding: 15px 20px;
@@ -39,8 +38,8 @@
         border-left: 3px solid transparent;
         transition: all 0.2s;
         border-bottom: 1px solid rgba(255,255,255,0.05);
-        color: inherit;          /* inherit text color */
-        text-decoration: none;   /* remove underline */
+        color: inherit;
+        text-decoration: none;
     }
 
     .challenge-item:hover,
@@ -48,9 +47,6 @@
         background-color: rgba(255, 255, 255, 0.05);
         border-left: 3px solid var(--accent-color);
     }
-
-
-
 
     .sidebar {
       width: 250px;
@@ -84,28 +80,8 @@
       margin: 0;
     }
 
-    .challenge-item {
-      padding: 15px 20px;
-      cursor: pointer;
-      border-left: 3px solid transparent;
-      transition: all 0.2s;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .challenge-item:hover,
-    .challenge-item.active {
-      background-color: rgba(255, 255, 255, 0.05);
-      border-left: 3px solid var(--accent-color);
-    }
-
-    .challenge-item a {
-      color: inherit;
-      text-decoration: none;
-    }
-
     /* Main content */
     .content-wrapper {
-      text-decoration: none;
       color: inherit;
       margin-left: 250px;
       padding: 100px 20px;
@@ -169,13 +145,8 @@
       }
     }
 
-      .content-wrapper a {
-        text-decoration: none;
-        color: inherit;
-      }
-
-
-      .patreon-float {
+    /* Donation Button System */
+    .donate-float {
         position: fixed;
         top: 20px;
         right: 20px;
@@ -183,29 +154,148 @@
         color: white;
         padding: 10px 18px;
         border-radius: 6px;
-        text-decoration: none;
         font-weight: bold;
         font-family: 'JetBrains Mono', monospace;
         font-size: 0.65rem;
         z-index: 1000;
         box-shadow: 0 4px 10px rgba(249, 104, 84, 0.3);
-        transition: background 0.3s ease;
-      }
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
 
-      .patreon-float:hover {
+    .donate-float:hover {
         background-color: #e34b39;
         box-shadow: 0 6px 15px rgba(249, 104, 84, 0.5);
-      }
-    
+        transform: translateY(-2px);
+    }
 
+    .donation-popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: var(--bg-container);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        z-index: 1001;
+        width: 280px;
+        text-align: center;
+        border: 1px solid var(--border-color);
+    }
+
+    .donation-popup h2 {
+        color: white;
+        margin: 0 0 15px 0;
+        padding: 0;
+        font-size: 1.2rem;
+        font-weight: normal;
+    }
+
+    .donation-options {
+        margin: 0;
+        padding: 0;
+    }
+
+    .donation-method {
+        margin-bottom: 12px;
+    }
+
+    .donation-method-title {
+        color: white;
+        margin: 0 0 5px 0;
+        font-size: 0.9rem;
+    }
+
+    .donation-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 12px;
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
+        text-decoration: none;
+        color: white;
+        transition: all 0.2s;
+        border: 1px solid var(--border-color);
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .donation-link:hover {
+        background-color: rgba(110, 72, 170, 0.2);
+        border-color: var(--accent-color);
+    }
+
+    .donation-link i {
+        margin-right: 8px;
+        font-size: 1rem;
+    }
+
+    .donation-link.patreon i {
+        color: #FF424D;
+    }
+
+    .donation-link.tip i {
+        color: #ddd428;
+    }
+
+    .cancel-button {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        font-size: 0.8rem;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: all 0.2s;
+        margin-top: 10px;
+    }
+
+    .cancel-button:hover {
+        color: var(--text-primary);
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+    }
   </style>
 </head>
 <body>
 
-<!-- Patreon -->
-<a href="https://www.patreon.com/WargamesbyBataMladen" target="_blank" class="patreon-float">
-    <i class="fab fa-patreon"></i> Donate!
-</a>
+<!-- Donation Button System -->
+<button class="donate-float" id="donateButton">Donate!</button>
+<div class="overlay" id="overlay"></div>
+<div class="donation-popup" id="donationPopup">
+    <h2>Support Our Work</h2>
+    <div class="donation-options">
+        <div class="donation-method">
+            <div class="donation-method-title">Donate via Patreon</div>
+            <a href="https://www.patreon.com/WargamesBataMladen" target="_blank" class="donation-link patreon">
+                <i class="fab fa-patreon"></i>
+                <span>Patreon</span>
+            </a>
+        </div>
+        <div class="donation-method">
+            <div class="donation-method-title">Donate in cryptocurrency</div>
+            <a href="https://tip.md/batamladen" target="_blank" class="donation-link tip">
+                <i class="fab fa-bitcoin"></i>
+                <span>Tip.md</span>
+            </a>
+        </div>
+    </div>
+    <button class="cancel-button" id="closePopup">Close</button>
+</div>
 
 <!-- Sidebar -->
 <div class="sidebar">
@@ -216,50 +306,63 @@
     </div>
 
     <ul class="challenge-list">
-        <!-- Challenges List -->
         <a href="challanges.html" class="challenge-item" data-challenge="challenges">
             Challenges
         </a>
-
-        <!-- Write Ups List -->
         <a href="writeups.html" class="challenge-item" data-challenge="writeups">
             Write Ups
         </a>
-
-        <!-- FAQ List -->
         <a href="faq.html" class="challenge-item" data-challenge="faq">
             FAQ
         </a>
-
-        <!-- Contact List -->
         <a href="contact.html" class="challenge-item" data-challenge="contact">
             Contact
         </a>
     </ul>
-
 </div>
 
 <!-- Main content -->
 <div class="content-wrapper">
   <div class="grid">
-
     <!-- Challenge cards -->
-    <a href="the-shadows.html">
+    <a href="the-shadows.html" style="text-decoration: none;">
       <div class="card">
         <img src="images/the_shadows_challange-removebg-preview.png" alt="The Shadows">
         <h3>The Shadows</h3>
       </div>
     </a>
 
-    <a href="dig-a-tunnel.html">
+    <a href="dig-a-tunnel.html" style="text-decoration: none;">
       <div class="card">
         <img src="images/dig_a_tunnel_challange-removebg-preview.png" alt="Dig a Tunnel">
         <h3>Dig a Tunnel</h3>
       </div>
     </a>
-
   </div>
 </div>
+
+<script>
+    // Donation popup functionality
+    const donateButton = document.getElementById('donateButton');
+    const donationPopup = document.getElementById('donationPopup');
+    const overlay = document.getElementById('overlay');
+    const closePopup = document.getElementById('closePopup');
+
+    donateButton.addEventListener('click', () => {
+        donationPopup.style.display = 'block';
+        overlay.style.display = 'block';
+    });
+
+    closePopup.addEventListener('click', () => {
+        donationPopup.style.display = 'none';
+        overlay.style.display = 'none';
+    });
+
+    overlay.addEventListener('click', () => {
+        donationPopup.style.display = 'none';
+        overlay.style.display = 'none';
+    });
+</script>
 
 </body>
 </html>
