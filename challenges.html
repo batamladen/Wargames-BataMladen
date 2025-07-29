@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>WGM &ndash; FAQ</title>
+  <title>WGM - Challenges</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="icon" type="image/png" href="images/wargames-logo.ico">
-  
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   <style>
     :root {
         --bg-dark: #121212;
@@ -61,10 +62,9 @@
         padding-bottom: 5px;
     }
 
-    h5 {
-        font-size: 1.3rem;
-        color: var(--accent-color);
-        margin-top: 30px;
+    h3 {
+        font-size: 1.5rem;
+        margin-top: 1.5em;
     }
 
     /* Header Styles */
@@ -111,7 +111,7 @@
         font-size: 1.1rem;
         cursor: pointer;
         transition: all 0.2s;
-        text-decoration: none; /* Added to remove underline */
+        text-decoration: none;
     }
 
     .auth-button:hover {
@@ -201,125 +201,64 @@
 
     .main-content {
         width: 100%;
-        max-width: 900px;
+        max-width: 1200px;
         padding: 40px;
     }
 
-    /* FAQ Content Styles */
-    .faq-container {
+    /* Challenge Grid Styles */
+    .grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+    }
+
+    .card {
         background-color: var(--bg-container);
-        border-radius: 8px;
-        padding: 30px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        margin-bottom: 30px;
-        line-height: 1.6;
-    }
-
-    .faq-content ul {
-        padding-left: 20px;
-    }
-
-    .faq-content li {
-        margin-bottom: 10px;
-    }
-
-    .faq-content code {
-        background-color: rgba(0, 0, 0, 0.3);
-        padding: 2px 5px;
-        border-radius: 3px;
-        font-family: 'JetBrains Mono', monospace;
-        color: #f8f8f8;
-        font-size: 0.9em;
-        display: inline-block;
-        margin: 5px 0;
-    }
-
-    .faq-content a {
-        color: var(--accent-color);
-        text-decoration: none;
-    }
-
-    .faq-content a:hover {
-        text-decoration: underline;
-    }
-
-    .note {
-        display: block;
-        background-color: rgba(110, 72, 170, 0.2);
-        border-left: 4px solid var(--accent-color);
-        padding: 15px;
-        margin: 15px 0;
-        border-radius: 0 4px 4px 0;
-    }
-
-    .note i {
-        margin-right: 8px;
-        color: var(--accent-color);
-    }
-
-    /* Table of Contents */
-    .toc {
-        background-color: var(--bg-darker);
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 30px;
-    }
-
-    .toc h5 {
-        margin-top: 0;
-    }
-
-    .toc ul {
-        list-style-type: none;
-        padding-left: 0;
-    }
-
-    .toc li {
-        margin-bottom: 8px;
-    }
-
-    /* Mobile Styles */
-    @media (max-width: 768px) {
-        .sidebar {
-            width: 100%;
-            height: auto;
-            position: relative;
-            top: 0;
-            padding-top: 60px;
-        }
-        .content-wrapper {
-            margin-left: 0;
-            margin-top: 60px;
-        }
-        .header-logo {
-            margin-left: 20px;
-        }
-        .header-right {
-            margin-right: 10px;
-        }
-        .donate-float {
-            top: 70px;
-        }
-        .title {
-            font-size: 2.5rem;
-        }
-    }
-
-    #mobile-warning {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: #121212;
-        color: #9d50bb;
-        z-index: 9999;
-        padding: 40px 20px;
-        box-sizing: border-box;
+        border-radius: 10px;
+        height: 350px; 
+        width: 250px;
+        overflow: hidden;
         text-align: center;
-        font-size: 1.5rem;
-        line-height: 2rem;
+        box-shadow: 0 0 10px rgba(0,0,0,0.4);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        cursor: pointer;
+        border: 1px solid var(--border-color);
+        position: relative;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 20px rgba(110, 72, 170, 0.3);
+        border-color: var(--accent-color);
+    }
+
+    .card img {
+        width: 100%;
+        height: 260px;
+        object-fit: contain;
+        padding: 0px;
+        background-color: var(--bg-dark);
+    }
+
+    .card h3 {
+        margin: 0;
+        padding: 20px;
+        font-size: 1.3em;
+        color: var(--text-primary);
+        font-family: 'League Spartan', sans-serif;
+    }
+
+    .card.completed::after {
+        content: "✓ COMPLETED";
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: var(--accent-color);
+        color: white;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 0.8em;
         font-family: 'League Spartan', sans-serif;
     }
 
@@ -440,13 +379,13 @@
         padding-bottom: 3px;
     }
 
-    /* Replace the existing .user-sidebar-item with these new styles */
+    /* User block styles */
     .user-block-container {
         padding: 0;
         margin-bottom: 0px;
         border-radius: 4px;
-        min-height: 120px; /* Adjust height as needed */
-        position: relative; /* Needed for absolute positioning of text */
+        min-height: 120px;
+        position: relative;
     }
 
     .user-block-bg {
@@ -465,8 +404,7 @@
         position: absolute;
         width: 100%;
         text-align: center;
-        /* Adjust these to position the text exactly where you want */
-        bottom: 20px; /* Example: 20px from bottom */
+        bottom: 20px;
         left: 0;
         padding: 0 20px;
         box-sizing: border-box;
@@ -496,6 +434,51 @@
     .sidebar.logged-out {
       padding-top: 60px !important;
     }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+        .sidebar {
+            width: 100%;
+            height: auto;
+            position: relative;
+            top: 0;
+            padding-top: 60px;
+        }
+        .content-wrapper {
+            margin-left: 0;
+            margin-top: 60px;
+        }
+        .header-logo {
+            margin-left: 20px;
+        }
+        .header-right {
+            margin-right: 10px;
+        }
+        .donate-float {
+            top: 70px;
+        }
+        .title {
+            font-size: 2.5rem;
+        }
+    }
+
+    #mobile-warning {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #121212;
+        color: #9d50bb;
+        z-index: 9999;
+        padding: 40px 20px;
+        box-sizing: border-box;
+        text-align: center;
+        font-size: 1.5rem;
+        line-height: 2rem;
+        font-family: 'League Spartan', sans-serif;
+    }
   </style>
 </head>
 <body>
@@ -515,160 +498,81 @@
 
   <button class="donate-float" id="donateButton">Donate!</button>
 
-<div class="overlay" id="overlay"></div>
-<div class="donation-popup" id="donationPopup">
-  <h2>SUPPORT US</h2>
+  <div class="overlay" id="overlay"></div>
+  <div class="donation-popup" id="donationPopup">
+    <h2>SUPPORT US</h2>
 
-  <div class="donation-options">
-    <div class="donation-method">
-      <div class="donation-method-title">Donate via Patreon</div>
-      <a
-        href="https://www.patreon.com/WargamesBataMladen"
-        target="_blank"
-        class="donation-link patreon"
-      >
-        <i class="fab fa-patreon"></i>
-        <span>Patreon</span>
-      </a>
-    </div>
+    <div class="donation-options">
+      <div class="donation-method">
+        <div class="donation-method-title">Donate via Patreon</div>
+        <a
+          href="https://www.patreon.com/WargamesBataMladen"
+          target="_blank"
+          class="donation-link patreon"
+        >
+          <i class="fab fa-patreon"></i>
+          <span>Patreon</span>
+        </a>
+      </div>
 
-    <div class="donation-method">
-      <div class="donation-method-title">Donate in cryptocurrency</div>
-      <a
-        href="https://www.tip.md/batamladen"
-        target="_blank"
-        class="donation-link tip"
-      >
-        <i class="fab fa-bitcoin"></i>
-        <span>Tip.md</span>
-      </a>
-    </div>
-  </div>
-
-  <button class="cancel-button" id="closePopup">CLOSE</button>
-</div>
-
-<div class="sidebar">
-  <ul class="challenge-list" id="sidebarList">
-    <!-- User item will be inserted here if logged in -->
-    <a href="challenges.html" class="challenge-item" data-challenge="challenges">CHALLENGES</a>
-    <a href="writeups.html" class="challenge-item" data-challenge="writeups">WRITE UPS</a>
-    <a href="faq.html" class="challenge-item active" data-challenge="faq">FAQ</a>
-    <a href="contact.html" class="challenge-item" data-challenge="contact">CONTACT</a>
-  </ul>
-</div>
-
-<div class="content-wrapper">
-  <div class="main-content">
-    <h1 class="title">Frequently Asked Questions</h1>
-
-    <div class="faq-container">
-      <div class="faq-content">
-        <div class="toc">
-          <h5>Contents</h5>
-          <ul>
-            <li><a href="#whatis">What is Wargames BataMladen?</a></li>
-            <li><a href="#howtoplay">How do I play?</a></li>
-            <li><a href="#coding">How much coding is involved?</a></li>
-            <li><a href="#tools">Which tools should I use?</a></li>
-            <li><a href="#solutions">Can I share my solutions?</a></li>
-            <li><a href="#ssh">How do I connect to challenges?</a></li>
-            <li><a href="#rules">What are the rules?</a></li>
-            <li><a href="#support">How can I support this platform?</a></li>
-            <li><a href="#contact">How can I contact you?</a></li>
-            <li><a href="#cert">How do I get the challenge certificates?</a></li>
-          </ul>
-        </div>
-
-        <h5 id="whatis">What is Wargames BataMladen?</h5>
-        <p>
-          Wargames BataMladen is a cybersecurity challenge platform designed to
-          test and improve your hacking skills. The challenges cover various
-          aspects of security including binary exploitation, web security,
-          cryptography, and more.
-        </p>
-
-        <h5 id="howtoplay">How do I play?</h5>
-        <p>Each challenge is hosted on our server and can be accessed via SSH. You'll need to:</p>
-        <ul>
-          <li>Find the correct port for each challenge</li>
-          <li>Use the provided credentials for the first level</li>
-          <li>Find flags that serve as passwords for subsequent levels</li>
-        </ul>
-        <p>Example SSH command: <code>ssh username@123.456.321.654 -p 1234</code></p>
-
-        <h5 id="coding">How much coding is involved?</h5>
-        <p>
-          Many challenges will require you to write small scripts or modify
-          existing code to exploit vulnerabilities. Python is recommended but
-          you can use any language you prefer.
-        </p>
-
-        <span class="note">
-          <i class="fas fa-exclamation-triangle"></i>
-          All code provided in challenges is intentionally vulnerable - don't
-          use it in real projects!
-        </span>
-
-        <h5 id="tools">Which tools should I use?</h5>
-        <p>Tools needed for specific levels are pre-installed.</p>
-        <p>Still, you can install other tools with: <code>sudo apt</code>. Just don't harm the server.</p>
-
-        <h5 id="solutions">Can I share my solutions?</h5>
-        <p>
-          We encourage you to write and share writeups after you've solved
-          challenges, but please:
-        </p>
-        <ul>
-          <li>Focus on explaining concepts rather than giving answers</li>
-          <li>Use spoiler tags if sharing in public forums</li>
-          <li>Send us your write-up so it can be featured on our
-            <a href="write-ups.html">Write Up's</a> page
-          </li>
-        </ul>
-
-        <h5 id="ssh">How do I connect to challenges?</h5>
-        <p>Most challenges require an SSH connection. You'll need to:</p>
-        <ol>
-          <li>Find the correct port for the challenge</li>
-          <li>Connect using: <code>ssh username@batamalden -p &lt;port&gt;</code></li>
-          <li>The password for the first level is always provided</li>
-          <li>To access subsequent levels, find the flags that serve as passwrords stored in the previous level.</li>
-        </ol>
-
-        <h5 id="rules">What are the rules?</h5>
-        <p>Read the rules at the Home page.</p>
-
-        <h5 id="support">How can I support this platform?</h5>
-        <p>This platform is completely free, but if you'd like to support its development:</p>
-        <ul>
-          <li>Share it with friends</li>
-          <li>Contribute challenge ideas</li>
-          <li>Report bugs and issues</li>
-          <li><a href="https://www.patreon.com/WargamesbyBataMladen" target="_blank">Support on Patreon</a></li>
-        </ul>
-
-        <h5 id="contact">How can I contact you?</h5>
-        <p>For questions, bug reports, or collaboration:</p>
-        <ul>
-          <li>Email: <a href="mailto:contact@batamladen.com">contact@batamladen.com</a></li>
-          <li>Use the <a href="contact.html">contact form</a></li>
-        </ul>
-
-        <h5 id="cert">How do I get the challenge certificates?</h5>
-        <p>One you finish a certain challenge, send us an email with your username and the challenge you finished.<br>
-           Once reviewed you will be provided with your certificate.</p>
-
-
+      <div class="donation-method">
+        <div class="donation-method-title">Donate in cryptocurrency</div>
+        <a
+          href="https://www.tip.md/batamladen"
+          target="_blank"
+          class="donation-link tip"
+        >
+          <i class="fab fa-bitcoin"></i>
+          <span>Tip.md</span>
+        </a>
       </div>
     </div>
-  </div>
-</div>
 
-<div id="mobile-warning">
-  <p>THIS PLATFORM IS BEST EXPERIENCED ON A DESKTOP DEVICE.</p>
-  <p>PLEASE VISIT US USING A DESKTOP BROWSER.<br />⚠️</p>
-</div>
+    <button class="cancel-button" id="closePopup">CLOSE</button>
+  </div>
+
+  <div class="sidebar">
+    <ul class="challenge-list" id="sidebarList">
+      <!-- User item will be inserted here if logged in -->
+      <a href="challenges.html" class="challenge-item active" data-challenge="challenges">CHALLENGES</a>
+      <a href="writeups.html" class="challenge-item" data-challenge="writeups">WRITE UPS</a>
+      <a href="faq.html" class="challenge-item" data-challenge="faq">FAQ</a>
+      <a href="contact.html" class="challenge-item" data-challenge="contact">CONTACT</a>
+    </ul>
+  </div>
+
+  <div class="content-wrapper">
+    <div class="main-content">
+        <div class="grid">
+            <!-- Challenge cards -->
+            <a href="the-shadows.html" style="text-decoration: none;">
+                <div class="card">
+                    <img src="images/the_shadows_challange-removebg-preview.png" alt="Shadows">
+                    <h3>The Shadows</h3>
+                </div>
+            </a>
+
+            <a href="dig-a-tunnel.html" style="text-decoration: none;">
+                <div class="card">
+                    <img src="images/dig_a_tunnel_challange-removebg-preview.png" alt="Dig a Tunnel">
+                    <h3>Dig a Tunnel</h3>
+                </div>
+            </a>
+
+            <a href="jugsaw.html" style="text-decoration: none;">
+                <div class="card">
+                    <img src="images/jugsaw_challenge-removebg-preview.png" alt="Jugsaw">
+                    <h3>Jugsaw</h3>
+                </div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+  <div id="mobile-warning">
+    <p>THIS PLATFORM IS BEST EXPERIENCED ON A DESKTOP DEVICE.</p>
+    <p>PLEASE VISIT US USING A DESKTOP BROWSER.<br />⚠️</p>
+  </div>
 
 <script>
   // Mobile warning
@@ -680,6 +584,8 @@
       }
     });
   }
+
+
 
   // Donation popup handlers
   const donateButton = document.getElementById("donateButton");
@@ -715,33 +621,23 @@
     }
 
     if (currentScroll > lastScroll && !header.classList.contains("hide")) {
-      // Scroll down
       header.classList.add("hide");
     } else if (currentScroll < lastScroll && header.classList.contains("hide")) {
-      // Scroll up
       header.classList.remove("hide");
     }
 
     lastScroll = currentScroll;
   });
 
-  // --- User login detection and UI adjustment ---
-  const token = localStorage.getItem("token");
-  const username = localStorage.getItem("username");
-  const headerRight = document.getElementById("headerRight");
-  const sidebarList = document.getElementById("sidebarList");
-
-  // Aura points update function (from jugsaw.html)
+  // Fetch and update aura points from API
   async function updateAuraDisplay() {
+    const token = localStorage.getItem("token");
     if (!token) return;
 
     try {
-      const response = await fetch(
-        "https://api.wargames.batamladen.com/api/auth/aura_points",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+      const response = await fetch("https://api.wargames.batamladen.com/api/auth/aura_points", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const data = await response.json();
 
       if (data.success) {
@@ -758,6 +654,43 @@
     }
   }
 
+  // Check challenge completion status
+  async function checkChallengeCompletion() {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const response = await fetch("https://api.wargames.batamladen.com/api/auth/myprogress", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        // Mark completed challenges
+        const completedChallenges = new Set();
+        data.progress.forEach(entry => {
+          if (entry.series === 'shadows' && entry.level === '9') completedChallenges.add('shadows');
+          if (entry.series === 'jugsaw' && entry.level === '5') completedChallenges.add('jugsaw');
+          // Add other challenges as needed
+        });
+
+        // Add completed class to cards
+        completedChallenges.forEach(challenge => {
+          const card = document.querySelector(`.card img[alt="${challenge.charAt(0).toUpperCase() + challenge.slice(1)}"]`)?.parentElement;
+          if (card) card.classList.add('completed');
+        });
+      }
+    } catch (err) {
+      console.error("Error loading progress:", err);
+    }
+  }
+
+  // --- User login detection and UI adjustment ---
+  const token = localStorage.getItem("token");
+  const username = localStorage.getItem("username");
+  const headerRight = document.getElementById("headerRight");
+  const sidebarList = document.getElementById("sidebarList");
+
   if (token && username) {
     // USER IS LOGGED IN
 
@@ -766,6 +699,8 @@
 
     const auraContainer = document.createElement("div");
     auraContainer.classList.add("aura-container");
+
+    // Initially empty, will be filled by updateAuraDisplay()
     auraContainer.innerHTML = `
       <img src="images/aura.webp" class="aura-icon" alt="Aura Icon">
       <span class="aura-points">Aura Points: ...</span>
@@ -843,7 +778,7 @@
 
     // Clear any existing items (in case there was a logout)
     sidebarList.innerHTML = "";
-    
+
     // Add default items
     defaultItems.forEach((item) => {
       const link = document.createElement("a");
@@ -858,10 +793,9 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    markSolvedLevels();
+    checkChallengeCompletion();
   });
 </script>
 
 </body>
 </html>
-

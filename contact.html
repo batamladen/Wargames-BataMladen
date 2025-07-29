@@ -1,332 +1,676 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - Wargames BataMladen</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="icon" type="image/png" href="images/wargames-logo.ico">
+  <title>WGM &ndash; Contact</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" type="image/png" href="images/wargames-logo.ico">
+  
+  <style>
+    :root {
+        --bg-dark: #121212;
+        --bg-darker: #0a0a0a;
+        --bg-container: #1e1e1e;
+        --accent-color: #6e48aa;
+        --accent-hover: #9d50bb;
+        --text-primary: #e0e0e0;
+        --text-secondary: #b0b0b0;
+        --border-color: #333;
+    }
 
-    <style>
-        :root {
-            --bg-dark: #121212;
-            --bg-darker: #0a0a0a;
-            --bg-container: #1e1e1e;
-            --accent-color: #6e48aa;
-            --accent-hover: #9d50bb;
-            --text-primary: #e0e0e0;
-            --text-secondary: #b0b0b0;
-            --border-color: #333;
-        }
-        
-        .logo {
-            width: 120px;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
+    /* Font Styles */
+    body {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 400;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-dark);
+        color: var(--text-primary);
+        min-height: 100vh;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-dark);
-            color: var(--text-primary);
-            min-height: 100vh;
-        }
+    p, ul, li {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 400;
+    }
 
-        /* Sidebar Styles */
-        .challenge-item {
-            display: block;
-            padding: 15px 20px;
-            cursor: pointer;
-            border-left: 3px solid transparent;
-            transition: all 0.2s;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            color: inherit;
-            text-decoration: none;
-        }
+    /* League Spartan for headings and buttons */
+    .title, h1, h2, h3, h4, h5, h6,
+    .auth-button, .donate-float,
+    .donation-popup h2, .donation-method-title {
+        font-family: 'League Spartan', sans-serif;
+        font-weight: 550;
+        letter-spacing: -0.5px;
+    }
 
-        .challenge-item:hover,
-        .challenge-item.active {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-left: 3px solid var(--accent-color);
-        }
+    .title {
+        font-size: 3.0rem;
+        color: var(--accent-color);
+        text-align: center;
+        margin-bottom: 30px;
+    }
 
+    h2 {
+        font-size: 2.0rem;
+        color: var(--accent-color);
+        margin-top: 0;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 5px;
+    }
+
+    /* Header Styles */
+    .header {
+        background-color: var(--bg-darker);
+        padding: 0 20px;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 60px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 999;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .header.hide {
+        transform: translateY(-100%);
+    }
+
+    .header-logo {
+        padding-top: 7.5px;
+        height: 60px;
+        width: auto;
+        margin-left: 20px;
+    }
+
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-right: 110px;
+    }
+
+    .auth-button {
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+    }
+
+    .auth-button:hover {
+        color: #815bbe;
+        background-color: transparent;
+    }
+
+    .donate-float {
+        background-color: #f96854;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 1.0rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(249, 104, 84, 0.3);
+        position: fixed;
+        top: 15px;
+        right: 20px;
+        z-index: 1000;
+    }
+
+    .donate-float:hover {
+        background-color: #e34b39;
+        box-shadow: 0 0px 0px rgba(249, 104, 84, 0.5);
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+        width: 220px;
+        background-color: var(--bg-darker);
+        border-right: 1px solid var(--border-color);
+        height: 100vh;
+        overflow-y: auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding-top: 0px;
+        box-sizing: border-box;
+    }
+
+    .header.hide + .sidebar {
+        padding-top: 0;
+    }
+
+    .challenge-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .challenge-item {
+        font-family: 'League Spartan', sans-serif;
+        font-weight: 300;
+        letter-spacing: -0.5px;
+        font-size: 1.0rem;
+        display: block;
+        padding: 15px 20px;
+        cursor: pointer;
+        border-left: 3px solid transparent;
+        transition: all 0.2s;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .challenge-item:hover,
+    .challenge-item.active {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-left: 3px solid var(--accent-color);
+    }
+
+    /* Content Styles */
+    .content-wrapper {
+        margin-left: 220px;
+        margin-top: 60px;
+        display: flex;
+        justify-content: center;
+        min-height: calc(100vh - 60px);
+        transition: margin-top 0.3s ease-in-out;
+    }
+
+    .header.hide + .sidebar + .content-wrapper {
+        margin-top: 0;
+    }
+
+    .main-content {
+        width: 100%;
+        max-width: 900px;
+        padding: 40px;
+    }
+
+    /* Contact Form Styles */
+    .contact-container {
+        background-color: var(--bg-container);
+        border-radius: 8px;
+        padding: 30px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--text-primary);
+    }
+
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        background-color: var(--bg-dark);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        color: var(--text-primary);
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16px;
+        transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--accent-color);
+    }
+
+    .form-group textarea {
+        min-height: 150px;
+        resize: vertical;
+    }
+
+    .submit-btn {
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-size: 1.1rem;
+        width: 100%;
+    }
+
+    .submit-btn:hover {
+        background-color: var(--accent-hover);
+    }
+
+    .submit-btn:disabled {
+        background-color: var(--text-secondary);
+        cursor: not-allowed;
+    }
+
+    .contact-methods {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 30px;
+    }
+
+    .contact-card {
+        background-color: var(--bg-container);
+        border-radius: 8px;
+        padding: 20px;
+        width: 100%;
+        max-width: 400px;
+        margin-bottom: 20px;
+        text-align: center;
+        border: 1px solid var(--border-color);
+    }
+
+    .contact-card i {
+        font-size: 2rem;
+        color: var(--accent-color);
+        margin-bottom: 15px;
+    }
+
+    .contact-card h3 {
+        margin: 0 0 10px;
+        color: var(--accent-color);
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
         .sidebar {
-            width: 250px;
-            background-color: var(--bg-darker);
-            border-right: 1px solid var(--border-color);
-            height: 100vh;
-            overflow-y: auto;
-            position: fixed;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
-            text-align: center;
-        }
-
-        .sidebar-header a {
-            text-decoration: none;
-        }
-
-        .challenge-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        /* Main Content Styles */
-        .content-wrapper {
-            margin-left: 250px;
-            display: flex;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .main-content {
             width: 100%;
-            max-width: 900px;
-            padding: 40px;
+            height: auto;
+            position: relative;
+            top: 0;
+            padding-top: 60px;
         }
-
+        .content-wrapper {
+            margin-left: 0;
+            margin-top: 60px;
+        }
+        .header-logo {
+            margin-left: 20px;
+        }
+        .header-right {
+            margin-right: 10px;
+        }
+        .donate-float {
+            top: 70px;
+        }
         .title {
-            color: var(--accent-color);
-            text-align: center;
-            margin-bottom: 30px;
             font-size: 2.5rem;
         }
+    }
 
-        .contact-container {
-            background-color: var(--bg-container);
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
+    #mobile-warning {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #121212;
+        color: #9d50bb;
+        z-index: 9999;
+        padding: 40px 20px;
+        box-sizing: border-box;
+        text-align: center;
+        font-size: 1.5rem;
+        line-height: 2rem;
+        font-family: 'League Spartan', sans-serif;
+    }
 
-        .contact-container h2 {
-            color: var(--accent-color);
-            margin-top: 0;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-        }
+    /* Donation Popup */
+    .donation-popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: var(--bg-container);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        z-index: 1001;
+        width: 280px;
+        text-align: center;
+        border: 1px solid var(--border-color);
+    }
 
-        /* Contact Form Styles */
-        .contact-form {
-            margin-top: 20px;
-        }
+    .donation-options {
+        margin: 0;
+        padding: 0;
+    }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+    .donation-method {
+        margin-bottom: 12px;
+    }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-        }
+    .donation-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 12px;
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
+        text-decoration: none;
+        color: white;
+        transition: all 0.2s;
+        border: 1px solid var(--border-color);
+        width: 80%;
+        margin: 0 auto;
+        font-family: 'Open Sans', sans-serif;
+    }
 
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            background-color: var(--bg-dark);
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            color: var(--text-primary);
-            font-family: inherit;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
+    .donation-link:hover {
+        background-color: rgba(110, 72, 170, 0.2);
+        border-color: var(--accent-color);
+    }
 
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
+    .donation-link i {
+        margin-right: 8px;
+        font-size: 1rem;
+    }
 
-        .form-group textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
+    .donation-link.patreon i {
+        color: #FF424D;
+    }
 
-        .submit-btn {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            font-size: 1.1rem;
-            font-weight: bold;
-            width: 100%;
-        }
+    .donation-link.tip i {
+        color: #ddd428;
+    }
 
-        .submit-btn:hover {
-            background-color: var(--accent-hover);
-        }
+    .cancel-button {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        font-family: 'League Spartan', sans-serif;
+        font-size: 1.1rem;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: all 0.2s;
+        margin-top: 10px;
+    }
 
-        .submit-btn:disabled {
-            background-color: var(--text-secondary);
-            cursor: not-allowed;
-        }
+    .cancel-button:hover {
+        color: var(--text-primary);
+        background-color: rgba(255, 255, 255, 0.05);
+    }
 
-        .contact-methods {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 30px;
-        }
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+    }
 
-        .contact-card {
-            background-color: var(--bg-container);
-            border-radius: 8px;
-            padding: 5px;
-            width: 100%; /* Changed from calc(33.33% - 20px) to 100% */
-            max-width: 400px; /* Added max-width to prevent it from being too wide */
-            margin-bottom: 20px;
-            text-align: center;
-            border: 1px solid var(--border-color);
-        }
+    /* Replace the existing .aura-points with this: */
+    .aura-container {
+        display: flex;
+        align-items: center;
+        padding-top: 2px;
+        gap: 0px;
+    }
 
-        .contact-card i {
-            font-size: 2rem;
-            color: var(--accent-color);
-            margin-bottom: 15px;
-        }
+    .aura-points {
+        font-family: 'League Spartan', sans-serif;
+        font-weight: 550;
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 1.0rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
 
-        .contact-card h3 {
-            margin: 0 0 10px;
-            color: var(--accent-color);
-        }
+    .aura-icon {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        padding-bottom: 3px;
+    }
 
-        .contact-card p {
-            margin: 0 0 15px;
-        }
+    /* Replace the existing .user-sidebar-item with these new styles */
+    .user-block-container {
+        padding: 0;
+        margin-bottom: 0px;
+        border-radius: 4px;
+        min-height: 120px; /* Adjust height as needed */
+        position: relative; /* Needed for absolute positioning of text */
+    }
 
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-            .content-wrapper {
-                margin-left: 0;
-            }
-            .contact-card {
-                width: 100%;
-            }
-        }
+    .user-block-bg {
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 
-        .patreon-float {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #f96854;
-            color: white;
-            padding: 10px 18px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            z-index: 1000;
-            box-shadow: 0 4px 10px rgba(249, 104, 84, 0.3);
-            transition: background 0.3s ease;
-        }
+    .username-display {
+        font-family: 'League Spartan', sans-serif;
+        font-weight: 700;
+        color: white;
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        /* Adjust these to position the text exactly where you want */
+        bottom: 20px; /* Example: 20px from bottom */
+        left: 0;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
 
-        .patreon-float:hover {
-            background-color: #e34b39;
-            box-shadow: 0 6px 15px rgba(249, 104, 84, 0.5);
-        }
-    </style>
+    .logout-button {
+        font-family: 'League Spartan', sans-serif;
+        font-weight: 300;
+        letter-spacing: -0.5px;
+        font-size: 1.0rem;
+        display: block;
+        padding: 15px 20px;
+        cursor: pointer;
+        border-left: 3px solid transparent;
+        transition: all 0.2s;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        color: #ff6b6b;
+        text-decoration: none;
+        text-align: left;
+    }
+
+    .logout-button:hover {
+        background-color: rgba(255, 107, 107, 0.1);
+        border-left: 3px solid #ff6b6b;
+    }
+
+    .sidebar.logged-out {
+      padding-top: 60px !important;
+    }
+  </style>
 </head>
 <body>
+<header class="header">
+  <a href="home.html">
+    <img
+      src="images/wargame header logo 3 banner.webp"
+      alt="Wargames Logo"
+      class="header-logo"
+    />
+  </a>
+  <div class="header-right" id="headerRight">
+    <a href="/login.html" class="auth-button" id="loginBtn">Login</a>
+    <a href="register.html" class="auth-button" id="registerBtn">Register</a>
+  </div>
+</header>
 
-<!-- Patreon -->
-<a href="https://www.patreon.com/WargamesbyBataMladen" target="_blank" class="patreon-float">
-    <i class="fab fa-patreon"></i> Donate!
-</a>
+  <button class="donate-float" id="donateButton">Donate!</button>
 
-<!-- Sidebar -->
-<div class="sidebar">
-    <div class="sidebar-header">
-        <a href="home.html">
-            <img src="/images/wargames logo.webp" alt="Wargames Logo" class="logo">
+  <div class="overlay" id="overlay"></div>
+  <div class="donation-popup" id="donationPopup">
+    <h2>SUPPORT US</h2>
+
+    <div class="donation-options">
+      <div class="donation-method">
+        <div class="donation-method-title">Donate via Patreon</div>
+        <a
+          href="https://www.patreon.com/WargamesBataMladen"
+          target="_blank"
+          class="donation-link patreon"
+        >
+          <i class="fab fa-patreon"></i>
+          <span>Patreon</span>
         </a>
+      </div>
+
+      <div class="donation-method">
+        <div class="donation-method-title">Donate in cryptocurrency</div>
+        <a
+          href="https://www.tip.md/batamladen"
+          target="_blank"
+          class="donation-link tip"
+        >
+          <i class="fab fa-bitcoin"></i>
+          <span>Tip.md</span>
+        </a>
+      </div>
     </div>
 
-    <ul class="challenge-list">
-        <!-- Challenges List -->
-        <a href="challanges.html" class="challenge-item" data-challenge="challenges">
-            Challenges
-        </a>
+    <button class="cancel-button" id="closePopup">CLOSE</button>
+  </div>
 
-        <!-- Write Ups List -->
-        <a href="writeups.html" class="challenge-item" data-challenge="writeups">
-            Write Ups
-        </a>
-
-        <!-- FAQ List -->
-        <a href="faq.html" class="challenge-item" data-challenge="faq">
-            FAQ
-        </a>
-
-        <!-- Contact List -->
-        <a href="contact.html" class="challenge-item active" data-challenge="contact">
-            Contact
-        </a>
+  <div class="sidebar">
+    <ul class="challenge-list" id="sidebarList">
+      <!-- User item will be inserted here if logged in -->
+      <a href="challenges.html" class="challenge-item" data-challenge="challenges">CHALLENGES</a>
+      <a href="writeups.html" class="challenge-item" data-challenge="writeups">WRITE UPS</a>
+      <a href="faq.html" class="challenge-item" data-challenge="faq">FAQ</a>
+      <a href="contact.html" class="challenge-item active" data-challenge="contact">CONTACT</a>
     </ul>
-</div>
+  </div>
 
-<!-- Main Content -->
-<div class="content-wrapper">
+  <div class="content-wrapper">
     <div class="main-content">
-        <h1 class="title">Contact Us</h1>
+      <h1 class="title">Contact Us</h1>
 
-        <div class="contact-container">
-            <h2>contact@batamladen.com</h2>
-            <p>Have questions about the challenges, found a bug, or want to collaborate? Send us a message and we'll get back to you ASAP.</p>
-            
-            <!-- Contact Form -->
-            <div class="contact-form">
-                <form action="https://api.web3forms.com/submit" method="POST" class="contact-form">
-                    <input type="hidden" name="access_key" value="5e1dbc1b-1300-4e0c-aae5-a15e8081d969">
-                    <input type="hidden" name="redirect" value="https://wargames.batamladen.com/thank-you.html">
-                    <input type="checkbox" name="botcheck" style="display:none;">
+      <div class="contact-container">
+        <h2>contact@batamladen.com</h2>
+        <p>Have questions about the challenges, found a bug, or want to collaborate? Send us a message and we'll get back to you ASAP.</p>
+        
+        <div class="contact-form">
+          <form action="https://api.web3forms.com/submit" method="POST" class="contact-form">
+            <input type="hidden" name="access_key" value="5e1dbc1b-1300-4e0c-aae5-a15e8081d969">
+            <input type="hidden" name="redirect" value="https://wargames.batamladen.com/thank-you.html">
+            <input type="checkbox" name="botcheck" style="display:none;">
 
-                    <div class="form-group">
-                        <label for="name">Your Name</label>
-                        <input type="text" name="name" id="name" required placeholder="Enter your name">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">Your Email</label>
-                        <input type="email" name="email" id="email" required placeholder="Enter your email">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea name="message" id="message" required placeholder="Your message here..."></textarea>
-                    </div>
-
-                    <button type="submit" class="submit-btn" id="submitButton">
-                        Send Message
-                    </button>
-                </form>
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" name="name" id="name" required placeholder="Enter your name">
             </div>
+
+            <div class="form-group">
+              <label for="email">Your Email</label>
+              <input type="email" name="email" id="email" required placeholder="Enter your email">
+            </div>
+
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea name="message" id="message" required placeholder="Your message here..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitButton">
+              Send Message
+            </button>
+          </form>
         </div>
+      </div>
     </div>
-</div>
+  </div>
+
+  <div id="mobile-warning">
+    <p>THIS PLATFORM IS BEST EXPERIENCED ON A DESKTOP DEVICE.</p>
+    <p>PLEASE VISIT US USING A DESKTOP BROWSER.<br />⚠️</p>
+  </div>
 
 <script>
+    // Mobile warning
+    if (window.innerWidth <= 768) {
+      document.getElementById("mobile-warning").style.display = "block";
+      [...document.body.children].forEach((child) => {
+        if (child.id !== "mobile-warning") {
+          child.style.display = "none";
+        }
+      });
+    }
+
+    // Donation popup handlers
+    const donateButton = document.getElementById("donateButton");
+    const donationPopup = document.getElementById("donationPopup");
+    const overlay = document.getElementById("overlay");
+    const closePopup = document.getElementById("closePopup");
+
+    donateButton.addEventListener("click", () => {
+      donationPopup.style.display = "block";
+      overlay.style.display = "block";
+    });
+
+    closePopup.addEventListener("click", () => {
+      donationPopup.style.display = "none";
+      overlay.style.display = "none";
+    });
+
+    overlay.addEventListener("click", () => {
+      donationPopup.style.display = "none";
+      overlay.style.display = "none";
+    });
+
+    // Scroll hide/show header functionality
+    let lastScroll = 0;
+    const header = document.querySelector(".header");
+
+    window.addEventListener("scroll", () => {
+      const currentScroll = window.pageYOffset;
+
+      if (currentScroll <= 0) {
+        header.classList.remove("hide");
+        return;
+      }
+
+      if (currentScroll > lastScroll && !header.classList.contains("hide")) {
+        // Scroll down
+        header.classList.add("hide");
+      } else if (currentScroll < lastScroll && header.classList.contains("hide")) {
+        // Scroll up
+        header.classList.remove("hide");
+      }
+
+      lastScroll = currentScroll;
+    });
+
     // Form submission handling
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.querySelector('form');
@@ -348,40 +692,140 @@
         }
     });
 
-    // Mobile warning (consistent with other pages)
-    if (window.innerWidth <= 768) {
-        const mobileWarning = document.createElement('div');
-        mobileWarning.id = 'mobile-warning';
-        mobileWarning.innerHTML = `
-            <p>This platform is best experienced on a desktop device.</p>
-            <p>Please visit us using a desktop browser.<br>⚠️</p>
-        `;
-        mobileWarning.style.display = 'block';
-        mobileWarning.style.position = 'fixed';
-        mobileWarning.style.top = '0';
-        mobileWarning.style.left = '0';
-        mobileWarning.style.width = '100vw';
-        mobileWarning.style.height = '100vh';
-        mobileWarning.style.backgroundColor = '#121212';
-        mobileWarning.style.color = '#9d50bb';
-        mobileWarning.style.zIndex = '9999';
-        mobileWarning.style.padding = '40px 20px';
-        mobileWarning.style.boxSizing = 'border-box';
-        mobileWarning.style.textAlign = 'center';
-        mobileWarning.style.fontSize = '1.5rem';
-        mobileWarning.style.lineHeight = '2rem';
-        mobileWarning.style.fontFamily = "'JetBrains Mono', monospace";
-        
-        document.body.prepend(mobileWarning);
-        
-        // Hide all other content
-        [...document.body.children].forEach(child => {
-            if (child.id !== 'mobile-warning') {
-                child.style.display = 'none';
-            }
-        });
+    // --- User login detection and UI adjustment ---
+    const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
+    const headerRight = document.getElementById("headerRight");
+    const sidebarList = document.getElementById("sidebarList");
+
+    // Aura points update function (from jugsaw.html)
+    async function updateAuraDisplay() {
+      if (!token) return;
+
+      try {
+        const response = await fetch(
+          "https://api.wargames.batamladen.com/api/auth/aura_points",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        const data = await response.json();
+
+        if (data.success) {
+          const auraContainer = document.querySelector(".aura-container");
+          if (auraContainer) {
+            auraContainer.innerHTML = `
+              <img src="images/aura.webp" class="aura-icon" alt="Aura Icon">
+              <span class="aura-points">Aura Points: ${data.total_aura}</span>
+            `;
+          }
+        }
+      } catch (err) {
+        console.error("Error updating aura points:", err);
+      }
+    }
+
+    if (token && username) {
+      // USER IS LOGGED IN
+
+      // Update header (remove login/register, add aura points container)
+      headerRight.innerHTML = "";
+
+      const auraContainer = document.createElement("div");
+      auraContainer.classList.add("aura-container");
+      auraContainer.innerHTML = `
+        <img src="images/aura.webp" class="aura-icon" alt="Aura Icon">
+        <span class="aura-points">Aura Points: ...</span>
+      `;
+
+      headerRight.appendChild(auraContainer);
+
+      // Fetch and update actual aura points now
+      updateAuraDisplay();
+
+      // Update sidebar (add user block and logout, preserve other items)
+      const existingItems = Array.from(sidebarList.children);
+
+      // Clear sidebar but keep a reference to the original items
+      const originalItems = [];
+      existingItems.forEach((item) => {
+        if (!item.classList.contains("logout-button")) {
+          originalItems.push(item.cloneNode(true));
+        }
+      });
+
+      sidebarList.innerHTML = "";
+
+      // Add user block
+      const userContainer = document.createElement("li");
+      userContainer.classList.add("user-block-container");
+
+      const userBg = document.createElement("div");
+      userBg.classList.add("user-block-bg");
+      userBg.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 80%)`;
+
+      const usernameDisplay = document.createElement("div");
+      usernameDisplay.classList.add("username-display");
+      usernameDisplay.textContent = username;
+
+      userContainer.appendChild(userBg);
+      userContainer.appendChild(usernameDisplay);
+      sidebarList.appendChild(userContainer);
+
+      // Re-add original items
+      originalItems.forEach((item) => {
+        sidebarList.appendChild(item);
+      });
+
+      // Add logout button
+      const logoutButton = document.createElement("a");
+      logoutButton.classList.add("logout-button");
+      logoutButton.href = "#";
+      logoutButton.textContent = "LOGOUT";
+
+      logoutButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        window.location.href = "index.html";
+      });
+
+      sidebarList.appendChild(logoutButton);
+    } else {
+      // USER IS LOGGED OUT - RESET TO DEFAULT STATE
+
+      // Reset header to default (login/register buttons)
+      headerRight.innerHTML = `
+        <a href="/login.html" class="auth-button" id="loginBtn">Login</a>
+        <a href="register.html" class="auth-button" id="registerBtn">Register</a>
+      `;
+
+      // Reset sidebar to default items
+      const defaultItems = [
+        { href: "challenges.html", text: "CHALLENGES", data: "challenges" },
+        { href: "writeups.html", text: "WRITE UPS", data: "writeups" },
+        { href: "faq.html", text: "FAQ", data: "faq" },
+        { href: "contact.html", text: "CONTACT", data: "contact" },
+      ];
+
+      // Clear any existing items (in case there was a logout)
+      sidebarList.innerHTML = "";
+      
+      // Add default items
+      defaultItems.forEach((item) => {
+        const link = document.createElement("a");
+        link.href = item.href;
+        link.className = "challenge-item";
+        link.dataset.challenge = item.data;
+        link.textContent = item.text;
+        if (item.text === "CONTACT") {
+          link.classList.add("active");
+        }
+        sidebarList.appendChild(link);
+      });
+
+      document.querySelector(".sidebar").classList.add("logged-out");
     }
 </script>
-
 </body>
 </html>

@@ -1,303 +1,642 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wargames BataMladen</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="icon" type="image/png" href="images/wargames-logo.ico">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <title>WGM &ndash; Jugsaw</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" type="image/png" href="images/wargames-logo.ico">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
+  <style>
+    :root {
+        --bg-dark: #121212;
+        --bg-darker: #0a0a0a;
+        --bg-container: #1e1e1e;
+        --accent-color: #6e48aa;
+        --accent-hover: #9d50bb;
+        --text-primary: #e0e0e0;
+        --text-secondary: #b0b0b0;
+        --border-color: #333;
+    }
 
-    <style>
-        :root {
-            --bg-dark: #121212;
-            --bg-darker: #0a0a0a;
-            --bg-container: #1e1e1e;
-            --accent-color: #6e48aa;
-            --accent-hover: #9d50bb;
-            --text-primary: #e0e0e0;
-            --text-secondary: #b0b0b0;
-            --border-color: #333;
-        }
-        
-        .logo {
-            width: 120px;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
+    /* Font Styles */
+    body {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 400;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-dark);
+        color: var(--text-primary);
+        min-height: 100vh;
+    }
 
+    p, ul, li {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 400;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-dark);
-            color: var(--text-primary);
-            display: flex;
-            min-height: 100vh;
-        }
+    /* League Spartan for headings and buttons */
+    .title, h1, h2, h3, h4, h5, h6,
+    .auth-button, .donate-float,
+    .donation-popup h2, .donation-method-title {
+        font-family: 'League Spartan', sans-serif;
+        font-weight: 550;
+        letter-spacing: -0.5px;
+    }
 
-        /* Sidebar Styles */
+    .title {
+        font-size: 3.0rem;
+        color: var(--accent-color);
+        text-align: center;
+        margin-bottom: 30px;
+    }
 
-        .challenge-item {
-            display: block;
-            padding: 15px 20px;
-            cursor: pointer;
-            border-left: 3px solid transparent;
-            transition: all 0.2s;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            color: inherit;         
-            text-decoration: none;  
-        }
+    h2 {
+        font-size: 2.0rem;
+        color: var(--accent-color);
+        margin-top: 0;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 5px;
+    }
 
-        .challenge-item:hover,
-        .challenge-item.active {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-left: 3px solid var(--accent-color);
-        }
+    h3 {
+        font-size: 1.5rem;
+        margin-top: 1.5em;
+    }
 
+    /* Header Styles */
+    .header {
+        background-color: var(--bg-darker);
+        padding: 0 20px;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 60px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 999;
+        transition: transform 0.3s ease-in-out;
+    }
 
+    .header.hide {
+        transform: translateY(-100%);
+    }
 
+    .header-logo {
+        padding-top: 7.5px;
+        height: 60px;
+        width: auto;
+        margin-left: 20px;
+        padding-bottom: 7px;
+    }
+
+    .header-right {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-right: 110px;
+    }
+
+    .auth-button {
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+    }
+
+    .auth-button:hover {
+        color: #815bbe;
+        background-color: transparent;
+    }
+
+    .donate-float {
+        background-color: #f96854;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 1.0rem;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(249, 104, 84, 0.3);
+        position: fixed;
+        top: 15px;
+        right: 20px;
+        z-index: 1000;
+    }
+
+    .donate-float:hover {
+        background-color: #e34b39;
+        box-shadow: 0 0px 0px rgba(249, 104, 84, 0.5);
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+        width: 220px;
+        background-color: var(--bg-darker);
+        border-right: 1px solid var(--border-color);
+        height: 100vh;
+        overflow-y: auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding-top: 0px;
+        box-sizing: border-box;
+    }
+
+    .header.hide + .sidebar {
+        padding-top: 0;
+    }
+
+    .challenge-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .challenge-item {
+        font-family: 'League Spartan', sans-serif;
+        font-weight: 300;
+        letter-spacing: -0.5px;
+        font-size: 1.0rem;
+        display: block;
+        padding: 15px 20px;
+        cursor: pointer;
+        border-left: 3px solid transparent;
+        transition: all 0.2s;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .challenge-item:hover,
+    .challenge-item.active {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-left: 3px solid var(--accent-color);
+    }
+
+    /* Content Styles */
+    .content-wrapper {
+        margin-left: 220px;
+        margin-top: 60px;
+        display: flex;
+        justify-content: center;
+        min-height: calc(100vh - 60px);
+        transition: margin-top 0.3s ease-in-out;
+    }
+
+    .header.hide + .sidebar + .content-wrapper {
+        margin-top: 0;
+    }
+
+    .main-content {
+        width: 100%;
+        max-width: 1100px;
+        padding: 40px;
+    }
+
+    /* Challenge Content Styles */
+    .challenge-container {
+        background-color: var(--bg-container);
+        border-radius: 8px;
+        padding: 30px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        margin-bottom: 30px;
+    }
+
+    .challenge-title {
+        font-size: 2.0rem;
+        color: var(--accent-color);
+        margin-top: 0;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 10px;
+    }
+
+    .challenge-description {
+        line-height: 1.6;
+        margin-bottom: 50px;
+        font-size: 0.9rem;
+    }
+
+    .levels-container {
+        margin-top: 30px;
+    }
+
+    .level-item {
+        background-color: rgba(255, 255, 255, 0.03);
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-left: 4px solid var(--accent-color);
+    }
+
+    .level-info {
+        flex: 1;
+    }
+
+    .level-title {
+        font-weight: bold;
+        font-size: 1rem;
+        margin-bottom: 5px;
+    }
+
+    .level-description {
+        color: var(--text-secondary);
+        font-size: 0.85em;
+    }
+
+    .start-btn {
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        min-width: 80px;
+        font-size: 0.9rem;
+        font-weight: 350;
+    }
+
+    .start-btn:hover {
+        background-color: var(--accent-hover);
+    }
+
+    .ssh-info {
+        display: none;
+        margin-top: 0px;
+        padding: 15px;
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 5px;
+        font-family: 'JetBrains Mono', monospace;
+    }
+
+    .ssh-info.active {
+        display: block;
+    }
+
+    /* Final Flag Submission */
+    .final-flag-section {
+        text-align: center;
+        margin-top: 50px;
+        padding-bottom: 40px;
+    }
+
+    .final-flag-input {
+        padding: 6px 12px;
+        width: 230px;
+        border-radius: 4px;
+        border: 1px solid var(--border-color);
+        background-color: var(--bg-dark);
+        color: var(--text-primary);
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    /* SweetAlert Custom Styles */
+    .swal2-popup.custom-flag-popup {
+        background-image: url("images/the\ shadows\ thumbnail.webp");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+        backdrop-filter: blur(3px);
+    }
+
+    .swal2-popup.custom-error-popup {
+        background-color: #1f1f1f !important;
+        color: #f2f2f2;
+        border: 1px solid #333;
+        box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+    }
+
+    /* Donation Popup */
+    .donation-popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: var(--bg-container);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        z-index: 1001;
+        width: 280px;
+        text-align: center;
+        border: 1px solid var(--border-color);
+    }
+
+    .donation-options {
+        margin: 0;
+        padding: 0;
+    }
+
+    .donation-method {
+        margin-bottom: 12px;
+    }
+
+    .donation-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 12px;
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
+        text-decoration: none;
+        color: white;
+        transition: all 0.2s;
+        border: 1px solid var(--border-color);
+        width: 80%;
+        margin: 0 auto;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    .donation-link:hover {
+        background-color: rgba(110, 72, 170, 0.2);
+        border-color: var(--accent-color);
+    }
+
+    .donation-link i {
+        margin-right: 8px;
+        font-size: 1rem;
+    }
+
+    .donation-link.patreon i {
+        color: #FF424D;
+    }
+
+    .donation-link.tip i {
+        color: #ddd428;
+    }
+
+    .cancel-button {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        font-family: 'League Spartan', sans-serif;
+        font-size: 1.1rem;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: all 0.2s;
+        margin-top: 10px;
+    }
+
+    .cancel-button:hover {
+        color: var(--text-primary);
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+    }
+
+    .flag-submit-button {
+        background-color: white;
+        color: black;
+        font-family: 'League Spartan', sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .flag-submit-button:hover {
+        background-color: #f0f0f0;
+    }
+
+    /* Replace the existing .aura-points with this: */
+    .aura-container {
+        display: flex;
+        align-items: center;
+        padding-top: 2px;
+        gap: 0px;
+    }
+
+    .aura-points {
+        font-family: 'League Spartan', sans-serif;
+        font-weight: 550;
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 1.0rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .aura-icon {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        padding-bottom: 3px;
+    }
+
+    /* Replace the existing .user-sidebar-item with these new styles */
+    .user-block-container {
+        padding: 0;
+        margin-bottom: 0px;
+        border-radius: 4px;
+        min-height: 120px;
+        position: relative;
+    }
+
+    .user-block-bg {
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .username-display {
+        font-family: 'League Spartan', sans-serif;
+        font-weight: 700;
+        color: white;
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        bottom: 20px;
+        left: 0;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+
+    .logout-button {
+        font-family: 'League Spartan', sans-serif;
+        font-weight: 300;
+        letter-spacing: -0.5px;
+        font-size: 1.0rem;
+        display: block;
+        padding: 15px 20px;
+        cursor: pointer;
+        border-left: 3px solid transparent;
+        transition: all 0.2s;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        color: #ff6b6b;
+        text-decoration: none;
+        text-align: left;
+    }
+
+    .logout-button:hover {
+        background-color: rgba(255, 107, 107, 0.1);
+        border-left: 3px solid #ff6b6b;
+    }
+
+    .sidebar.logged-out {
+      padding-top: 60px !important;
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
         .sidebar {
-            width: 250px;
-            background-color: var(--bg-darker);
-            border-right: 1px solid var(--border-color);
-            height: 100vh;
-            overflow-y: auto;
-            position: fixed;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
-            text-align: center;
-        }
-
-        .sidebar-header h2 {
-            margin: 0;
-            color: var(--accent-color);
-        }
-
-        .challenge-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .challenge-item {
-            padding: 15px 20px;
-            cursor: pointer;
-            border-left: 3px solid transparent;
-            transition: all 0.2s;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .challenge-item:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-left: 3px solid var(--accent-color);
-        }
-
-        .challenge-item.active {
-            background-color: rgba(110, 72, 170, 0.2);
-            border-left: 3px solid var(--accent-color);
-        }
-
-        /* Main Content Styles */
-        .main-content {
-            flex: 1;
-            margin-left: 250px;
-            padding: 20px;
-        }
-
-        .challenge-container {
-            background-color: var(--bg-container);
-            border-radius: 8px;
-            padding: 25px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
-        }
-
-        .challenge-title {
-            color: var(--accent-color);
-            margin-top: 0;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-
-        .challenge-description {
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .levels-container {
-            margin-top: 30px;
-        }
-
-        .level-item {
-            background-color: rgba(255, 255, 255, 0.03);
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 4px solid var(--accent-color);
-        }
-
-        .level-info {
-            flex: 1;
-        }
-
-        .level-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .level-description {
-            color: var(--text-secondary);
-            font-size: 0.9em;
-        }
-
-        .start-btn {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .start-btn:hover {
-            background-color: var(--accent-hover);
-        }
-
-        .ssh-info {
-            display: none;
-            margin-top: 15px;
-            padding: 15px;
-            background-color: rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-            font-family: monospace;
-        }
-
-        .ssh-info.active {
-            display: block;
-        }
-
-        /* Loading spinner */
-        .spinner {
-            display: none;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top: 3px solid var(--accent-color);
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-            margin-left: 10px;
-        }
-
-        .swal2-popup.custom-flag-popup {
-            background-image: url("images/the\ shadows\ thumbnail.webp"); 
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            background-color: rgba(0, 0, 0, 0.6); 
-            color: white;
-            backdrop-filter: blur(3px); 
-        }
-
-        .swal2-popup.custom-error-popup {
-            background-color: #1f1f1f !important; 
-            color: #f2f2f2;
-            border: 1px solid #333;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
-        }
-
-
-
-
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-            }
-            .main-content {
-                margin-left: 0;
-            }
-        }
-
-        #mobile-warning {
-            display: none;
-            position: fixed;
+            width: 100%;
+            height: auto;
+            position: relative;
             top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #121212;
-            color: #9d50bb;
-            z-index: 9999;
-            padding: 40px 20px;
-            box-sizing: border-box;
-            text-align: center;
-            font-size: 1.5rem;
-            line-height: 2rem;
-            font-family: 'JetBrains Mono', monospace;
+            padding-top: 60px;
         }
+        .content-wrapper {
+            margin-left: 0;
+            margin-top: 60px;
+        }
+        .header-logo {
+            margin-left: 20px;
+        }
+        .header-right {
+            margin-right: 10px;
+        }
+        .donate-float {
+            top: 70px;
+        }
+        .title {
+            font-size: 2.5rem;
+        }
+    }
 
+    .level-item.solved {
+        border-color: #28a745 !important;     /* green border */
+    }
 
+    .level-item.solved .start-btn {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
+    }
 
-    </style>
+    .level-item.solved .start-btn:hover {
+        background-color: #218838 !important;
+        border-color: #218838 !important;
+    }
+
+    #mobile-warning {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #121212;
+        color: #9d50bb;
+        z-index: 9999;
+        padding: 40px 20px;
+        box-sizing: border-box;
+        text-align: center;
+        font-size: 1.5rem;
+        line-height: 2rem;
+        font-family: 'League Spartan', sans-serif;
+    }
+  </style>
 </head>
 <body>
-    
-<!-- Sidebar -->
-<div class="sidebar">
-    <div class="sidebar-header">
-        <a href="home.html">
-            <img src="/images/wargames logo.webp" alt="Wargames Logo" class="logo">
+<header class="header">
+  <a href="home.html">
+    <img
+      src="images/wargame header logo 3 banner.webp"
+      alt="Wargames Logo"
+      class="header-logo"
+    />
+  </a>
+  <div class="header-right" id="headerRight">
+    <a href="/login.html" class="auth-button" id="loginBtn">Login</a>
+    <a href="register.html" class="auth-button" id="registerBtn">Register</a>
+  </div>
+</header>
+
+  <button class="donate-float" id="donateButton">Donate!</button>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="donation-popup" id="donationPopup">
+    <h2>SUPPORT US</h2>
+
+    <div class="donation-options">
+      <div class="donation-method">
+        <div class="donation-method-title">Donate via Patreon</div>
+        <a
+          href="https://www.patreon.com/WargamesBataMladen"
+          target="_blank"
+          class="donation-link patreon"
+        >
+          <i class="fab fa-patreon"></i>
+          <span>Patreon</span>
         </a>
+      </div>
+
+      <div class="donation-method">
+        <div class="donation-method-title">Donate in cryptocurrency</div>
+        <a
+          href="https://www.tip.md/batamladen"
+          target="_blank"
+          class="donation-link tip"
+        >
+          <i class="fab fa-bitcoin"></i>
+          <span>Tip.md</span>
+        </a>
+      </div>
     </div>
 
-    <ul class="challenge-list">
-        <!-- Challenges List -->
-        <a href="challanges.html" class="challenge-item" data-challenge="challenges">
-            Challenges
-        </a>
+    <button class="cancel-button" id="closePopup">CLOSE</button>
+  </div>
 
-        <!-- Write Ups List -->
-        <a href="writeups.html" class="challenge-item" data-challenge="writeups">
-            Write Ups
-        </a>
-
-        <!-- FAQ List -->
-        <a href="faq.html" class="challenge-item" data-challenge="faq">
-            FAQ
-        </a>
-
-        <!-- Contact List -->
-        <a href="contact.html" class="challenge-item" data-challenge="contact">
-            Contact
-        </a>
+  <div class="sidebar">
+    <ul class="challenge-list" id="sidebarList">
+      <!-- User item will be inserted here if logged in -->
+      <a href="challenges.html" class="challenge-item" data-challenge="challenges">CHALLENGES</a>
+      <a href="writeups.html" class="challenge-item" data-challenge="writeups">WRITE UPS</a>
+      <a href="faq.html" class="challenge-item" data-challenge="faq">FAQ</a>
+      <a href="contact.html" class="challenge-item" data-challenge="contact">CONTACT</a>
     </ul>
+  </div>
 
-</div>
-
-    <!-- The Shadows Content -->
+  <div class="content-wrapper">
     <div class="main-content">
-        <div class="challenge-container" id="shadows-container">
+        <div class="challenge-container" id="jugsaw-container">
             <h1 class="challenge-title">Jugsaw</h1>
             <div class="challenge-description">
                 <p>
@@ -309,7 +648,7 @@
                 <h3>Challenge Levels</h3>
                 
                 <!-- Level 0 -->
-                <div class="level-item">
+                <div class="level-item" data-level="jugsaw-0">
                     <div class="level-info">
                         <div class="level-title">Level 0: Entry Point</div>
                         <div class="level-description">
@@ -318,111 +657,172 @@
                         </div>
                     </div>
                     <button type="button" class="start-btn" id="start-btn-jugsaw-0" onclick="startChallenge('jugsaw', '0')">Start</button>
-                    <div class="ssh-output" id="output-jugsaw-0"></div>
-
+                    <div class="ssh-info" id="output-jugsaw-0"></div>
                 </div>
                 
                 <!-- Level 1 -->
-                <div class="level-item">
+                <div class="level-item" data-level="jugsaw-1">
                     <div class="level-info">
                         <div class="level-title">Level 1: First Game</div>
                         <div class="level-description">Cut to Escape.</div>
                     </div>
                     <button type="button" class="start-btn" id="start-btn-jugsaw-1" onclick="startChallenge('jugsaw', '1')">Start</button>
-                    <div class="ssh-output" id="output-jugsaw-1"></div>
+                    <div class="ssh-info" id="output-jugsaw-1"></div>
                 </div>
 
-                <!-- Level 1 -->
-                <div class="level-item">
+                <!-- Level 2 -->
+                <div class="level-item" data-level="jugsaw-2">
                     <div class="level-info">
                         <div class="level-title">Level 2: The Necklace</div>
                         <div class="level-description">The necklace will tighten if not unlocked at the right time.</div>
                     </div>
                     <button type="button" class="start-btn" id="start-btn-jugsaw-2" onclick="startChallenge('jugsaw', '2')">Start</button>
-                    <div class="ssh-output" id="output-jugsaw-2"></div>
+                    <div class="ssh-info" id="output-jugsaw-2"></div>
                 </div>
 
                 <!-- Level 3 -->
-                <div class="level-item">
+                <div class="level-item" data-level="jugsaw-3">
                     <div class="level-info">
                         <div class="level-title">Level 3: Forgiveness</div>
                         <div class="level-description">Learn to Clean & Forgive.</div>
                     </div>
                     <button type="button" class="start-btn" id="start-btn-jugsaw-3" onclick="startChallenge('jugsaw', '3')">Start</button>
-                    <div class="ssh-output" id="output-jugsaw-3"></div>
+                    <div class="ssh-info" id="output-jugsaw-3"></div>
                 </div>
 
                 <!-- Level 4 -->
-                <div class="level-item">
+                <div class="level-item" data-level="jugsaw-4">
                     <div class="level-info">
                         <div class="level-title">Level 4: Ice Block</div>
                         <div class="level-description">Save Your Friend Before The Ice Melts.</div>
                     </div>
                     <button type="button" class="start-btn" id="start-btn-jugsaw-4" onclick="startChallenge('jugsaw', '4')">Start</button>
-                    <div class="ssh-output" id="output-jugsaw-4"></div>
+                    <div class="ssh-info" id="output-jugsaw-4"></div>
                 </div>
 
                 <!-- Level 5 -->
-                <div class="level-item">
+                <div class="level-item" data-level="jugsaw-5">
                     <div class="level-info">
                         <div class="level-title">Level 5: Key of Life</div>
                         <div class="level-description">Save Your Friend Before The Ice Melts.</div>
                     </div>
                     <button type="button" class="start-btn" id="start-btn-jugsaw-5" onclick="startChallenge('jugsaw', '5')">Start</button>
-                    <div class="ssh-output" id="output-jugsaw-5"></div>
+                    <div class="ssh-info" id="output-jugsaw-5"></div>
                 </div>
-
-           
-            </div>
-
-            <!-- Final Flag Submission Section -->
-        <div style="text-align: center; margin-top: 50px; padding-bottom: 40px;">
-            <h3>Final Flag</h3>
-            <input type="text" id="final-flag-input" placeholder="Enter the final flag" style="padding: 6px; margin-left: 100px; width: 230px; border-radius: 5px; border: 1px solid #333;">
-            <button onclick="checkFinalFlag()" style="padding: 7px 20px; margin-left: 10px; border-radius: 5px; background-color: var(--accent-color); color: rgb(255, 255, 255); border: none;">Submit</button>
+            </div>            
         </div>
-
-
     </div>
+  </div>
 
+  <div id="mobile-warning">
+    <p>THIS PLATFORM IS BEST EXPERIENCED ON A DESKTOP DEVICE.</p>
+    <p>PLEASE VISIT US USING A DESKTOP BROWSER.<br />⚠️</p>
+  </div>
 
+<script>
+  const solvedLevels = new Set();
 
+  // Mobile warning
+  if (window.innerWidth <= 768) {
+    document.getElementById("mobile-warning").style.display = "block";
+    [...document.body.children].forEach((child) => {
+      if (child.id !== "mobile-warning") {
+        child.style.display = "none";
+      }
+    });
+  }
 
+  // Donation popup handlers
+  const donateButton = document.getElementById("donateButton");
+  const donationPopup = document.getElementById("donationPopup");
+  const overlay = document.getElementById("overlay");
+  const closePopup = document.getElementById("closePopup");
 
-    <script>
-    async function startChallenge(challenge, level) {
+  donateButton.addEventListener("click", () => {
+    donationPopup.style.display = "block";
+    overlay.style.display = "block";
+  });
+
+  closePopup.addEventListener("click", () => {
+    donationPopup.style.display = "none";
+    overlay.style.display = "none";
+  });
+
+  overlay.addEventListener("click", () => {
+    donationPopup.style.display = "none";
+    overlay.style.display = "none";
+  });
+
+  // Scroll hide/show header functionality
+  let lastScroll = 0;
+  const header = document.querySelector(".header");
+
+  window.addEventListener("scroll", () => {
+    const currentScroll = window.pageYOffset;
+
+    if (currentScroll <= 0) {
+      header.classList.remove("hide");
+      return;
+    }
+
+    if (currentScroll > lastScroll && !header.classList.contains("hide")) {
+      // Scroll down
+      header.classList.add("hide");
+    } else if (currentScroll < lastScroll && header.classList.contains("hide")) {
+      // Scroll up
+      header.classList.remove("hide");
+    }
+
+    lastScroll = currentScroll;
+  });
+
+  // Start challenge function with SSH info and flag input
+async function startChallenge(challenge, level) {
     const startBtn = document.getElementById(`start-btn-${challenge}-${level}`);
     const outputDiv = document.getElementById(`output-${challenge}-${level}`);
-    
+
     startBtn.disabled = true;
     startBtn.innerText = "Starting...";
 
     try {
         const response = await fetch("https://api.wargames.batamladen.com/api/start", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ challenge, level })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ challenge, level }),
         });
 
         const data = await response.json();
 
         if (response.ok) {
+            // Check if level is solved
+            const isSolved = solvedLevels.has(`${challenge}-${level}`);
+            
             outputDiv.innerHTML = `
 <pre>
 <b>SSH Access:</b>
 ssh ${data.username}@${data.host} -p ${data.port}
-</pre>`;
+</pre>
+<div id="flag-form-${challenge}-${level}" style="margin-top:10px; display:flex; gap:10px; align-items:center;">
+    <input type="text" 
+           placeholder="${isSolved ? "This level is completed" : "Enter flag here..."}" 
+           id="flag-input-${challenge}-${level}" 
+           style="flex:1; padding:6px 12px; border-radius:4px; border:1px solid #333; font-family:'Open Sans', sans-serif; background-color: ${isSolved ? '#2a2a2a' : 'inherit'}; color: ${isSolved ? 'gray' : 'inherit'};"
+           ${isSolved ? "readonly disabled" : ""}>
+    <button style="min-width:110px; padding:7px 14px; border:none; border-radius:4px; background-color: ${isSolved ? 'gray' : 'var(--accent-color)'}; color:white; font-family:'League Spartan', sans-serif; cursor:${isSolved ? 'not-allowed' : 'pointer'};"
+        onclick="${isSolved ? '' : `submitFlag('${challenge}', '${level}')`}"
+        ${isSolved ? "disabled" : ""}>
+        ${isSolved ? "Completed" : "Submit"}
+    </button>
+</div>`;
 
-            // Hide the start button on success
-            startBtn.style.display = 'none';
+            outputDiv.classList.add("active");
+            // Hide the start button (original behavior)
+            startBtn.style.display = "none";
         } else {
             outputDiv.innerHTML = `<b>Error:</b> ${data.error}`;
             startBtn.disabled = false;
             startBtn.innerText = "Start";
         }
-
     } catch (error) {
         outputDiv.innerHTML = `<b>Connection failed:</b> ${error}`;
         startBtn.disabled = false;
@@ -430,55 +830,298 @@ ssh ${data.username}@${data.host} -p ${data.port}
     }
 }
 
-    </script>
+  // Submit flag function, sends flag to API with auth token
+async function submitFlag(challenge, level) {
+    const input = document.getElementById(`flag-input-${challenge}-${level}`).value.trim();
+    const token = localStorage.getItem("token");
 
-
-
-<script>
-function checkFinalFlag() {
-    const correctFlag = "Not_Defined_Yet";
-    const input = document.getElementById("final-flag-input").value.trim();
-
-    if (input === correctFlag) {
-        confetti({
-            particleCount: 200,
-            spread: 120,
-            origin: { y: 0.6 }
-        });
-
-        // Show success popup
+    if (!token) {
         Swal.fire({
-            title: "🎉 Congratulations Walker!",
-            html: `
-                You are not yet lost.<br><br>
-                The Shadows have claimed many, but you still carry a spark.<br>
-                Don’t let regret become your prison.<br><br>
-                Time remains, and with it, the power to choose your path.
-            `,
-            customClass: {
-                popup: 'custom-flag-popup'
+            title: "⚠️ Not logged in",
+            text: "You can play the challenges anonymously, but to submit flags you need to be logged in.",
+            icon: "warning",
+        });
+        return;
+    }
+
+    try {
+        const response = await fetch("https://api.wargames.batamladen.com/api/auth/submit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
             },
-            confirmButtonText: 'Finish ✨',
+            body: JSON.stringify({
+                game: challenge,
+                level: `level${level}`,
+                flag: input,
+            }),
         });
 
+        const data = await response.json();
 
-    } else {
-        // Show failure popup
+        if (response.ok && data.success) {
+            // Add to solved levels set
+            solvedLevels.add(`${challenge}-${level}`);
+            
+            Swal.fire({
+                title: "🎉 Flag accepted!",
+                text: data.message || "Good job!",
+                icon: "success",
+            });
+
+            // Change level box color to green
+            const startButton = document.getElementById(`start-btn-${challenge}-${level}`);
+            const levelItem = startButton?.closest(".level-item");
+            if (levelItem) {
+                levelItem.classList.add("solved");
+                startButton.classList.add("solved-btn");
+            }
+
+            // Disable the flag input and submit button
+            const flagInput = document.getElementById(`flag-input-${challenge}-${level}`);
+            const submitButton = flagInput?.nextElementSibling;
+            
+            if (flagInput && submitButton) {
+                flagInput.placeholder = "This level is completed";
+                flagInput.readOnly = true;
+                flagInput.disabled = true;
+                flagInput.style.backgroundColor = "#2a2a2a";
+                flagInput.style.color = "gray";
+                
+                submitButton.disabled = true;
+                submitButton.style.backgroundColor = "gray";
+                submitButton.style.cursor = "not-allowed";
+                submitButton.textContent = "Completed";
+                submitButton.onclick = null;
+            }
+
+            // Update aura points display after success
+            updateAuraDisplay();
+
+            // Check if all levels are completed
+            checkAllLevelsCompleted();
+        } else {
+            Swal.fire({
+                title: "❌ Flag rejected",
+                text: data.message || "Try again.",
+                icon: "error",
+            });
+        }
+    } catch (error) {
         Swal.fire({
-            title: "❌ Incorrect Flag",
-            text: "The Shadows are not ready to let go yet.",
+            title: "⚠️ Error",
+            text: "Failed to submit flag: " + error,
             icon: "error",
-            customClass: {
-                popup: 'custom-error-popup'
-            },
-            confirmButtonText: "Try Again"
         });
-
     }
 }
+
+
+
+// New function to check if all levels are completed
+function checkAllLevelsCompleted() {
+    // Get all level items
+    const levelItems = document.querySelectorAll('.level-item');
+    let allCompleted = true;
+    
+    // Check if each level has the 'solved' class
+    levelItems.forEach(item => {
+        if (!item.classList.contains('solved')) {
+            allCompleted = false;
+        }
+    });
+    
+    if (allCompleted) {
+        // Show completion popup
+        Swal.fire({
+            title: "🎉 Challenge Complete!",
+            html: "Congratulations on completing Jugsaw!"<br>"You can request your certificate via mail."<br>"More details about certificate issuing in FAQ.",
+            icon: "success",
+            customClass: {
+                popup: "custom-flag-popup", // This uses the jugsaw_thumbnail.webp image
+            },
+        });
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+        });
+    }
+}
+
+  // Fetch and update aura points from API
+  async function updateAuraDisplay() {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const response = await fetch("https://api.wargames.batamladen.com/api/auth/aura_points", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        const auraContainer = document.querySelector(".aura-container");
+        if (auraContainer) {
+          auraContainer.innerHTML = `
+            <img src="images/aura.webp" class="aura-icon" alt="Aura Icon">
+            <span class="aura-points">Aura Points: ${data.total_aura}</span>
+          `;
+        }
+      }
+    } catch (err) {
+      console.error("Error updating aura points:", err);
+    }
+  }
+
+  // Load solved levels and mark them in UI
+async function markSolvedLevels() {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    try {
+        const response = await fetch("https://api.wargames.batamladen.com/api/auth/myprogress", {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            data.progress.forEach(entry => {
+                const { series, level } = entry;
+                solvedLevels.add(`${series}-${level}`);
+
+                const startBtn = document.getElementById(`start-btn-${series}-${level}`);
+                const levelBox = startBtn?.closest('.level-item');
+                if (levelBox) {
+                    levelBox.classList.add("solved");
+                    // Ensure the start button gets the solved styling
+                    startBtn.classList.add("solved-btn");
+                }
+            });
+            
+            checkAllLevelsCompleted();
+        }
+    } catch (err) {
+        console.error("Error loading progress:", err);
+    }
+}
+
+  // --- User login detection and UI adjustment ---
+  const token = localStorage.getItem("token");
+  const username = localStorage.getItem("username");
+  const headerRight = document.getElementById("headerRight");
+  const sidebarList = document.getElementById("sidebarList");
+
+  if (token && username) {
+    // USER IS LOGGED IN
+
+    // Update header (remove login/register, add aura points container)
+    headerRight.innerHTML = "";
+
+    const auraContainer = document.createElement("div");
+    auraContainer.classList.add("aura-container");
+	
+	    // Initially empty, will be filled by updateAuraDisplay()
+    auraContainer.innerHTML = `
+      <img src="images/aura.webp" class="aura-icon" alt="Aura Icon">
+      <span class="aura-points">Aura Points: ...</span>
+    `;
+
+    headerRight.appendChild(auraContainer);
+
+    // Fetch and update actual aura points now
+    updateAuraDisplay();
+
+    // Update sidebar (add user block and logout, preserve other items)
+    const existingItems = Array.from(sidebarList.children);
+
+    // Clear sidebar but keep a reference to the original items
+    const originalItems = [];
+    existingItems.forEach((item) => {
+      if (!item.classList.contains("logout-button")) {
+        originalItems.push(item.cloneNode(true));
+      }
+    });
+
+    sidebarList.innerHTML = "";
+
+    // Add user block
+    const userContainer = document.createElement("li");
+    userContainer.classList.add("user-block-container");
+
+    const userBg = document.createElement("div");
+    userBg.classList.add("user-block-bg");
+    userBg.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 80%)`;
+
+    const usernameDisplay = document.createElement("div");
+    usernameDisplay.classList.add("username-display");
+    usernameDisplay.textContent = username;
+
+    userContainer.appendChild(userBg);
+    userContainer.appendChild(usernameDisplay);
+    sidebarList.appendChild(userContainer);
+
+    // Re-add original items
+    originalItems.forEach((item) => {
+      sidebarList.appendChild(item);
+    });
+
+    // Add logout button
+    const logoutButton = document.createElement("a");
+    logoutButton.classList.add("logout-button");
+    logoutButton.href = "#";
+    logoutButton.textContent = "LOGOUT";
+
+    logoutButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      window.location.href = "index.html";
+    });
+
+    sidebarList.appendChild(logoutButton);
+  } else {
+    // USER IS LOGGED OUT - RESET TO DEFAULT STATE
+
+    // Reset header to default (login/register buttons)
+    headerRight.innerHTML = `
+      <a href="/login.html" class="auth-button" id="loginBtn">Login</a>
+      <a href="register.html" class="auth-button" id="registerBtn">Register</a>
+    `;
+
+    // Reset sidebar to default items
+    const defaultItems = [
+      { href: "challenges.html", text: "CHALLENGES", data: "challenges" },
+      { href: "writeups.html", text: "WRITE UPS", data: "writeups" },
+      { href: "faq.html", text: "FAQ", data: "faq" },
+      { href: "contact.html", text: "CONTACT", data: "contact" },
+    ];
+
+    // Clear any existing items (in case there was a logout)
+    sidebarList.innerHTML = "";
+
+    // Add default items
+    defaultItems.forEach((item) => {
+      const link = document.createElement("a");
+      link.href = item.href;
+      link.className = "challenge-item";
+      link.dataset.challenge = item.data;
+      link.textContent = item.text;
+      sidebarList.appendChild(link);
+    });
+
+    document.querySelector(".sidebar").classList.add("logged-out");
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    markSolvedLevels();
+  });
 </script>
-
-
 
 </body>
 </html>
+

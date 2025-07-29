@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wargames BataMladen</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="icon" type="image/png" href="images/wargames-logo.ico">
-
-    <style>
+  <title>WGM &ndash; Home</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wargames BataMladen</title>
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" type="image/png" href="images/wargames-logo.ico">
+  
+  <style>
+    
         :root {
             --bg-dark: #121212;
             --bg-darker: #0a0a0a;
@@ -19,16 +21,12 @@
             --text-secondary: #b0b0b0;
             --border-color: #333;
         }
-        
-        .logo {
-            width: 120px;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
 
+        /* Font Styles */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
             margin: 0;
             padding: 0;
             background-color: var(--bg-dark);
@@ -36,13 +34,147 @@
             min-height: 100vh;
         }
 
+        p, ul, li, .welcome-container {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 400;
+        }
+
+        /* League Spartan for headings and buttons */
+        .title, h1, h2, h3, h4, h5, h6,
+        .auth-button, .donate-float,
+        .donation-popup h2, .donation-method-title {
+            font-family: 'League Spartan', sans-serif;
+            font-weight: 550;
+            letter-spacing: -0.5px;
+        }
+
+        .title {
+            font-size: 3.0rem;
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 2.0rem;
+            color: var(--accent-color);
+            margin-top: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 5px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-top: 1.5em;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: var(--bg-darker);
+            padding: 0 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .header.hide {
+            transform: translateY(-100%);
+        }
+
+        .header-logo {
+            padding-top: 7.5px;
+            height: 60px;
+            width: auto;
+            margin-left: 20px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-right: 110px;
+        }
+
+        .auth-button {
+            background: transparent;
+            border: 0px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .auth-button:hover {
+            color: #815bbe;
+            background-color: transparent;
+        }
+
+        .donate-float {
+            background-color: #f96854;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 1.0rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(249, 104, 84, 0.3);
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .donate-float:hover {
+            background-color: #e34b39;
+            box-shadow: 0 0px 0px rgba(249, 104, 84, 0.5);
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 220px;
+            background-color: var(--bg-darker);
+            border-right: 1px solid var(--border-color);
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding-top: 0px;
+            box-sizing: border-box;
+        }
+
+        .header.hide + .sidebar {
+            padding-top: 0;
+        }
+
+        .challenge-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
         .challenge-item {
+            font-family: 'League Spartan', sans-serif; /* Changed from Segoe UI */
+            font-weight: 300; /* Matches buttons/headings */
+            letter-spacing: -0.5px; /* Consistent with titles */
+            font-size: 1.0rem;
             display: block;
             padding: 15px 20px;
             cursor: pointer;
             border-left: 3px solid transparent;
             transition: all 0.2s;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             color: inherit;
             text-decoration: none;
         }
@@ -53,36 +185,18 @@
             border-left: 3px solid var(--accent-color);
         }
 
-        .sidebar {
-            width: 250px;
-            background-color: var(--bg-darker);
-            border-right: 1px solid var(--border-color);
-            height: 100vh;
-            overflow-y: auto;
-            position: fixed;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
-            text-align: center;
-        }
-
-        .sidebar-header a {
-            text-decoration: none;
-        }
-
-        .challenge-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
+        /* Content Styles */
         .content-wrapper {
-            margin-left: 250px;
+            margin-left: 220px;
+            margin-top: 60px;
             display: flex;
             justify-content: center;
-            min-height: 100vh;
+            min-height: calc(100vh - 60px);
+            transition: margin-top 0.3s ease-in-out;
+        }
+
+        .header.hide + .sidebar + .content-wrapper {
+            margin-top: 0;
         }
 
         .main-content {
@@ -110,35 +224,21 @@
             to { transform: rotate(360deg); }
         }
 
-        .title {
-            color: var(--accent-color);
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2.5rem;
-        }
-
         .welcome-container {
             background-color: var(--bg-container);
             border-radius: 8px;
             padding: 30px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        .welcome-container h2 {
-            color: var(--accent-color);
-            margin-top: 0;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
         }
 
         .welcome-container code {
+            font-family: 'JetBrains Mono', monospace;
             background-color: rgba(0, 0, 0, 0.3);
             padding: 2px 5px;
             border-radius: 3px;
-            font-family: monospace;
             color: #f8f8f8;
+            font-size: 0.9em;
         }
 
         .disclaimer {
@@ -151,16 +251,33 @@
 
         .disclaimer strong {
             color: #ff6b6b;
+            font-family: 'Open Sans', sans-serif;
         }
 
+        /* Mobile Styles */
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
                 height: auto;
                 position: relative;
+                top: 0;
+                padding-top: 60px;
             }
             .content-wrapper {
                 margin-left: 0;
+                margin-top: 60px;
+            }
+            .header-logo {
+                margin-left: 20px;
+            }
+            .header-right {
+                margin-right: 10px;
+            }
+            .donate-float {
+                top: 70px;
+            }
+            .title {
+                font-size: 2.5rem;
             }
         }
 
@@ -179,34 +296,10 @@
             text-align: center;
             font-size: 1.5rem;
             line-height: 2rem;
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'League Spartan', sans-serif;
         }
 
-        .donate-float {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: #f96854;
-            color: white;
-            padding: 10px 18px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            z-index: 1000;
-            box-shadow: 0 4px 10px rgba(249, 104, 84, 0.3);
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .donate-float:hover {
-            background-color: #e34b39;
-            box-shadow: 0 6px 15px rgba(249, 104, 84, 0.5);
-            transform: translateY(-2px);
-        }
-
-        /* Updated Donation Popup */
+        /* Donation Popup */
         .donation-popup {
             display: none;
             position: fixed;
@@ -223,14 +316,6 @@
             border: 1px solid var(--border-color);
         }
 
-        .donation-popup h3 {
-            color: white;
-            margin: 0 0 15px 0;
-            padding: 0;
-            font-size: 1.2rem;
-            font-weight: normal;
-        }
-
         .donation-options {
             margin: 0;
             padding: 0;
@@ -238,12 +323,6 @@
 
         .donation-method {
             margin-bottom: 12px;
-        }
-
-        .donation-method-title {
-            color: white;
-            margin: 0 0 5px 0;
-            font-size: 0.9rem;
         }
 
         .donation-link {
@@ -259,6 +338,7 @@
             border: 1px solid var(--border-color);
             width: 80%;
             margin: 0 auto;
+            font-family: 'Open Sans', sans-serif;
         }
 
         .donation-link:hover {
@@ -279,16 +359,12 @@
             color: #ddd428;
         }
 
-        .tipmd-badge {
-            height: 18px;
-            margin-right: 8px;
-        }
-
         .cancel-button {
             background: none;
             border: none;
             color: var(--text-secondary);
-            font-size: 0.8rem;
+            font-family: 'League Spartan', sans-serif;
+            font-size: 1.1rem;
             cursor: pointer;
             padding: 4px 8px;
             border-radius: 4px;
@@ -311,142 +387,382 @@
             background-color: rgba(0, 0, 0, 0.7);
             z-index: 1000;
         }
-    </style>
-</head>
-<body>
 
-<button class="donate-float" id="donateButton">Donate!</button>
 
-<div class="overlay" id="overlay"></div>
-<div class="donation-popup" id="donationPopup">
-    <h2>Support Our Work</h2>
-    
-    <div class="donation-options">
 
-        <div class="donation-method">
-            <div class="donation-method-title">Donate via Patreon</div>
-            <a href="https://www.patreon.com/WargamesBataMladen" target="_blank" class="donation-link patreon">
-                <i class="fab fa-patreon"></i>
-                <span>Patreon</span>
-            </a>
-        </div>
-        
-        <div class="donation-method">
-            <div class="donation-method-title">Donate in cryptocurrency</div>
-            <a href="https://www.tip.md/batamladen" target="_blank" class="donation-link tip">
-                <i class="fab fa-bitcoin"></i>
-                <span>Tip.md</span>
-            </a>
-        </div>
-    </div>
-    
-    <button class="cancel-button" id="closePopup">Close</button>
-</div>
-
-<div class="sidebar">
-    <div class="sidebar-header">
-        <a href="home.html">
-            <img src="/images/wargames logo.webp" alt="Wargames Logo" class="logo">
-        </a>
-    </div>
-
-    <ul class="challenge-list">
-        <a href="challanges.html" class="challenge-item" data-challenge="challenges">
-            Challenges
-        </a>
-        <a href="writeups.html" class="challenge-item" data-challenge="writeups">
-            Write Ups
-        </a>
-        <a href="faq.html" class="challenge-item" data-challenge="faq">
-            FAQ
-        </a>
-        <a href="contact.html" class="challenge-item" data-challenge="contact">
-            Contact
-        </a>
-    </ul>
-</div>
-
-<div class="content-wrapper">
-    <div class="main-content">
-        <div class="logo-container">
-            <img src="images/wargames logo.webp" alt="Wargames Logo" class="home-logo">
-        </div>
-
-        <h1 class="title">Wargames by BataMladen</h1>
-
-        <div class="welcome-container">
-            <h2>Welcome</h2>
-            <p>This platform hosts a series of cybersecurity challenges designed to test your red and blue team skills as well as problem-solving abilities. Each challenge consists of multiple levels that progressively increase in difficulty.</p>
-            <br>
-
-            <h3>How It Works</h3>
-            <p>To participate in the challenges, you'll need to SSH into our systems:</p>
-            <ul>
-                <li>Each level has its own dedicated port on our server</li>
-                <li>The <strong>Entry Point</strong> password is always provided for the first level</li>
-                <li>Subsequent levels require you to find flags that serve as passwords</li>
-                <li>Each level's flag is the password for the next level</li>
-            </ul>
-            <br>
-
-            <h3>Example SSH command for a challenge:</h3>
-            <code>ssh username@123.456.321.654 -p 1234</code>
-            
-            <br><br>
-            <div class="disclaimer">
-                <strong>IMPORTANT:</strong> Take notes of all passwords/flags you find! The system won't remember them for you.
-            </div>
-            
-            <p>Ready to test your skills? Click on a challange you like and start conquering.</p>
-        </div>
-
-        <div class="welcome-container">
-            <h2>Rules</h2>
-            <ul>
-                <li>Please no DoS attacks of any kind</li>
-                <li>Don't bruteforce flag submission</li>
-                <li>Kindly report any bugs you find</li>
-                <li>Have Fun!</li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-<div id="mobile-warning">
-    <p>This platform is best experienced on a desktop device.</p>
-    <p>Please visit us using a desktop browser.<br>⚠️</p>
-</div>
-
-<script>
-    if (window.innerWidth <= 768) {
-        document.getElementById("mobile-warning").style.display = "block";
-        [...document.body.children].forEach(child => {
-            if (child.id !== "mobile-warning") {
-                child.style.display = "none";
-            }
-        });
+    /* Replace the existing .aura-points with this: */
+    .aura-container {
+        display: flex;
+        align-items: center;
+        padding-top: 2px;
+        gap: 0px;
     }
 
-    const donateButton = document.getElementById('donateButton');
-    const donationPopup = document.getElementById('donationPopup');
-    const overlay = document.getElementById('overlay');
-    const closePopup = document.getElementById('closePopup');
+    .aura-points {
+        font-family: 'League Spartan', sans-serif;
+        font-weight: 550;
+        background: transparent;
+        border: 0px solid var(--border-color);
+        color: var(--text-primary);
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 1.0rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
 
-    donateButton.addEventListener('click', () => {
-        donationPopup.style.display = 'block';
-        overlay.style.display = 'block';
+    .aura-icon {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        padding-bottom: 3px;
+    }
+
+    /* Replace the existing .user-sidebar-item with these new styles */
+    .user-block-container {
+        padding: 0;
+        margin-bottom: 0px;
+        border-radius: 4px;
+        min-height: 120px; /* Adjust height as needed */
+        position: relative; /* Needed for absolute positioning of text */
+    }
+
+    .user-block-bg {
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .username-display {
+        font-family: 'League Spartan', sans-serif;
+        font-weight: 700;
+        color: white;
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        /* Adjust these to position the text exactly where you want */
+        bottom: 20px; /* Example: 20px from bottom */
+        left: 0;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+
+    .logout-button {
+        font-family: 'League Spartan', sans-serif;
+        font-weight: 300;
+        letter-spacing: -0.5px;
+        font-size: 1.0rem;
+        display: block;
+        padding: 15px 20px;
+        cursor: pointer;
+        border-left: 3px solid transparent;
+        transition: all 0.2s;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        color: #ff6b6b;
+        text-decoration: none;
+        text-align: left;
+    }
+
+    .logout-button:hover {
+        background-color: rgba(255, 107, 107, 0.1);
+        border-left: 3px solid #ff6b6b;
+    }
+
+    .sidebar.logged-out {
+      padding-top: 60px !important;
+    }
+
+
+  </style>
+</head>
+<body>
+<header class="header">
+  <a href="home.html">
+    <img
+      src="images/wargame header logo 3 banner.webp"
+      alt="Wargames Logo"
+      class="header-logo"
+    />
+  </a>
+  <div class="header-right" id="headerRight">
+    <a href="/login.html" class="auth-button" id="loginBtn">Login</a>
+    <a href="register.html" class="auth-button" id="registerBtn">Register</a>
+  </div>
+</header>
+
+
+  <button class="donate-float" id="donateButton">Donate!</button>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="donation-popup" id="donationPopup">
+    <h2>SUPPORT US</h2>
+
+    <div class="donation-options">
+      <div class="donation-method">
+        <div class="donation-method-title">Donate via Patreon</div>
+        <a
+          href="https://www.patreon.com/WargamesBataMladen"
+          target="_blank"
+          class="donation-link patreon"
+        >
+          <i class="fab fa-patreon"></i>
+          <span>Patreon</span>
+        </a>
+      </div>
+
+      <div class="donation-method">
+        <div class="donation-method-title">Donate in cryptocurrency</div>
+        <a
+          href="https://www.tip.md/batamladen"
+          target="_blank"
+          class="donation-link tip"
+        >
+          <i class="fab fa-bitcoin"></i>
+          <span>Tip.md</span>
+        </a>
+      </div>
+    </div>
+
+    <button class="cancel-button" id="closePopup">CLOSE</button>
+  </div>
+
+  <div class="sidebar">
+    <ul class="challenge-list" id="sidebarList">
+      <!-- User item will be inserted here if logged in -->
+      <a href="challenges.html" class="challenge-item" data-challenge="challenges">CHALLENGES</a>
+      <a href="writeups.html" class="challenge-item" data-challenge="writeups">WRITE UPS</a>
+      <a href="faq.html" class="challenge-item" data-challenge="faq">FAQ</a>
+      <a href="contact.html" class="challenge-item" data-challenge="contact">CONTACT</a>
+    </ul>
+  </div>
+
+  <div class="content-wrapper">
+    <div class="main-content">
+      <div class="logo-container">
+        <img src="images/wargames logo.webp" alt="Wargames Logo" class="home-logo" />
+      </div>
+
+      <h1 class="title">Wargames By BataMladen</h1>
+
+      <div class="welcome-container">
+        <h2>Welcome</h2>
+        <p>
+          This platform hosts a series of cybersecurity challenges designed to
+          test your red and blue team skills as well as problem-solving
+          abilities. Each challenge consists of multiple levels that
+          progressively increase in difficulty.
+        </p>
+        <br />
+
+        <h3>How It Works</h3>
+        <p>To participate in the challenges, you'll need to SSH into our systems:</p>
+        <ul>
+          <li>Each level has its own dedicated port on our server</li>
+          <li>The <strong>Entry Point</strong> password is always provided for the first level</li>
+          <li>Subsequent levels require you to find flags that serve as passwords</li>
+          <li>Each level's flag is the password for the next level</li>
+        </ul>
+        <br />
+
+        <h3>Example SSH</h3>
+        <code>ssh username@123.456.321.654 -p 1234</code>
+
+        <br /><br />
+        <div class="disclaimer">
+          <strong>IMPORTANT:</strong> Take notes of all passwords/flags you find! The system won't remember them for you.
+        </div>
+
+        <p>Ready to test your skills? Click on a challenge you like and start conquering.</p>
+      </div>
+
+      <div class="welcome-container">
+        <h2>Rules</h2>
+        <ul>
+          <li>Please no DoS attacks of any kind</li>
+          <li>Don't bruteforce flag submission</li>
+          <li>Kindly report any bugs you find</li>
+          <li>Have Fun!</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="mobile-warning">
+    <p>THIS PLATFORM IS BEST EXPERIENCED ON A DESKTOP DEVICE.</p>
+    <p>PLEASE VISIT US USING A DESKTOP BROWSER.<br />⚠️</p>
+  </div>
+
+<script>
+    // Mobile warning
+    if (window.innerWidth <= 768) {
+      document.getElementById("mobile-warning").style.display = "block";
+      [...document.body.children].forEach((child) => {
+        if (child.id !== "mobile-warning") {
+          child.style.display = "none";
+        }
+      });
+    }
+
+    // Donation popup handlers
+    const donateButton = document.getElementById("donateButton");
+    const donationPopup = document.getElementById("donationPopup");
+    const overlay = document.getElementById("overlay");
+    const closePopup = document.getElementById("closePopup");
+
+    donateButton.addEventListener("click", () => {
+      donationPopup.style.display = "block";
+      overlay.style.display = "block";
     });
 
-    closePopup.addEventListener('click', () => {
-        donationPopup.style.display = 'none';
-        overlay.style.display = 'none';
+    closePopup.addEventListener("click", () => {
+      donationPopup.style.display = "none";
+      overlay.style.display = "none";
     });
 
-    overlay.addEventListener('click', () => {
-        donationPopup.style.display = 'none';
-        overlay.style.display = 'none';
+    overlay.addEventListener("click", () => {
+      donationPopup.style.display = "none";
+      overlay.style.display = "none";
     });
+
+    // Scroll hide/show header functionality
+    let lastScroll = 0;
+    const header = document.querySelector(".header");
+
+    window.addEventListener("scroll", () => {
+      const currentScroll = window.pageYOffset;
+
+      if (currentScroll <= 0) {
+        header.classList.remove("hide");
+        return;
+      }
+
+      if (currentScroll > lastScroll && !header.classList.contains("hide")) {
+        // Scroll down
+        header.classList.add("hide");
+      } else if (currentScroll < lastScroll && header.classList.contains("hide")) {
+        // Scroll up
+        header.classList.remove("hide");
+      }
+
+      lastScroll = currentScroll;
+    });
+
+    // --- User login detection and UI adjustment ---
+    const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
+    const headerRight = document.getElementById("headerRight");
+    const sidebarList = document.getElementById("sidebarList");
+
+    if (token && username) {
+        // USER IS LOGGED IN
+        
+        // Update header (remove login/register, add aura points)
+        headerRight.innerHTML = '';
+        
+        const auraContainer = document.createElement("div");
+        auraContainer.classList.add("aura-container");
+        
+        const auraIcon = document.createElement("img");
+        auraIcon.classList.add("aura-icon");
+        auraIcon.src = "images/aura.webp";
+        auraIcon.alt = "Aura Icon";
+        
+        const auraPoints = Math.floor(Math.random() * 900) + 100;
+        const auraSpan = document.createElement("span");
+        auraSpan.classList.add("aura-points");
+        auraSpan.textContent = `Aura Points: ${auraPoints}`;
+        
+        auraContainer.appendChild(auraIcon);
+        auraContainer.appendChild(auraSpan);
+        headerRight.appendChild(auraContainer);
+
+        // Update sidebar (add user block and logout, preserve other items)
+        const existingItems = Array.from(sidebarList.children);
+        
+        // Clear sidebar but keep a reference to the original items
+        const originalItems = [];
+        existingItems.forEach(item => {
+            if (!item.classList.contains('logout-button')) {
+                originalItems.push(item.cloneNode(true));
+            }
+        });
+        
+        sidebarList.innerHTML = '';
+        
+        // Add user block
+        const userContainer = document.createElement("li");
+        userContainer.classList.add("user-block-container");
+        
+        const userBg = document.createElement("div");
+        userBg.classList.add("user-block-bg");
+        userBg.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 80%)`;
+        
+        const usernameDisplay = document.createElement("div");
+        usernameDisplay.classList.add("username-display");
+        usernameDisplay.textContent = username;
+        
+        userContainer.appendChild(userBg);
+        userContainer.appendChild(usernameDisplay);
+        sidebarList.appendChild(userContainer);
+        
+        // Re-add original items
+        originalItems.forEach(item => {
+            sidebarList.appendChild(item);
+        });
+        
+        // Add logout button
+        const logoutButton = document.createElement("a");
+        logoutButton.classList.add("logout-button");
+        logoutButton.href = "#";
+        logoutButton.textContent = "LOGOUT";
+        
+        logoutButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            localStorage.removeItem("token");
+            localStorage.removeItem("username");
+            window.location.href = "index.html";
+        });
+        
+        sidebarList.appendChild(logoutButton);
+    } else {
+        // USER IS LOGGED OUT - RESET TO DEFAULT STATE
+        
+        // Reset header to default (login/register buttons)
+        headerRight.innerHTML = `
+            <button class="auth-button" id="loginBtn" onclick="window.location.href='/login.html'">Login</button>
+            <button class="auth-button" id="registerBtn" onclick="window.location.href='register.html'">Register</button>
+        `;
+        
+        // Reset sidebar to default items
+        const defaultItems = [
+            { href: "challenges.html", text: "CHALLENGES", data: "challenges" },
+            { href: "writeups.html", text: "WRITE UPS", data: "writeups" },
+            { href: "faq.html", text: "FAQ", data: "faq" },
+            { href: "contact.html", text: "CONTACT", data: "contact" }
+        ];
+        
+
+
+        // Clear any existing items (in case there was a logout)
+        sidebarList.innerHTML = '';
+        
+        // Add default items
+        defaultItems.forEach(item => {
+            const link = document.createElement("a");
+            link.href = item.href;
+            link.className = "challenge-item";
+            link.dataset.challenge = item.data;
+            link.textContent = item.text;
+            sidebarList.appendChild(link);
+        });
+        
+
+        document.querySelector('.sidebar').classList.add('logged-out');
+
+    }
 </script>
-
 </body>
 </html>
