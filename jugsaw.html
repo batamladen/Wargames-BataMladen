@@ -1,6 +1,6 @@
 <html lang="en">
 <head>
-  <title>WGM &ndash; Jugsaw</title>
+  <title>WBM &ndash; Jugsaw</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
@@ -631,6 +631,8 @@
       <a href="writeups.html" class="challenge-item" data-challenge="writeups">WRITE UPS</a>
       <a href="faq.html" class="challenge-item" data-challenge="faq">FAQ</a>
       <a href="contact.html" class="challenge-item" data-challenge="contact">CONTACT</a>
+      <a href="scoreboard.html" class="challenge-item" data-challenge="scoreboard">SCOREBOARD</a>
+
     </ul>
   </div>
 
@@ -640,7 +642,23 @@
             <h1 class="challenge-title">Jugsaw</h1>
             <div class="challenge-description">
                 <p>
-                    Jugsaw Desc
+                    “Live or die. Make your choice.”<br><br>
+
+                    Welcome to Jugsaw, a psychological reverse engineering challenge inspired by the Saw film series.<br> 
+                    Each level in this wargame challenge mirrors a scene from a corresponding Saw movie.<br>
+                    Players must confront traps, cryptic binaries, and moral dilemmas coded deep into each level.<br> <br>
+
+                    The mysterious figure known as Jugsaw appears through a flickering screen to deliver your objective... then vanishes.<br> 
+                    Just like in the movies, there are no coincidences — only consequences.<br> <br>
+
+                    You'll need critical thinking, time management, and the willingness to truly understand the system you're trapped in.<br>
+                    Reverse binaries, bypass traps, decode obfuscated clues — all while a timer ticks in the background.<br> <br>
+
+                    There’s no hand-holding.<br>
+                    There’s no escape without sacrifice.<br>
+                    The only question is:<br><br>
+
+                    How far are you willing to go to survive the game?
                 </p>
             </div>
             
@@ -830,7 +848,6 @@ ssh ${data.username}@${data.host} -p ${data.port}
     }
 }
 
-  // Submit flag function, sends flag to API with auth token
 async function submitFlag(challenge, level) {
     const input = document.getElementById(`flag-input-${challenge}-${level}`).value.trim();
     const token = localStorage.getItem("token");
@@ -899,8 +916,10 @@ async function submitFlag(challenge, level) {
             // Update aura points display after success
             updateAuraDisplay();
 
-            // Check if all levels are completed
-            checkAllLevelsCompleted();
+            // Check if all levels are completed - only if we haven't shown it before
+            if (!localStorage.getItem('jugsaw_completed_shown')) {
+                checkAllLevelsCompleted();
+            }
         } else {
             Swal.fire({
                 title: "❌ Flag rejected",
@@ -933,20 +952,28 @@ function checkAllLevelsCompleted() {
     });
     
     if (allCompleted) {
-        // Show completion popup
-        Swal.fire({
-            title: "🎉 Challenge Complete!",
-            html: "Congratulations on completing Jugsaw!"<br>"You can request your certificate via mail."<br>"More details about certificate issuing in FAQ.",
-            icon: "success",
-            customClass: {
-                popup: "custom-flag-popup", // This uses the jugsaw_thumbnail.webp image
-            },
-        });
-        confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 },
-        });
+        // Check if we've already shown this
+        if (!localStorage.getItem('jugsaw_completed_shown')) {
+            // Show completion popup
+            Swal.fire({
+                title: "🎉 Challenge Complete!",
+                html: "Congratulations on completing Jugsaw!<br>" +
+                      "You can request your certificate via mail.<br>" +
+                      "More details about certificate issuing in FAQ.",
+                icon: "success",
+                customClass: {
+                    popup: "custom-flag-popup",
+                },
+            });
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+            });
+            
+            // Set flag so we don't show it again
+            localStorage.setItem('jugsaw_completed_shown', 'true');
+        }
     }
 }
 
@@ -1003,7 +1030,10 @@ async function markSolvedLevels() {
                 }
             });
             
-            checkAllLevelsCompleted();
+            // Only check completion if we haven't shown the popup yet
+            if (!localStorage.getItem('jugsaw_completed_shown')) {
+                checkAllLevelsCompleted();
+            }
         }
     } catch (err) {
         console.error("Error loading progress:", err);
@@ -1053,9 +1083,13 @@ async function markSolvedLevels() {
     const userContainer = document.createElement("li");
     userContainer.classList.add("user-block-container");
 
-    const userBg = document.createElement("div");
+    const userBg = document.createElement("video");
     userBg.classList.add("user-block-bg");
-    userBg.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 80%)`;
+    userBg.setAttribute("autoplay", "");
+    userBg.setAttribute("loop", "");
+    userBg.setAttribute("muted", "");
+    userBg.setAttribute("playsinline", "");
+    userBg.innerHTML = `<source src="images/profile2.webm" type="video/webm">`;
 
     const usernameDisplay = document.createElement("div");
     usernameDisplay.classList.add("username-display");
@@ -1099,6 +1133,7 @@ async function markSolvedLevels() {
       { href: "writeups.html", text: "WRITE UPS", data: "writeups" },
       { href: "faq.html", text: "FAQ", data: "faq" },
       { href: "contact.html", text: "CONTACT", data: "contact" },
+      { href: "scoreboard.html", text: "SCOREBOARD", data: "scoreboard" }
     ];
 
     // Clear any existing items (in case there was a logout)
@@ -1106,12 +1141,18 @@ async function markSolvedLevels() {
 
     // Add default items
     defaultItems.forEach((item) => {
-      const link = document.createElement("a");
-      link.href = item.href;
-      link.className = "challenge-item";
-      link.dataset.challenge = item.data;
-      link.textContent = item.text;
-      sidebarList.appendChild(link);
+    const link = document.createElement("a");
+    link.href = item.href;
+    link.className = "challenge-item" + (item.active ? " active" : "");
+    link.dataset.challenge = item.data;
+    link.textContent = item.text;
+    
+    // Also check current page URL to set active state
+    if (window.location.pathname.endsWith(item.href)) {
+        link.classList.add("active");
+    }
+    
+    sidebarList.appendChild(link);
     });
 
     document.querySelector(".sidebar").classList.add("logged-out");

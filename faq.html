@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>WGM &ndash; FAQ</title>
+  <title>WBM &ndash; FAQ</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
@@ -555,6 +555,8 @@
     <a href="writeups.html" class="challenge-item" data-challenge="writeups">WRITE UPS</a>
     <a href="faq.html" class="challenge-item active" data-challenge="faq">FAQ</a>
     <a href="contact.html" class="challenge-item" data-challenge="contact">CONTACT</a>
+    <a href="scoreboard.html" class="challenge-item" data-challenge="scoreboard">SCOREBOARD</a>
+
   </ul>
 </div>
 
@@ -793,9 +795,13 @@
     const userContainer = document.createElement("li");
     userContainer.classList.add("user-block-container");
 
-    const userBg = document.createElement("div");
+    const userBg = document.createElement("video");
     userBg.classList.add("user-block-bg");
-    userBg.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 80%)`;
+    userBg.setAttribute("autoplay", "");
+    userBg.setAttribute("loop", "");
+    userBg.setAttribute("muted", "");
+    userBg.setAttribute("playsinline", "");
+    userBg.innerHTML = `<source src="images/profile2.webm" type="video/webm">`;
 
     const usernameDisplay = document.createElement("div");
     usernameDisplay.classList.add("username-display");
@@ -837,8 +843,9 @@
     const defaultItems = [
       { href: "challenges.html", text: "CHALLENGES", data: "challenges" },
       { href: "writeups.html", text: "WRITE UPS", data: "writeups" },
-      { href: "faq.html", text: "FAQ", data: "faq" },
+      { href: "faq.html", text: "FAQ", data: "faq", active: true },
       { href: "contact.html", text: "CONTACT", data: "contact" },
+      { href: "scoreboard.html", text: "SCOREBOARD", data: "scoreboard"}
     ];
 
     // Clear any existing items (in case there was a logout)
@@ -848,9 +855,15 @@
     defaultItems.forEach((item) => {
       const link = document.createElement("a");
       link.href = item.href;
-      link.className = "challenge-item";
+      link.className = "challenge-item" + (item.active ? " active" : "");
       link.dataset.challenge = item.data;
       link.textContent = item.text;
+      
+      // Also check current page URL to set active state
+      if (window.location.pathname.endsWith(item.href)) {
+        link.classList.add("active");
+      }
+      
       sidebarList.appendChild(link);
     });
 

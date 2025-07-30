@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>WBM &ndash; Challenges</title>
+  <title>WBM &ndash; Scoreboard</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="icon" type="image/png" href="images/wargames-logo.ico">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+  
   <style>
     :root {
         --bg-dark: #121212;
@@ -62,9 +61,10 @@
         padding-bottom: 5px;
     }
 
-    h3 {
-        font-size: 1.5rem;
-        margin-top: 1.5em;
+    h5 {
+        font-size: 1.3rem;
+        color: var(--accent-color);
+        margin-top: 30px;
     }
 
     /* Header Styles */
@@ -111,7 +111,7 @@
         font-size: 1.1rem;
         cursor: pointer;
         transition: all 0.2s;
-        text-decoration: none;
+        text-decoration: none; /* Added to remove underline */
     }
 
     .auth-button:hover {
@@ -201,64 +201,108 @@
 
     .main-content {
         width: 100%;
-        max-width: 1200px;
+        max-width: 900px;
         padding: 40px;
     }
 
-    /* Challenge Grid Styles */
-    .grid {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 30px;
-    }
-
-    .card {
+    /* Scoreboard Styles */
+    .scoreboard-container {
         background-color: var(--bg-container);
-        border-radius: 10px;
-        height: 350px; 
-        width: 250px;
-        overflow: hidden;
-        text-align: center;
-        box-shadow: 0 0 10px rgba(0,0,0,0.4);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-        cursor: pointer;
-        border: 1px solid var(--border-color);
-        position: relative;
+        border-radius: 8px;
+        padding: 30px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        margin-bottom: 30px;
     }
 
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0 20px rgba(110, 72, 170, 0.3);
-        border-color: var(--accent-color);
-    }
-
-    .card img {
+    .scoreboard-table {
         width: 100%;
-        height: 260px;
-        object-fit: contain;
-        padding: 0px;
-        background-color: var(--bg-dark);
+        border-collapse: collapse;
+        margin-top: 20px;
     }
 
-    .card h3 {
-        margin: 0;
-        padding: 20px;
-        font-size: 1.3em;
-        color: var(--text-primary);
+    .scoreboard-table th {
         font-family: 'League Spartan', sans-serif;
+        text-align: left;
+        padding: 12px 15px;
+        background-color: rgba(110, 72, 170, 0.2);
+        color: var(--accent-color);
     }
 
-    .card.completed::after {
-        content: "✓ COMPLETED";
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: var(--accent-color);
-        color: white;
-        padding: 3px 8px;
-        border-radius: 12px;
-        font-size: 0.8em;
+    .scoreboard-table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .scoreboard-table tr:last-child td {
+        border-bottom: none;
+    }
+
+
+    .position {
+        text-align: center;
+        width: 50px;
+    }
+
+    .points {
+        text-align: right;
+        width: 100px;
+    }
+
+    .separator {
+        height: 2px;
+        background-color: var(--accent-color);
+        margin: 20px 0;
+        opacity: 0.3;
+    }
+
+    .loading {
+        text-align: center;
+        padding: 20px;
+        color: var(--text-secondary);
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+        .sidebar {
+            width: 100%;
+            height: auto;
+            position: relative;
+            top: 0;
+            padding-top: 60px;
+        }
+        .content-wrapper {
+            margin-left: 0;
+            margin-top: 60px;
+        }
+        .header-logo {
+            margin-left: 20px;
+        }
+        .header-right {
+            margin-right: 10px;
+        }
+        .donate-float {
+            top: 70px;
+        }
+        .title {
+            font-size: 2.5rem;
+        }
+    }
+
+    #mobile-warning {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #121212;
+        color: #9d50bb;
+        z-index: 9999;
+        padding: 40px 20px;
+        box-sizing: border-box;
+        text-align: center;
+        font-size: 1.5rem;
+        line-height: 2rem;
         font-family: 'League Spartan', sans-serif;
     }
 
@@ -379,13 +423,13 @@
         padding-bottom: 3px;
     }
 
-    /* User block styles */
+    /* Replace the existing .user-sidebar-item with these new styles */
     .user-block-container {
         padding: 0;
         margin-bottom: 0px;
         border-radius: 4px;
-        min-height: 120px;
-        position: relative;
+        min-height: 120px; /* Adjust height as needed */
+        position: relative; /* Needed for absolute positioning of text */
     }
 
     .user-block-bg {
@@ -404,7 +448,8 @@
         position: absolute;
         width: 100%;
         text-align: center;
-        bottom: 20px;
+        /* Adjust these to position the text exactly where you want */
+        bottom: 20px; /* Example: 20px from bottom */
         left: 0;
         padding: 0 20px;
         box-sizing: border-box;
@@ -434,51 +479,6 @@
     .sidebar.logged-out {
       padding-top: 60px !important;
     }
-
-    /* Mobile Styles */
-    @media (max-width: 768px) {
-        .sidebar {
-            width: 100%;
-            height: auto;
-            position: relative;
-            top: 0;
-            padding-top: 60px;
-        }
-        .content-wrapper {
-            margin-left: 0;
-            margin-top: 60px;
-        }
-        .header-logo {
-            margin-left: 20px;
-        }
-        .header-right {
-            margin-right: 10px;
-        }
-        .donate-float {
-            top: 70px;
-        }
-        .title {
-            font-size: 2.5rem;
-        }
-    }
-
-    #mobile-warning {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: #121212;
-        color: #9d50bb;
-        z-index: 9999;
-        padding: 40px 20px;
-        box-sizing: border-box;
-        text-align: center;
-        font-size: 1.5rem;
-        line-height: 2rem;
-        font-family: 'League Spartan', sans-serif;
-    }
   </style>
 </head>
 <body>
@@ -498,82 +498,67 @@
 
   <button class="donate-float" id="donateButton">Donate!</button>
 
-  <div class="overlay" id="overlay"></div>
-  <div class="donation-popup" id="donationPopup">
-    <h2>SUPPORT US</h2>
+<div class="overlay" id="overlay"></div>
+<div class="donation-popup" id="donationPopup">
+  <h2>SUPPORT US</h2>
 
-    <div class="donation-options">
-      <div class="donation-method">
-        <div class="donation-method-title">Donate via Patreon</div>
-        <a
-          href="https://www.patreon.com/WargamesBataMladen"
-          target="_blank"
-          class="donation-link patreon"
-        >
-          <i class="fab fa-patreon"></i>
-          <span>Patreon</span>
-        </a>
-      </div>
-
-      <div class="donation-method">
-        <div class="donation-method-title">Donate in cryptocurrency</div>
-        <a
-          href="https://www.tip.md/batamladen"
-          target="_blank"
-          class="donation-link tip"
-        >
-          <i class="fab fa-bitcoin"></i>
-          <span>Tip.md</span>
-        </a>
-      </div>
+  <div class="donation-options">
+    <div class="donation-method">
+      <div class="donation-method-title">Donate via Patreon</div>
+      <a
+        href="https://www.patreon.com/WargamesBataMladen"
+        target="_blank"
+        class="donation-link patreon"
+      >
+        <i class="fab fa-patreon"></i>
+        <span>Patreon</span>
+      </a>
     </div>
 
-    <button class="cancel-button" id="closePopup">CLOSE</button>
-  </div>
-
-  <div class="sidebar">
-    <ul class="challenge-list" id="sidebarList">
-      <!-- User item will be inserted here if logged in -->
-      <a href="challenges.html" class="challenge-item active" data-challenge="challenges">CHALLENGES</a>
-      <a href="writeups.html" class="challenge-item" data-challenge="writeups">WRITE UPS</a>
-      <a href="faq.html" class="challenge-item" data-challenge="faq">FAQ</a>
-      <a href="contact.html" class="challenge-item" data-challenge="contact">CONTACT</a>
-      <a href="scoreboard.html" class="challenge-item" data-challenge="scoreboard">SCOREBOARD</a>
-    </ul>
-  </div>
-
-  <div class="content-wrapper">
-    <div class="main-content">
-        <div class="grid">
-            <!-- Challenge cards -->
-            <a href="the-shadows.html" style="text-decoration: none;">
-                <div class="card">
-                    <img src="images/the_shadows_challange-removebg-preview.png" alt="Shadows">
-                    <h3>The Shadows</h3>
-                </div>
-            </a>
-
-            <a href="dig-a-tunnel.html" style="text-decoration: none;">
-                <div class="card">
-                    <img src="images/dig_a_tunnel_challange-removebg-preview.png" alt="Dig a Tunnel">
-                    <h3>Dig a Tunnel</h3>
-                </div>
-            </a>
-
-            <a href="jugsaw.html" style="text-decoration: none;">
-                <div class="card">
-                    <img src="images/jugsaw_challenge-removebg-preview.png" alt="Jugsaw">
-                    <h3>Jugsaw</h3>
-                </div>
-            </a>
-        </div>
+    <div class="donation-method">
+      <div class="donation-method-title">Donate in cryptocurrency</div>
+      <a
+        href="https://www.tip.md/batamladen"
+        target="_blank"
+        class="donation-link tip"
+      >
+        <i class="fab fa-bitcoin"></i>
+        <span>Tip.md</span>
+      </a>
     </div>
   </div>
 
-  <div id="mobile-warning">
-    <p>THIS PLATFORM IS BEST EXPERIENCED ON A DESKTOP DEVICE.</p>
-    <p>PLEASE VISIT US USING A DESKTOP BROWSER.<br />⚠️</p>
+  <button class="cancel-button" id="closePopup">CLOSE</button>
+</div>
+
+<div class="sidebar">
+  <ul class="challenge-list" id="sidebarList">
+    <!-- User item will be inserted here if logged in -->
+    <a href="challenges.html" class="challenge-item" data-challenge="challenges">CHALLENGES</a>
+    <a href="writeups.html" class="challenge-item" data-challenge="writeups">WRITE UPS</a>
+    <a href="faq.html" class="challenge-item" data-challenge="faq">FAQ</a>
+    <a href="contact.html" class="challenge-item" data-challenge="contact">CONTACT</a>
+    <a href="scoreboard.html" class="challenge-item active" data-challenge="scoreboard">SCOREBOARD</a>
+  </ul>
+</div>
+
+<div class="content-wrapper">
+  <div class="main-content">
+    <h1 class="title">Scoreboard</h1>
+
+    <div class="scoreboard-container">
+      <h2>Top Players by Aura Points</h2>
+      <div id="scoreboardContent">
+        <div class="loading">Loading scoreboard data...</div>
+      </div>
+    </div>
   </div>
+</div>
+
+<div id="mobile-warning">
+  <p>THIS PLATFORM IS BEST EXPERIENCED ON A DESKTOP DEVICE.</p>
+  <p>PLEASE VISIT US USING A DESKTOP BROWSER.<br />⚠️</p>
+</div>
 
 <script>
   // Mobile warning
@@ -585,8 +570,6 @@
       }
     });
   }
-
-
 
   // Donation popup handlers
   const donateButton = document.getElementById("donateButton");
@@ -622,23 +605,33 @@
     }
 
     if (currentScroll > lastScroll && !header.classList.contains("hide")) {
+      // Scroll down
       header.classList.add("hide");
     } else if (currentScroll < lastScroll && header.classList.contains("hide")) {
+      // Scroll up
       header.classList.remove("hide");
     }
 
     lastScroll = currentScroll;
   });
 
-  // Fetch and update aura points from API
+  // --- User login detection and UI adjustment ---
+  const token = localStorage.getItem("token");
+  const username = localStorage.getItem("username");
+  const headerRight = document.getElementById("headerRight");
+  const sidebarList = document.getElementById("sidebarList");
+
+  // Aura points update function
   async function updateAuraDisplay() {
-    const token = localStorage.getItem("token");
     if (!token) return;
 
     try {
-      const response = await fetch("https://api.wargames.batamladen.com/api/auth/aura_points", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await fetch(
+        "https://api.wargames.batamladen.com/api/auth/aura_points",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       const data = await response.json();
 
       if (data.success) {
@@ -655,43 +648,6 @@
     }
   }
 
-  // Check challenge completion status
-  async function checkChallengeCompletion() {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-
-    try {
-      const response = await fetch("https://api.wargames.batamladen.com/api/auth/myprogress", {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      const data = await response.json();
-
-      if (data.success) {
-        // Mark completed challenges
-        const completedChallenges = new Set();
-        data.progress.forEach(entry => {
-          if (entry.series === 'shadows' && entry.level === '9') completedChallenges.add('shadows');
-          if (entry.series === 'jugsaw' && entry.level === '5') completedChallenges.add('jugsaw');
-          // Add other challenges as needed
-        });
-
-        // Add completed class to cards
-        completedChallenges.forEach(challenge => {
-          const card = document.querySelector(`.card img[alt="${challenge.charAt(0).toUpperCase() + challenge.slice(1)}"]`)?.parentElement;
-          if (card) card.classList.add('completed');
-        });
-      }
-    } catch (err) {
-      console.error("Error loading progress:", err);
-    }
-  }
-
-  // --- User login detection and UI adjustment ---
-  const token = localStorage.getItem("token");
-  const username = localStorage.getItem("username");
-  const headerRight = document.getElementById("headerRight");
-  const sidebarList = document.getElementById("sidebarList");
-
   if (token && username) {
     // USER IS LOGGED IN
 
@@ -700,8 +656,6 @@
 
     const auraContainer = document.createElement("div");
     auraContainer.classList.add("aura-container");
-
-    // Initially empty, will be filled by updateAuraDisplay()
     auraContainer.innerHTML = `
       <img src="images/aura.webp" class="aura-icon" alt="Aura Icon">
       <span class="aura-points">Aura Points: ...</span>
@@ -775,17 +729,16 @@
 
     // Reset sidebar to default items
     const defaultItems = [
-      { href: "challenges.html", text: "CHALLENGES", data: "challenges", active:true },
+      { href: "challenges.html", text: "CHALLENGES", data: "challenges" },
       { href: "writeups.html", text: "WRITE UPS", data: "writeups" },
       { href: "faq.html", text: "FAQ", data: "faq" },
       { href: "contact.html", text: "CONTACT", data: "contact" },
-      { href: "scoreboard.html", text: "SCOREBOARD", data: "scoreboard" },
-
+      { href: "scoreboard.html", text: "SCOREBOARD", data: "scoreboard", active: true },
     ];
 
     // Clear any existing items (in case there was a logout)
     sidebarList.innerHTML = "";
-
+    
     // Add default items
     defaultItems.forEach((item) => {
       const link = document.createElement("a");
@@ -793,21 +746,116 @@
       link.className = "challenge-item" + (item.active ? " active" : "");
       link.dataset.challenge = item.data;
       link.textContent = item.text;
-      
-      // Also check current page URL to set active state
-      if (window.location.pathname.endsWith(item.href)) {
-        link.classList.add("active");
-      }
-      
       sidebarList.appendChild(link);
     });
 
     document.querySelector(".sidebar").classList.add("logged-out");
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    checkChallengeCompletion();
-  });
+  // Scoreboard functionality
+  async function loadScoreboard() {
+    try {
+      const response = await fetch("https://api.wargames.batamladen.com/api/auth/scoreboard");
+      const players = await response.json();
+      
+      if (!Array.isArray(players)) {
+        throw new Error("Invalid data format from server");
+      }
+
+      // Get current user data if logged in
+      let currentUser = null;
+      if (token && username) {
+        try {
+          const userResponse = await fetch(
+            "https://api.wargames.batamladen.com/api/auth/aura_points",
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          const userData = await userResponse.json();
+          
+          if (userData.success) {
+            currentUser = {
+              username: username,
+              aura_points: userData.total_aura
+            };
+          }
+        } catch (userError) {
+          console.error("Error fetching user aura points:", userError);
+        }
+      }
+
+      renderScoreboard(players, currentUser);
+    } catch (error) {
+      console.error("Error loading scoreboard:", error);
+      document.getElementById("scoreboardContent").innerHTML = 
+        `<div class="loading">Error loading scoreboard. Please try again later.</div>`;
+    }
+  }
+
+  function renderScoreboard(players, currentUser) {
+    const scoreboardContent = document.getElementById("scoreboardContent");
+    
+    if (!players || players.length === 0) {
+      scoreboardContent.innerHTML = `<div class="loading">No players found</div>`;
+      return;
+    }
+    
+    // Sort players by aura_points in descending order
+    players.sort((a, b) => b.aura_points - a.aura_points);
+    
+    // Get top 10 players
+    const topPlayers = players.slice(0, 10);
+    
+    let html = `
+      <table class="scoreboard-table">
+        <thead>
+          <tr>
+            <th class="position">#</th>
+            <th>Username</th>
+            <th class="points">Aura Points</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+    
+    // Add top 10 players
+    topPlayers.forEach((player, index) => {
+      html += `
+        <tr${currentUser && player.username === currentUser.username ? ' class="user-row"' : ''}>
+          <td class="position">${index + 1}</td>
+          <td>${player.username}</td>
+          <td class="points">${player.aura_points}</td>
+        </tr>
+      `;
+    });
+    
+    // Add current user if logged in and not in top 10
+    if (currentUser) {
+      const userPosition = players.findIndex(p => p.username === currentUser.username) + 1;
+      
+      if (userPosition > 10 || userPosition === 0) {
+        html += `
+          <tr><td colspan="3"><div class="separator"></div></td></tr>
+          <tr class="user-row">
+            <td class="position">${userPosition > 0 ? userPosition : 'N/A'}</td>
+            <td>${currentUser.username}</td>
+            <td class="points">${currentUser.aura_points}</td>
+          </tr>
+        `;
+      }
+    }
+    
+    html += `
+        </tbody>
+      </table>
+    `;
+    
+    scoreboardContent.innerHTML = html;
+  }
+
+  // Load scoreboard when page loads
+  document.addEventListener("DOMContentLoaded", loadScoreboard);
 </script>
 
 </body>

@@ -4,7 +4,7 @@
   <title>WGM &ndash; Home</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wargames BataMladen</title>
+  <title>WBM &ndash; Home</title>
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="icon" type="image/png" href="images/wargames-logo.ico">
@@ -536,6 +536,8 @@
       <a href="writeups.html" class="challenge-item" data-challenge="writeups">WRITE UPS</a>
       <a href="faq.html" class="challenge-item" data-challenge="faq">FAQ</a>
       <a href="contact.html" class="challenge-item" data-challenge="contact">CONTACT</a>
+      <a href="scoreboard.html" class="challenge-item" data-challenge="scoreboard">SCOREBOARD</a>
+
     </ul>
   </div>
 
@@ -656,28 +658,57 @@
     const headerRight = document.getElementById("headerRight");
     const sidebarList = document.getElementById("sidebarList");
 
+
+    // Aura points update function (from jugsaw.html)
+    async function updateAuraDisplay() {
+      if (!token) return;
+
+      try {
+        const response = await fetch(
+          "https://api.wargames.batamladen.com/api/auth/aura_points",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        const data = await response.json();
+
+        if (data.success) {
+          const auraContainer = document.querySelector(".aura-container");
+          if (auraContainer) {
+            auraContainer.innerHTML = `
+              <img src="images/aura.webp" class="aura-icon" alt="Aura Icon">
+              <span class="aura-points">Aura Points: ${data.total_aura}</span>
+            `;
+          }
+        }
+      } catch (err) {
+        console.error("Error updating aura points:", err);
+      }
+    }
+
+
     if (token && username) {
         // USER IS LOGGED IN
         
         // Update header (remove login/register, add aura points)
         headerRight.innerHTML = '';
         
-        const auraContainer = document.createElement("div");
-        auraContainer.classList.add("aura-container");
-        
         const auraIcon = document.createElement("img");
         auraIcon.classList.add("aura-icon");
         auraIcon.src = "images/aura.webp";
         auraIcon.alt = "Aura Icon";
         
-        const auraPoints = Math.floor(Math.random() * 900) + 100;
-        const auraSpan = document.createElement("span");
-        auraSpan.classList.add("aura-points");
-        auraSpan.textContent = `Aura Points: ${auraPoints}`;
-        
-        auraContainer.appendChild(auraIcon);
-        auraContainer.appendChild(auraSpan);
+        const auraContainer = document.createElement("div");
+        auraContainer.classList.add("aura-container");
+        auraContainer.innerHTML = `
+          <img src="images/aura.webp" class="aura-icon" alt="Aura Icon">
+          <span class="aura-points">Aura Points: ...</span>
+        `;
+
         headerRight.appendChild(auraContainer);
+
+        // Fetch and update actual aura points now
+        updateAuraDisplay();
 
         // Update sidebar (add user block and logout, preserve other items)
         const existingItems = Array.from(sidebarList.children);
@@ -696,9 +727,13 @@
         const userContainer = document.createElement("li");
         userContainer.classList.add("user-block-container");
         
-        const userBg = document.createElement("div");
+        const userBg = document.createElement("video");
         userBg.classList.add("user-block-bg");
-        userBg.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 80%)`;
+        userBg.setAttribute("autoplay", "");
+        userBg.setAttribute("loop", "");
+        userBg.setAttribute("muted", "");
+        userBg.setAttribute("playsinline", "");
+        userBg.innerHTML = `<source src="images/profile2.webm" type="video/webm">`;
         
         const usernameDisplay = document.createElement("div");
         usernameDisplay.classList.add("username-display");
@@ -741,7 +776,9 @@
             { href: "challenges.html", text: "CHALLENGES", data: "challenges" },
             { href: "writeups.html", text: "WRITE UPS", data: "writeups" },
             { href: "faq.html", text: "FAQ", data: "faq" },
-            { href: "contact.html", text: "CONTACT", data: "contact" }
+            { href: "contact.html", text: "CONTACT", data: "contact" },
+            { href: "scoreboard.html", text: "SCOREBOARD", data: "scoreboard" }
+
         ];
         
 
