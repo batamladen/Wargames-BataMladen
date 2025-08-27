@@ -15,6 +15,7 @@ For questions, write to [wargamesbatamladen@gmail.com](mailto:wargamesbatamladen
 
 # Contributing 🌟
 Everyone loves Pull Requests! 
+
 Look at the to see planned changes and where help is needed.
 Or if you think the platform will be better with a certain update - Send a PR so everyone can benefit. 
 
