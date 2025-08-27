@@ -13,12 +13,10 @@ Players connect via SSH to isolated container environments hosted on a remote se
 For questions, write to [wargamesbatamladen@gmail.com](mailto:wargamesbatamladen@gmail.com)
 
 
+# Contributing 🌟
+Everyone loves Pull Requests! 
+Look at the to see planned changes and where help is needed.
+Or if you think the platform will be better with a certain update - Send a PR so everyone can benefit. 
 
-# Copyright 🛑
+For more substantial changes, open an issue to ensure we're on the same page. Together, we make this project better for all! ✨
 
-All code, assets, and challenge content in this repository are © Batamladen.com 2025.  
-All rights reserved.
-
-You may **not** copy, modify, distribute, or use any part of this repository without explicit written permission.
-
-This project is intended solely for personal, educational access via the official hosted platform.
