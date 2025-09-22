@@ -186,16 +186,14 @@
         border-left: 3px solid var(--accent-color);
     }
 
-    /* NEW: Add margin to icons in sidebar */
     .challenge-item i {
-      margin-right: 12px; /* Creates space between icon and text */
-      width: 16px; /* Fixed width for consistent spacing */
+      margin-right: 12px; 
+      width: 16px; 
       text-align: center;
     }
 
-    /* NEW: Style for active icon */
     .challenge-item.active i {
-      color: var(--accent-color); /* Makes the active icon purple */
+      color: var(--accent-color);
     }
 
 
@@ -473,7 +471,6 @@
         padding-bottom: 3px;
     }
 
-    /* Replace the existing .user-sidebar-item with these new styles */
     .user-block-container {
         padding: 0;
         margin-bottom: 0px;
@@ -1014,7 +1011,7 @@ async function submitFlag(challenge, level) {
 
 
 
-// New function to check if all levels are completed
+// function to check if all levels are completed
 function checkAllLevelsCompleted() {
     // Get all level items
     const levelItems = document.querySelectorAll('.level-item');
