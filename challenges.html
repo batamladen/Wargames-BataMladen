@@ -185,6 +185,17 @@
         border-left: 3px solid var(--accent-color);
     }
 
+    .challenge-item i {
+      margin-right: 12px; 
+      width: 16px;
+      text-align: center;
+    }
+
+    .challenge-item.active i {
+      color: var(--accent-color); 
+    }
+
+
     /* Content Styles */
     .content-wrapper {
         margin-left: 220px;
@@ -534,11 +545,24 @@
   <div class="sidebar">
     <ul class="challenge-list" id="sidebarList">
       <!-- User item will be inserted here if logged in -->
-      <a href="challenges.html" class="challenge-item active" data-challenge="challenges">CHALLENGES</a>
-      <a href="writeups.html" class="challenge-item" data-challenge="writeups">WRITE UPS</a>
-      <a href="faq.html" class="challenge-item" data-challenge="faq">FAQ</a>
-      <a href="contact.html" class="challenge-item" data-challenge="contact">CONTACT</a>
-      <a href="scoreboard.html" class="challenge-item" data-challenge="scoreboard">SCOREBOARD</a>
+      <a href="challenges.html" class="challenge-item active" data-challenge="challenges">
+        <i class="fas fa-bullseye"></i> CHALLENGES
+      </a>
+      <a href="academy.html" class="challenge-item" data-challenge="academy">
+        <i class="fas fa-graduation-cap"></i> ACADEMY
+      </a>
+      <a href="writeups.html" class="challenge-item" data-challenge="writeups">
+        <i class="fas fa-pen-fancy"></i> WRITE UPS
+      </a>
+      <a href="faq.html" class="challenge-item" data-challenge="faq">
+        <i class="fas fa-question-circle"></i> FAQ
+      </a>
+      <a href="contact.html" class="challenge-item" data-challenge="contact">
+        <i class="fas fa-envelope"></i> CONTACT
+      </a>
+      <a href="scoreboard.html" class="challenge-item" data-challenge="scoreboard">
+        <i class="fas fa-trophy"></i> SCOREBOARD
+      </a>
     </ul>
   </div>
 
@@ -752,16 +776,15 @@
 
     // Add logout button
     const logoutButton = document.createElement("a");
-    logoutButton.classList.add("logout-button");
-    logoutButton.href = "#";
-    logoutButton.textContent = "LOGOUT";
-
-    logoutButton.addEventListener("click", (e) => {
-      e.preventDefault();
-      localStorage.removeItem("token");
-      localStorage.removeItem("username");
-      window.location.href = "index.html";
-    });
+      logoutButton.classList.add("logout-button"); 
+      logoutButton.href = "#"; 
+      logoutButton.innerHTML = '<i class="fas fa-sign-out-alt"></i> LOGOUT';
+      logoutButton.addEventListener("click", e => {
+        e.preventDefault(); 
+        localStorage.removeItem("token"); 
+        localStorage.removeItem("username");
+        window.location.href = "/index.html";
+      });
 
     sidebarList.appendChild(logoutButton);
   } else {
@@ -773,34 +796,33 @@
       <a href="register.html" class="auth-button" id="registerBtn">Register</a>
     `;
 
-    // Reset sidebar to default items
-    const defaultItems = [
-      { href: "challenges.html", text: "CHALLENGES", data: "challenges", active:true },
-      { href: "writeups.html", text: "WRITE UPS", data: "writeups" },
-      { href: "faq.html", text: "FAQ", data: "faq" },
-      { href: "contact.html", text: "CONTACT", data: "contact" },
-      { href: "scoreboard.html", text: "SCOREBOARD", data: "scoreboard" },
+      // Reset sidebar to default items
+      const defaultItems = [
+        { href: "challenges.html", text: "CHALLENGES", data: "challenges", icon: "bullseye" },
+        { href: "academy.html", text: "ACADEMY", data: "academy", icon: "graduation-cap" },
+        { href: "writeups.html", text: "WRITE UPS", data: "writeups", icon: "pen-fancy" },
+        { href: "faq.html", text: "FAQ", data: "faq", icon: "question-circle" },
+        { href: "contact.html", text: "CONTACT", data: "contact", icon: "envelope" },
+        { href: "scoreboard.html", text: "SCOREBOARD", data: "scoreboard", icon: "trophy" },
+      ];
 
-    ];
+      // Clear any existing items (in case there was a logout)
+      sidebarList.innerHTML = "";
 
-    // Clear any existing items (in case there was a logout)
-    sidebarList.innerHTML = "";
-
-    // Add default items
-    defaultItems.forEach((item) => {
-      const link = document.createElement("a");
-      link.href = item.href;
-      link.className = "challenge-item" + (item.active ? " active" : "");
-      link.dataset.challenge = item.data;
-      link.textContent = item.text;
-      
-      // Also check current page URL to set active state
-      if (window.location.pathname.endsWith(item.href)) {
-        link.classList.add("active");
-      }
-      
-      sidebarList.appendChild(link);
-    });
+      defaultItems.forEach((item) => {
+        const link = document.createElement("a");
+        link.href = item.href;
+        link.className = "challenge-item" + (item.active ? " active" : "");
+        link.dataset.challenge = item.data;
+        link.innerHTML = `<i class="fas fa-${item.icon}"></i> ${item.text}`; // ← This includes icons
+        
+        // Also check current page URL to set active state
+        if (window.location.pathname.endsWith(item.href)) {
+          link.classList.add("active");
+        }
+        
+        sidebarList.appendChild(link);
+      });
 
     document.querySelector(".sidebar").classList.add("logged-out");
   }

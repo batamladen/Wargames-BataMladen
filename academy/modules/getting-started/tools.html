@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>WBM &ndash; Getting Started: Tools</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" type="image/png" href="../../../images/wargames-logo.ico">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    :root {
+      --bg-dark: #121212;
+      --bg-darker: #0a0a0a;
+      --bg-container: #1e1e1e;
+      --accent-color: #6e48aa;
+      --accent-hover: #9d50bb;
+      --text-primary: #e0e0e0;
+      --text-secondary: #b0b0b0;
+      --border-color: #333;
+      --beginner-color: #48bb78;
+      --intermediate-color: #e6af2e;
+      --advanced-color: #e53e3e;
+      --blue-team-color: #3498db;
+      --red-team-color: #e74c3c;
+      --splunk-color: #ffffff;
+      --obfuscation-color: #ffffff;
+      --success-color: #28a745;
+    }
+
+    /* Font Styles */
+    body {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    p, ul, li {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 400;
+    }
+
+    /* League Spartan for headings and buttons */
+    .title, h1, h2, h3, h4, h5, h6,
+    .auth-button, .donate-float,
+    .donation-popup h2, .donation-method-title {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 550;
+      letter-spacing: -0.5px;
+    }
+
+    .title {
+      font-size: 3.0rem;
+      color: var(--accent-color);
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      font-size: 2.0rem;
+      color: var(--accent-color);
+      margin-top: 0;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 5px;
+      text-align: center;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      margin-top: 1.5em;
+      color: var(--accent-color);
+    }
+
+    /* Header Styles */
+    .header {
+      background-color: var(--bg-darker);
+      padding: 0 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .header.hide {
+      transform: translateY(-100%);
+    }
+
+    .header-logo {
+      padding-top: 7.5px;
+      height: 60px;
+      width: auto;
+      margin-left: 20px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-right: 110px;
+    }
+
+    .auth-button {
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .auth-button:hover {
+      color: #815bbe;
+      background-color: transparent;
+    }
+
+    .donate-float {
+      background-color: #f96854;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 1.0rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(249, 104, 84, 0.3);
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .donate-float:hover {
+      background-color: #e34b39;
+      box-shadow: 0 0px 0px rgba(249, 104, 84, 0.5);
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 220px;
+      background-color: var(--bg-darker);
+      border-right: 1px solid var(--border-color);
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding-top: 0px;
+      box-sizing: border-box;
+    }
+
+    .header.hide + .sidebar {
+      padding-top: 0;
+    }
+
+    .challenge-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .challenge-item {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      font-size: 1.0rem;
+      display: block;
+      padding: 15px 20px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .challenge-item:hover,
+    .challenge-item.active {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-left: 3px solid var(--accent-color);
+    }
+
+    .challenge-item i {
+      margin-right: 12px; 
+      width: 16px; 
+      text-align: center;
+    }
+
+    .challenge-item.active i {
+      color: var(--accent-color); 
+    }
+
+    /* Content Styles */
+    .content-wrapper {
+      margin-left: 220px;
+      margin-right: 90px;
+      margin-top: 60px;
+      display: flex;
+      min-height: calc(100vh - 60px);
+      transition: margin-top 0.3s ease-in-out;
+    }
+
+    .header.hide + .sidebar + .content-wrapper {
+      margin-top: 0;
+    }
+
+    .main-content {
+        flex: 1;
+        padding: 40px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+
+    /* Lesson Navigation */
+    .lesson-nav {
+      width: 60px;
+      padding: 20px 10px;
+      background-color: var(--bg-darker);
+      border-left: 1px solid var(--border-color);
+      position: fixed;
+      right: 0;
+      top: 0px;
+      height: 100vh;
+      padding-top: 80px;  /* push content below header */
+    }
+
+    .lesson-nav-title {
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      text-align: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .lesson-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background-color: var(--bg-container);
+      border-radius: 8px;
+      margin: 15px auto;
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid var(--border-color);
+      text-decoration: none;
+    }
+
+    .lesson-number:hover {
+      background-color: rgba(110, 72, 170, 0.2);
+      color: var(--text-primary);
+    }
+
+    .lesson-number.active {
+      background-color: var(--accent-color);
+      color: white;
+      border-color: var(--accent-hover);
+    }
+
+    .lesson-number.completed {
+      background-color: var(--success-color);
+      color: white;
+      border-color: var(--success-color);
+    }
+
+    /* Lesson Content */
+    .lesson-content {
+      border-radius: 10px;
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    .lesson-content h2 {
+      text-align: left;
+      border-bottom: none;
+      margin-top: 0;
+      padding-bottom: 0;
+      color: var(--accent-color);
+    }
+
+    .lesson-content p,
+    .lesson-content li {
+        font-size: 0.95rem;  /* smaller text */
+        line-height: 1.6;
+    }
+
+
+    .lesson-content code {
+      font-family: 'JetBrains Mono', monospace;
+      background-color: var(--bg-darker);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+
+    .lesson-content pre {
+      background-color: var(--bg-darker);
+      padding: 15px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+
+    .lesson-content pre code {
+      background: none;
+      padding: 0;
+    }
+
+    .lesson-navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 70px;
+    }
+
+    .lesson-btn {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.0rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .lesson-btn:hover {
+      background-color: var(--accent-hover);
+    }
+
+    .lesson-btn:disabled {
+      background-color: var(--border-color);
+      cursor: not-allowed;
+    }
+
+    /* Donation Popup */
+    .donation-popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: var(--bg-container);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      z-index: 1001;
+      width: 280px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+    }
+
+    .donation-options {
+      margin: 0;
+      padding: 0;
+    }
+
+    .donation-method {
+      margin-bottom: 12px;
+    }
+
+    .donation-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 12px;
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
+      text-decoration: none;
+      color: white;
+      transition: all 0.2s;
+      border: 1px solid var(--border-color);
+      width: 80%;
+      margin: 0 auto;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .donation-link:hover {
+      background-color: rgba(110, 72, 170, 0.2);
+      border-color: var(--accent-color);
+    }
+
+    .donation-link i {
+      margin-right: 8px;
+      font-size: 1rem;
+    }
+
+    .donation-link.patreon i {
+      color: #FF424D;
+    }
+
+    .donation-link.tip i {
+      color: #ddd428;
+    }
+
+    .cancel-button {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all 0.2s;
+      margin-top: 10px;
+    }
+
+    .cancel-button:hover {
+      color: var(--text-primary);
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+    }
+
+    .aura-container {
+      display: flex;
+      align-items: center;
+      padding-top: 2px;
+      gap: 0px;
+    }
+
+    .aura-points {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 550;
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 1.0rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+    }
+
+    .aura-icon {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+      padding-bottom: 3px;
+      margin-right: 5px;
+    }
+
+    /* User block styles */
+    .user-block-container {
+      padding: 0;
+      margin-bottom: 0px;
+      border-radius: 4px;
+      min-height: 120px;
+      position: relative;
+    }
+
+    .user-block-bg {
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: var(--bg-darker);
+    }
+
+    .username-display {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 700;
+      color: white;
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      bottom: 20px;
+      left: 0;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    .logout-button {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      font-size: 1.0rem;
+      display: block;
+      padding: 15px 20px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #ff6b6b;
+      text-decoration: none;
+      text-align: left;
+    }
+
+    .logout-button:hover {
+      background-color: rgba(255, 107, 107, 0.1);
+      border-left: 3px solid #ff6b6b;
+    }
+
+    .sidebar.logged-out {
+      padding-top: 60px !important;
+    }
+
+    .logout-button i {
+      margin-right: 12px; 
+      width: 16px;
+      text-align: center;
+    }
+
+    /* Task Section Styles - UPDATED */
+    .task-section {
+      background-color: var(--bg-container);
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 90px;
+      border-left: 4px solid var(--accent-color);
+      transition: all 0.3s ease;
+    }
+    
+    .task-section.completed {
+      border-left: 4px solid var(--success-color);
+    }
+
+    .task-section.completed .task-icon {
+      color: var(--success-color);
+    }
+
+    .task-section.completed .task-description {
+      color: var(--text-primary);
+    }
+
+    .task-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .task-icon {
+      margin-right: 10px;
+      color: var(--accent-color);
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+    }
+
+    .task-title {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: var(--text-primary);
+      margin: 0;
+      transition: color 0.3s ease;
+    }
+
+    .task-description {
+      margin-bottom: 20px;
+      color: var(--text-secondary);
+      transition: color 0.3s ease;
+    }
+
+    .task-input-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+    }
+
+    .task-input {
+      flex: 1;
+      padding: 10px 15px;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-darker);
+      color: var(--text-primary);
+      font-family: 'Open Sans', sans-serif;
+      transition: all 0.3s ease;
+    }
+
+    .task-input:focus {
+      outline: none;
+      border-color: var(--accent-color);
+    }
+    
+    .task-input.completed {
+      font-style: italic;
+      cursor: not-allowed;
+    }
+
+    .submit-btn {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-family: 'League Spartan', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .submit-btn:hover {
+      background-color: var(--accent-hover);
+    }
+
+    .submit-btn:disabled {
+      background-color: var(--border-color);
+      cursor: not-allowed;
+    }
+    
+
+
+    .task-feedback {
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .task-feedback.success {
+      background-color: rgba(40, 167, 69, 0.1);
+      border: 1px solid var(--success-color);
+      color: var(--success-color);
+      display: block;
+    }
+
+    .task-feedback.error {
+      background-color: rgba(220, 53, 69, 0.1);
+      border: 1px solid #dc3545;
+      color: #dc3545;
+      display: block;
+    }
+
+    .lesson-header {
+        text-align: center;
+        margin-bottom: 10px; /* a bit smaller spacing than before */
+    }
+
+    .module-title {
+        font-size: 1.5rem; /* smaller than the old 3rem */
+        color: var(--accent-color);
+        margin: 0; /* remove extra space above */
+    }
+
+    .lesson-name {
+        font-size: 3rem;
+        color: var(--text-primary);
+        margin-top: 5px; /* small gap under module title */
+    }
+
+    .module-underline {
+        width: 20cm;        /* the width you want */
+        height: 1.5px;      /* thickness of the line */
+        background-color: var(--accent-color);
+        border: none;       /* remove default border styling */
+        margin: -10px auto 0; /* Reduced top margin to bring it closer */
+        border-radius: 2px; /* optional: rounded edges */
+    }
+
+
+    #mobile-warning {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #121212;
+      color: #9d50bb;
+      z-index: 9999;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      text-align: center;
+      font-size: 1.5rem;
+      line-height: 2rem;
+      font-family: 'League Spartan', sans-serif;
+    }
+  </style>
+</head>
+<body>
+<header class="header">
+  <a href="home.html">
+    <img src="../../../images/wargame header logo 3 banner.webp" alt="Wargames Logo" class="header-logo"/>
+  </a>
+  <div class="header-right" id="headerRight">
+    <a href="login.html" class="auth-button" id="loginBtn">Login</a>
+    <a href="register.html" class="auth-button" id="registerBtn">Register</a>
+  </div>
+</header>
+
+<button class="donate-float" id="donateButton">Donate!</button>
+
+<div class="overlay" id="overlay"></div>
+<div class="donation-popup" id="donationPopup">
+  <h2>SUPPORT US</h2>
+  <div class="donation-options">
+    <div class="donation-method">
+      <div class="donation-method-title">Donate via Patreon</div>
+      <a href="https://www.patreon.com/WargamesBataMladen" target="_blank" class="donation-link patreon">
+        <i class="fab fa-patreon"></i>
+        <span>Patreon</span>
+      </a>
+    </div>
+    <div class="donation-method">
+      <div class="donation-method-title">Donate in cryptocurrency</div>
+      <a href="https://www.tip.md/batamladen" target="_blank" class="donation-link tip">
+        <i class="fab fa-bitcoin"></i>
+        <span>Tip.md</span>
+      </a>
+    </div>
+  </div>
+  <button class="cancel-button" id="closePopup">CLOSE</button>
+</div>
+
+<div class="sidebar">
+  <ul class="challenge-list" id="sidebarList">
+    <!-- User item will be inserted here if logged in -->
+    <a href="../../../challenges.html" class="challenge-item" data-challenge="challenges">
+      <i class="fas fa-bullseye"></i> CHALLENGES
+    </a>
+    <a href="../../../academy.html" class="challenge-item" data-challenge="academy">
+      <i class="fas fa-graduation-cap"></i> ACADEMY
+    </a>
+    <a href="../../../writeups.html" class="challenge-item" data-challenge="writeups">
+      <i class="fas fa-pen-fancy"></i> WRITE UPS
+    </a>
+    <a href="../../../faq.html" class="challenge-item" data-challenge="faq">
+      <i class="fas fa-question-circle"></i> FAQ
+    </a>
+    <a href="../../../contact.html" class="challenge-item" data-challenge="contact">
+      <i class="fas fa-envelope"></i> CONTACT
+    </a>
+    <a href="../../../scoreboard.html" class="challenge-item" data-challenge="scoreboard">
+      <i class="fas fa-trophy"></i> SCOREBOARD
+    </a>
+  </ul>
+</div>
+
+<div class="content-wrapper">
+  <div class="main-content">
+    <div class="lesson-header">
+        <h3 class="module-title">Module: Getting Started</h3>
+        <h1 class="lesson-name">Tools</h1>
+        <hr class="module-underline">
+    </div>
+    
+    <div class="lesson-content">
+      <!-- Content will be added here later -->
+      <h2>Tools for Wargames Challenges</h2>
+      <p>
+        To successfully complete the challenges in Wargames, you’ll need to use a variety of cybersecurity tools. Each challenge may require different tools, such as network analyzers, password crackers, or forensic utilities.
+      </p>
+      <p>
+        <strong>Don’t worry!</strong> All the tools you need for each challenge will be provided for download directly from the platform. Before starting a challenge, make sure to review the instructions, some challenges require GUI tools that are not downloadable on a ssh connection.
+      </p>
+      <ul>
+        <li>Tools are safe and commonly used in cybersecurity training.</li>
+        <li>Instructions for installation and usage will be included with each challenge.</li>
+        <li>If you have questions about a tool, check the FAQ or ask in the community.</li>
+      </ul>
+  
+
+
+      <!-- Task Section - UPDATED -->
+      <div class="task-section" id="taskSection">
+        <div class="task-header">
+          <div class="task-icon">
+            <i class="fas fa-tasks"></i>
+          </div>
+          <h3 class="task-title">Task</h3>
+        </div>
+        <p class="task-description">If you finished reading this lesson write "Done" in the input field below to mark this lesson as completed.</p>
+        
+        <div class="task-input-container">
+          <input type="text" class="task-input" id="taskAnswer" placeholder="Enter your answer">
+          <button class="submit-btn" id="submitTask">Submit</button>
+        </div>
+        
+        <div class="task-feedback" id="taskFeedback"></div>
+      </div>
+      
+      <div class="lesson-navigation">
+        <button class="lesson-btn" id="prevLesson">Previous</button>
+        <button class="lesson-btn" id="nextLesson">Next Lesson</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="lesson-nav">
+    <div class="lesson-nav-title">Lessons</div>
+    <div class="lesson-numbers">
+      <a href="welcome.html" class="lesson-number" id="lesson1">1</a>
+      <a href="navigation.html" class="lesson-number" id="lesson2">2</a>
+      <a href="tools.html" class="lesson-number active" id="lesson3">3</a>
+      <a href="tasks.html" class="lesson-number" id="lesson4">4</a>
+    </div>
+  </div>
+</div>
+
+<div id="mobile-warning">
+  <p>THIS PLATFORM IS BEST EXPERIENCED ON A DESKTOP DEVICE.</p>
+  <p>PLEASE VISIT US USING A DESKTOP BROWSER.<br />⚠️</p>
+</div>
+
+<script>
+/* ---------------------- MOBILE WARNING ---------------------- */
+if (window.innerWidth <= 768) {
+  document.getElementById("mobile-warning").style.display = "block";
+  [...document.body.children].forEach((child) => {
+    if (child.id !== "mobile-warning") child.style.display = "none";
+  });
+}
+
+/* ---------------------- DONATION POPUP ---------------------- */
+const donateButton = document.getElementById("donateButton");
+const donationPopup = document.getElementById("donationPopup");
+const overlay = document.getElementById("overlay");
+const closePopup = document.getElementById("closePopup");
+
+donateButton.addEventListener("click", () => {
+  donationPopup.style.display = "block";
+  overlay.style.display = "block";
+});
+[closePopup, overlay].forEach(el =>
+  el.addEventListener("click", () => {
+    donationPopup.style.display = "none";
+    overlay.style.display = "none";
+  })
+);
+
+/* ---------------------- HEADER SCROLL TOGGLE ---------------------- */
+let lastScroll = 0;
+const header = document.querySelector(".header");
+window.addEventListener("scroll", () => {
+  const currentScroll = window.pageYOffset;
+  if (currentScroll <= 0) return header.classList.remove("hide");
+  currentScroll > lastScroll ? header.classList.add("hide")
+                              : header.classList.remove("hide");
+  lastScroll = currentScroll;
+});
+
+/* ---------------------- AURA POINTS ---------------------- */
+const token   = localStorage.getItem("token");
+const username= localStorage.getItem("username");
+
+async function updateAuraDisplay() {
+  if (!token) return;
+  try {
+    const res  = await fetch("https://api.wargames.batamladen.com/api/auth/aura_points",{
+      headers:{ Authorization:`Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (data.success) {
+      const auraContainer = document.querySelector(".aura-container");
+      if (auraContainer) {
+        auraContainer.innerHTML = `
+          <img src="../../../images/aura.webp" class="aura-icon" alt="Aura Icon">
+          <span class="aura-points">Aura Points: ${data.total_aura}</span>
+        `;
+      }
+    }
+  } catch(err){ console.error("Aura update failed:",err); }
+}
+
+/* ---------------------- BACKEND PROGRESS ---------------------- */
+// Constants for this specific lesson
+const MODULE_ID = 1; // Getting Started module
+const LESSON_ID = 3; // Tools lesson
+const TASK_ID = 3;   // Task in the Tools lesson
+
+async function fetchProgressAndApply() {
+  if (!token) return;
+  try {
+    // Fetch user progress using your existing endpoint
+    const res = await fetch("https://api.wargames.batamladen.com/api/academy/progress", {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    
+    if (data.success && data.paths) {
+      // Find the Getting Started module (assuming it's in the first path)
+      const gettingStartedModule = data.paths[0]?.modules?.find(module => module.id === MODULE_ID);
+      
+      if (gettingStartedModule) {
+        // Mark completed lessons in the sidebar
+        gettingStartedModule.lessons.forEach(lesson => {
+          const lessonElement = document.getElementById(`lesson${lesson.id}`);
+          if (lessonElement && lesson.completed) {
+            lessonElement.classList.add('completed');
+          }
+        });
+        
+        // Check if current lesson is completed
+        const currentLesson = gettingStartedModule.lessons.find(lesson => lesson.id === LESSON_ID);
+        if (currentLesson && currentLesson.completed) {
+          markUIAsCompleted();
+        }
+      }
+    }
+  } catch(err) { 
+    console.error("Progress fetch failed:", err);
+  }
+}
+
+/* ---------------------- TASK HANDLER ---------------------- */
+const taskAnswer = document.getElementById('taskAnswer');
+const submitTask = document.getElementById('submitTask');
+const taskFeedback = document.getElementById('taskFeedback');
+const taskSection = document.getElementById('taskSection');
+const lesson3 = document.getElementById('lesson3');
+
+function markUIAsCompleted() {
+  taskFeedback.textContent = 'Correct! Lesson completed!';
+  taskFeedback.className = 'task-feedback success';
+  taskSection.classList.add('completed');
+  taskAnswer.value = 'This task is completed';
+  taskAnswer.classList.add('completed');
+  taskAnswer.disabled = true;
+  submitTask.textContent = 'Completed';
+  submitTask.classList.add('completed');
+  submitTask.disabled = true;
+  lesson3.classList.add('completed');
+}
+
+async function markTaskCompletedBackend() {
+  if (!token) {
+    alert("Login required to save progress");
+    return false;
+  }
+  try {
+    const res = await fetch("https://api.wargames.batamladen.com/api/academy/complete_task", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({ task_id: TASK_ID })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      if (data.aura_earned && data.aura_earned > 0) {
+        taskFeedback.textContent = `Task completed! +${data.aura_earned} Aura Points earned.`;
+      } else {
+        taskFeedback.textContent = "Task completed!";
+      }
+      taskFeedback.className = "task-feedback success";
+      updateAuraDisplay();          // 🔥 Refresh total aura
+      setTimeout(fetchProgressAndApply, 100);
+      return true;
+    } else {
+      console.error("Task completion failed:", data);
+      return false;
+    }
+  } catch(err) { 
+    console.error("Completion error:", err);
+    return false;
+  }
+}
+
+
+submitTask.addEventListener('click', async () => {
+  const answer = taskAnswer.value.trim().toLowerCase();
+  if (answer === 'done') {
+    const success = await markTaskCompletedBackend();
+    if (success) {
+      taskFeedback.textContent = 'Task completed! Saving lesson progress...';
+      taskFeedback.className = 'task-feedback success';
+    } else {
+      taskFeedback.textContent = 'Error saving progress. Please try again.';
+      taskFeedback.className = 'task-feedback error';
+    }
+  } else {
+    taskFeedback.textContent = 'Incorrect. Please try again.';
+    taskFeedback.className = 'task-feedback error';
+  }
+});
+
+/* ---------------------- NAVIGATION ---------------------- */
+document.getElementById('prevLesson')?.addEventListener('click',()=>{
+  window.location.href = "navigation.html";
+});
+document.getElementById('nextLesson')?.addEventListener('click',()=>{
+  window.location.href = "tasks.html";
+});
+
+/* ---------------------- SIDEBAR / LOGIN STATE ---------------------- */
+const headerRight = document.getElementById("headerRight");
+const sidebarList = document.getElementById("sidebarList");
+
+function setupSidebar(){
+  if (token && username) {
+    headerRight.innerHTML = "";
+    const auraContainer = document.createElement("div");
+    auraContainer.classList.add("aura-container");
+    auraContainer.innerHTML = `
+      <img src="../../../images/aura.webp" class="aura-icon" alt="Aura Icon">
+      <span class="aura-points">Aura Points: ...</span>
+    `;
+    headerRight.appendChild(auraContainer);
+    updateAuraDisplay();
+
+    const existingItems = Array.from(sidebarList.children);
+    const originalItems = [];
+    existingItems.forEach((item)=>{
+      if (!item.classList.contains("logout-button"))
+        originalItems.push(item.cloneNode(true));
+    });
+
+    sidebarList.innerHTML = "";
+    const userContainer = document.createElement("li");
+    userContainer.classList.add("user-block-container");
+    const userBg = document.createElement("video");
+    userBg.classList.add("user-block-bg");
+    userBg.setAttribute("autoplay","");
+    userBg.setAttribute("loop","");
+    userBg.setAttribute("muted","");
+    userBg.setAttribute("playsinline","");
+    userBg.innerHTML = `<source src="../../../images/profile2.webm" type="video/webm">`;
+    const usernameDisplay = document.createElement("div");
+    usernameDisplay.classList.add("username-display");
+    usernameDisplay.textContent = username;
+    userContainer.appendChild(userBg);
+    userContainer.appendChild(usernameDisplay);
+    sidebarList.appendChild(userContainer);
+    originalItems.forEach((item)=> sidebarList.appendChild(item));
+
+    const logoutButton = document.createElement("a");
+      logoutButton.classList.add("logout-button"); 
+      logoutButton.href = "#"; 
+      logoutButton.innerHTML = '<i class="fas fa-sign-out-alt"></i> LOGOUT';
+      logoutButton.addEventListener("click", e => {
+        e.preventDefault(); 
+        localStorage.removeItem("token"); 
+        localStorage.removeItem("username");
+        window.location.href = "/index.html";
+      });
+    sidebarList.appendChild(logoutButton);
+  } else {
+      // USER IS LOGGED OUT - RESET TO DEFAULT STATE
+
+      // Reset header to default (login/register buttons)
+      headerRight.innerHTML = `
+        <a href="../../../login.html" class="auth-button" id="loginBtn">Login</a>
+        <a href="../../../register.html" class="auth-button" id="registerBtn">Register</a>
+      `;
+
+      // Reset sidebar to default items
+      const defaultItems = [
+        { href: "../../../challenges.html", text: "CHALLENGES", data: "challenges", icon: "bullseye" },
+        { href: "../../../academy.html", text: "ACADEMY", data: "academy", active:true, icon: "graduation-cap" },
+        { href: "../../../writeups.html", text: "WRITE UPS", data: "writeups", icon: "pen-fancy" },
+        { href: "../../../faq.html", text: "FAQ", data: "faq", icon: "question-circle" },
+        { href: "../../../contact.html", text: "CONTACT", data: "contact", icon: "envelope" },
+        { href: "../../../scoreboard.html", text: "SCOREBOARD", data: "scoreboard", icon: "trophy" },
+      ];
+
+      // Clear any existing items (in case there was a logout)
+      sidebarList.innerHTML = "";
+
+      defaultItems.forEach((item) => {
+        const link = document.createElement("a");
+        link.href = item.href;
+        link.className = "challenge-item" + (item.active ? " active" : "");
+        link.dataset.challenge = item.data;
+        link.innerHTML = `<i class="fas fa-${item.icon}"></i> ${item.text}`; // ← This includes icons
+        
+        // Also check current page URL to set active state
+        if (window.location.pathname.endsWith(item.href)) {
+          link.classList.add("active");
+        }
+        
+        sidebarList.appendChild(link);
+      });
+
+      document.querySelector(".sidebar").classList.add("logged-out");
+    }
+}
+
+/* ---------------------- INIT ---------------------- */
+document.addEventListener("DOMContentLoaded",()=>{
+  setupSidebar();
+  if (token) {
+    updateAuraDisplay();
+    fetchProgressAndApply();
+  }
+});
+</script>
+
+</body>
+</html>

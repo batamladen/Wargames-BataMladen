@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Getting Started &ndash; WBM Academy</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" type="image/png" href="../../../images/wargames-logo.ico">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    /* Your existing CSS styles remain unchanged */
+    :root {
+      --bg-dark: #121212;
+      --bg-darker: #0a0a0a;
+      --bg-container: #1e1e1e;
+      --accent-color: #6e48aa;
+      --accent-hover: #9d50bb;
+      --text-primary: #e0e0e0;
+      --text-secondary: #b0b0b0;
+      --border-color: #333;
+      --beginner-color: #48bb78;
+      --intermediate-color: #e6af2e;
+      --advanced-color: #e53e3e;
+      --blue-team-color: #3498db;
+      --red-team-color: #e74c3c;
+      --splunk-color: #ffffff;
+      --obfuscation-color: #ffffff;
+    }
+
+        /* Font Styles */
+    body {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    p, ul, li {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 400;
+    }
+
+    /* League Spartan for headings and buttons */
+    .title, h1, h2, h3, h4, h5, h6,
+    .auth-button, .donate-float,
+    .donation-popup h2, .donation-method-title {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 550;
+      letter-spacing: -0.5px;
+    }
+
+    .title {
+      font-size: 3.0rem;
+      color: var(--accent-color);
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      font-size: 2.0rem;
+      color: var(--accent-color);
+      margin-top: 0;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 5px;
+      text-align: center;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      margin-top: 1.5em;
+    }
+
+    /* Header Styles */
+    .header {
+      background-color: var(--bg-darker);
+      padding: 0 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .header.hide {
+      transform: translateY(-100%);
+    }
+
+    .header-logo {
+      padding-top: 7.5px;
+      height: 60px;
+      width: auto;
+      margin-left: 20px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-right: 110px;
+    }
+
+    .auth-button {
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .auth-button:hover {
+      color: #815bbe;
+      background: transparent;
+    }
+
+    .donate-float {
+      background-color: #f96854;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 1.0rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(249, 104, 84, 0.3);
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .donate-float:hover {
+      background-color: #e34b39;
+      box-shadow: 0 0px 0px rgba(249, 104, 84, 0.5);
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 220px;
+      background-color: var(--bg-darker);
+      border-right: 1px solid var(--border-color);
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding-top: 0px;
+      box-sizing: border-box;
+    }
+
+    .header.hide + .sidebar {
+      padding-top: 0;
+    }
+
+    .challenge-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .challenge-item {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      font-size: 1.0rem;
+      display: block;
+      padding: 15px 20px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .challenge-item:hover,
+    .challenge-item.active {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-left: 3px solid var(--accent-color);
+    }
+
+    .challenge-item i {
+      margin-right: 12px; 
+      width: 16px; 
+      text-align: center;
+    }
+
+    .challenge-item.active i {
+      color: var(--accent-color); 
+    }
+
+    /* Content Styles */
+    .content-wrapper {
+      margin-left: 220px;
+      margin-top: 60px;
+      display: flex;
+      justify-content: center;
+      min-height: calc(100vh - 60px);
+      transition: margin-top 0.3s ease-in-out;
+    }
+
+    .header.hide + .sidebar + .content-wrapper {
+      margin-top: 0;
+    }
+
+    .main-content {
+      width: 100%;
+      max-width: 1000px; /* Made narrower as requested */
+      padding: 40px;
+    }
+
+    /* Module Header */
+    .module-header {
+      background-color: var(--bg-container);
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 30px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .module-image {
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+    }
+
+    .module-info {
+      flex: 1;
+    }
+
+    .module-title {
+      font-size: 2.2rem;
+      margin: 0 0 10px 0;
+      color: var(--splunk-color);
+    }
+
+    .module-description {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 15px;
+      color: var(--text-secondary);
+    }
+
+    /* Login Prompt */
+    .login-prompt {
+      background-color: transparent;
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .login-prompt h3 {
+      color: var(--accent-color);
+      margin-bottom: 15px;
+      font-size: 22px;
+    }
+
+    .login-prompt p {
+      margin-bottom: 20px;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    .start-button {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 6px;
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 16px;
+      margin-top: 0px;
+    }
+
+    .start-button:hover {
+      background-color: rgb(115, 60, 137);
+    }
+
+    .start-button:disabled {
+      background-color: #555;
+      cursor: not-allowed;
+    }
+
+    /* Button states */
+    .start-button.continue {
+      background-color: var(--intermediate-color);
+    }
+    
+    .start-button.continue:hover {
+      background-color: #d69e2e;
+    }
+    
+    .start-button.review {
+      background-color: var(--beginner-color);
+    }
+    
+    .start-button.review:hover {
+      background-color: #38a169;
+    }
+
+    .login-message {
+      color: #ff6b6b;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    /* Module Content */
+    .module-content {
+      background-color: var(--bg-container);
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 30px;
+      border: 1px solid var(--border-color);
+    }
+
+    .content-section {
+      margin-bottom: 25px;
+    }
+
+    .content-section h3 {
+      color: var(--text-primary);
+      margin-bottom: 15px;
+      font-size: 20px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .content-section ul {
+      list-style-position: inside;
+      padding-left: 20px;
+    }
+
+    .content-section li {
+      margin-bottom: 10px;
+      color: var(--text-secondary);
+    }
+
+    /* Progress Section */
+    .progress-section {
+      background-color: var(--bg-container);
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 30px;
+      border: 1px solid var(--border-color);
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .progress-text {
+      font-size: 1.1rem;
+    }
+
+    .progress-text span {
+      color: var(--splunk-color);
+      font-weight: 600;
+    }
+
+    .progress-bar-container {
+      background-color: var(--bg-darker);
+      border-radius: 8px;
+      height: 20px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background-color: var(--splunk-color);
+      border-radius: 8px;
+      transition: width 0.5s ease;
+      width: 0%;
+    }
+
+    /* Donation Popup */
+    .donation-popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: var(--bg-container);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      z-index: 1001;
+      width: 280px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+    }
+
+    .donation-options {
+      margin: 0;
+      padding: 0;
+    }
+
+    .donation-method {
+      margin-bottom: 12px;
+    }
+
+    .donation-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 12px;
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+      text-decoration: none;
+      color: white;
+      transition: all 0.2s;
+      border: 1px solid var(--border-color);
+      width: 80%;
+      margin: 0 auto;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .donation-link:hover {
+      background-color: rgba(110, 72, 170, 0.2);
+      border-color: var(--accent-color);
+    }
+
+    .donation-link i {
+      margin-right: 8px;
+      font-size: 1rem;
+    }
+
+    .donation-link.patreon i {
+      color: #FF424D;
+    }
+
+    .donation-link.tip i {
+      color: #ddd428;
+    }
+
+    .cancel-button {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all 0.2s;
+      margin-top: 10px;
+    }
+
+    .cancel-button:hover {
+      color: var(--text-primary);
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+    }
+
+    .aura-container {
+      display: flex;
+      align-items: center;
+      padding-top: 2px;
+      gap: 10px;
+    }
+
+    .aura-points {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 550;
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 1.0rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .aura-icon {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+      padding-bottom: 3px;
+    }
+
+    /* User block styles */
+    .user-block-container {
+      padding: 0;
+      margin-bottom: 0px;
+      border-radius: 4px;
+      min-height: 120px;
+      position: relative;
+    }
+
+    .user-block-bg {
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: rgba(110, 72, 170, 0.3);
+    }
+
+    .username-display {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 700;
+      color: white;
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      bottom: 20px;
+      left: 0;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    .logout-button {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      font-size: 1.0rem;
+      display: block;
+      padding: 15px 20px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #ff6b6b;
+      text-decoration: none;
+      text-align: left;
+    }
+
+    .logout-button:hover {
+      background-color: rgba(255, 107, 107, 0.1);
+      border-left: 3px solid #ff6b6b;
+    }
+
+    .sidebar.logged-out {
+      padding-top: 60px !important;
+    }
+
+    .logout-button i {
+      margin-right: 12px;
+      width: 16px;
+      text-align: center;
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+      .sidebar {
+          width: 100%;
+          height: auto;
+          position: relative;
+          top: 0;
+          padding-top: 60px;
+      }
+      .content-wrapper {
+          margin-left: 0;
+          margin-top: 60px;
+      }
+      .header-logo {
+          margin-left: 20px;
+      }
+      .header-right {
+          margin-right: 10px;
+      }
+      .donate-float {
+          top: 15px;
+      }
+      .title {
+          font-size: 2.5rem;
+      }
+      .main-content {
+        padding: 20px;
+        max-width: 100%;
+      }
+      .module-header {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    #mobile-warning {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #121212;
+      color: #9d50bb;
+      z-index: 9999;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      text-align: center;
+      font-size: 1.5rem;
+      line-height: 2rem;
+      font-family: 'League Spartan', sans-serif;
+    }
+    
+  </style>
+</head>
+<body>
+<header class="header">
+  <a href="home.html">
+    <img src="../../../images/wargame header logo 3 banner.webp" alt="Wargames Logo" class="header-logo"/>
+  </a>
+  <div class="header-right" id="headerRight">
+    <a href="../../../login.html" class="auth-button" id="loginBtn">Login</a>
+    <a href="../../../register.html" class="auth-button" id="registerBtn">Register</a>
+  </div>
+</header>
+
+<button class="donate-float" id="donateButton">Donate!</button>
+
+<div class="overlay" id="overlay"></div>
+<div class="donation-popup" id="donationPopup">
+  <h2>SUPPORT US</h2>
+  <div class="donation-options">
+    <div class="donation-method">
+      <div class="donation-method-title">Donate via Patreon</div>
+      <a href="https://www.patreon.com/WargamesBataMladen" target="_blank" class="donation-link patreon">
+        <i class="fab fa-patreon"></i>
+        <span>Patreon</span>
+      </a>
+    </div>
+    <div class="donation-method">
+      <div class="donation-method-title">Donate in cryptocurrency</div>
+      <a href="https://www.tip.md/batamladen" target="_blank" class="donation-link tip">
+        <i class="fab fa-bitcoin"></i>
+        <span>Tip.md</span>
+      </a>
+    </div>
+  </div>
+  <button class="cancel-button" id="closePopup">CLOSE</button>
+</div>
+
+<div class="sidebar">
+  <ul class="challenge-list" id="sidebarList">
+    <!-- User item will be inserted here if logged in -->
+    <a href="../../../challenges.html" class="challenge-item" data-challenge="challenges">
+      <i class="fas fa-bullseye"></i> CHALLENGES
+    </a>
+    <a href="../../../academy.html" class="challenge-item active" data-challenge="academy">
+      <i class="fas fa-graduation-cap"></i> ACADEMY
+    </a>
+    <a href="../../../writeups.html" class="challenge-item" data-challenge="writeups">
+      <i class="fas fa-pen-fancy"></i> WRITE UPS
+    </a>
+    <a href="../../../faq.html" class="challenge-item" data-challenge="faq">
+      <i class="fas fa-question-circle"></i> FAQ
+    </a>
+    <a href="../../../contact.html" class="challenge-item" data-challenge="contact">
+      <i class="fas fa-envelope"></i> CONTACT
+    </a>
+    <a href="../../../scoreboard.html" class="challenge-item" data-challenge="scoreboard">
+      <i class="fas fa-trophy"></i> SCOREBOARD
+    </a>
+  </ul>
+</div>
+
+<div class="content-wrapper">
+  <div class="main-content">
+    <!-- Module Header -->
+    <div class="module-header">
+      <img src="../../../images/getting started module.webp" alt="Getting Started Module" class="module-image">
+      <div class="module-info">
+        <h1 class="module-title">Getting Started</h1>
+        <p class="module-description">Begin your journey into the world of ethical hacking and cybersecurity. Learn the fundamentals that will serve as the foundation for all advanced topics.</p>
+      </div>
+    </div>
+    
+    <!-- Progress Section -->
+    <div class="progress-section" id="progressSection">
+      <div class="progress-info">
+        <div class="progress-text">Your progress: <span id="completedCount">0</span> of <span id="totalLessons">4</span> lessons completed</div>
+        <div class="progress-percentage" id="progressPercentage">0%</div>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar" id="moduleProgressBar"></div>
+      </div>
+    </div>
+    
+    <!-- Login Prompt -->
+    <div class="login-prompt">
+      <button class="start-button" id="startModuleBtn">Start Module</button>
+      <p class="login-message" id="loginMessage" style="display: none;"></p>
+    </div>
+    
+    <!-- Module Content -->
+    <div class="module-content">
+      <div class="content-section">
+        <h3>Module Overview</h3>
+        <p>This module will introduce you to the WBM platform. You will learn:</p>
+        <ul>
+          <li>How to start with the WBM platform</li>
+          <li>Navigationg through the platform</li>
+          <li>Logic behind "Aura Points" & how to earn them</li>
+          <li>How to finish lessons/modules/paths in the WBM academy</li>
+        </ul>
+      </div>
+
+      <div class="content-section">
+        <h3>Prerequisites</h3>
+        <ul>
+          <li>Basic computer skills</li>
+          <li>Familiarity with operating systems (Windows/Linux)</li>
+          <li>No prior hacking experience required</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+      
+
+
+<div id="mobile-warning">
+  <p>THIS PLATFORM IS BEST EXPERIENCED ON A DESKTOP DEVICE.</p>
+  <p>PLEASE VISIT US USING A DESKTOP BROWSER.<br />⚠️</p>
+</div>
+
+<script>
+  // --- Mobile warning ---
+  if (window.innerWidth <= 768) {
+    document.getElementById("mobile-warning").style.display = "block";
+    [...document.body.children].forEach((child) => {
+      if (child.id !== "mobile-warning") child.style.display = "none";
+    });
+  }
+
+  // --- Donation popup ---
+  const donateButton = document.getElementById("donateButton");
+  const donationPopup = document.getElementById("donationPopup");
+  const overlay = document.getElementById("overlay");
+  const closePopup = document.getElementById("closePopup");
+
+  donateButton.addEventListener("click", () => {
+    donationPopup.style.display = "block";
+    overlay.style.display = "block";
+  });
+  closePopup.addEventListener("click", () => {
+    donationPopup.style.display = "none";
+    overlay.style.display = "none";
+  });
+  overlay.addEventListener("click", () => {
+    donationPopup.style.display = "none";
+    overlay.style.display = "none";
+  });
+
+  // --- Scroll hide/show header ---
+  let lastScroll = 0;
+  const header = document.querySelector(".header");
+  window.addEventListener("scroll", () => {
+    const currentScroll = window.pageYOffset;
+    if (currentScroll <= 0) header.classList.remove("hide");
+    else if (currentScroll > lastScroll && !header.classList.contains("hide")) header.classList.add("hide");
+    else if (currentScroll < lastScroll && header.classList.contains("hide")) header.classList.remove("hide");
+    lastScroll = currentScroll;
+  });
+
+  // --- Aura points ---
+  async function updateAuraDisplay() {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    try {
+      const response = await fetch("https://api.wargames.batamladen.com/api/auth/aura_points", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json();
+      if (data.success) {
+        const auraContainer = document.querySelector(".aura-container");
+        if (auraContainer) {
+          auraContainer.innerHTML = `<img src="../../../images/aura.webp" class="aura-icon" alt="Aura Icon">
+            <span class="aura-points">Aura Points: ${data.total_aura}</span>`;
+        }
+      }
+    } catch (err) { console.error("Error updating aura points:", err); }
+  }
+
+  // --- Lesson progress tracking ---
+  const startButton = document.getElementById("startModuleBtn");
+  const loginMessage = document.getElementById("loginMessage");
+  const progressSection = document.getElementById("progressSection");
+  
+  // Track lesson progress
+  let lessonProgress = {
+    completedLessons: 0,
+    totalLessons: 4,
+    status: "not-started" // not-started, in-progress, completed
+  };
+  
+  // Function to update button based on progress
+  function updateModuleButton() {
+    if (lessonProgress.status === "completed") {
+      startButton.textContent = "Review";
+      startButton.className = "start-button review";
+      startButton.disabled = false;
+    } else if (lessonProgress.completedLessons > 0) {
+      startButton.textContent = "Continue";
+      startButton.className = "start-button continue";
+      startButton.disabled = false;
+    } else {
+      startButton.textContent = "Start Module";
+      startButton.className = "start-button";
+      startButton.disabled = false;
+    }
+  }
+  
+  // Function to update progress display
+  function updateProgressDisplay() {
+    const progressPercentage = Math.round((lessonProgress.completedLessons / lessonProgress.totalLessons) * 100);
+    document.getElementById("completedCount").textContent = lessonProgress.completedLessons;
+    document.getElementById("totalLessons").textContent = lessonProgress.totalLessons;
+    document.getElementById("progressPercentage").textContent = `${progressPercentage}%`;
+    document.getElementById("moduleProgressBar").style.width = `${progressPercentage}%`;
+    
+    // Update lesson status
+    if (lessonProgress.completedLessons === lessonProgress.totalLessons) {
+      lessonProgress.status = "completed";
+    } else if (lessonProgress.completedLessons > 0) {
+      lessonProgress.status = "in-progress";
+    } else {
+      lessonProgress.status = "not-started";
+    }
+    
+    updateModuleButton();
+  }
+  
+  // Function to fetch lesson progress from backend
+  async function fetchLessonProgress() {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    
+    try {
+      // Fetch academy progress data
+      const progressResp = await fetch("https://api.wargames.batamladen.com/api/academy/progress", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      
+      if (progressResp.ok) {
+        const progressData = await progressResp.json();
+        
+        if (progressData.success) {
+          // Find the Getting Started module (ID 1)
+          const gettingStartedModule = progressData.paths
+            .flatMap(path => path.modules)
+            .find(module => module.id === 1); // Getting Started is module ID 1
+          
+          if (gettingStartedModule) {
+            // Count completed lessons
+            const completedLessons = gettingStartedModule.lessons.filter(lesson => lesson.completed).length;
+            
+            lessonProgress.completedLessons = completedLessons;
+            lessonProgress.totalLessons = gettingStartedModule.lessons.length;
+            
+            updateProgressDisplay();
+          }
+        }
+      }
+    } catch (err) {
+      console.error("Error fetching lesson progress:", err);
+    }
+  }
+  
+  function checkLoginStatus() {
+    const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
+    
+    if (token && username) {
+      // User is logged in
+      startButton.disabled = false;
+      fetchLessonProgress();
+      
+      startButton.addEventListener('click', function() {
+        window.location.href = 'welcome.html';
+      });
+    } else {
+      // User is not logged in
+      startButton.disabled = true;
+      startButton.textContent = "Login Required";
+      progressSection.style.display = "none";
+      
+      // Show popup when page loads for non-logged-in users
+      Swal.fire({
+        title: "Authentication Required",
+        html: "You must be logged in to access this module. Our training modules contain exclusive content available only to registered members of our community.<br><br>Please log in to your account or register if you don't have an account yet.",
+        icon: "warning",
+        confirmButtonText: "Go to Login",
+        confirmButtonColor: "#6e48aa",
+        showCancelButton: true,
+        cancelButtonText: "Register",
+        cancelButtonColor: "#333"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "../../../login.html";
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          window.location.href = "../../../register.html";
+        }
+      });
+      
+      // Add click event to suggest login
+      startButton.addEventListener('click', function() {
+        Swal.fire({
+          title: "Login Required",
+          text: "Please log in to access this module.",
+          icon: "warning",
+          confirmButtonText: "Go to Login",
+          confirmButtonColor: "#6e48aa"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "../../../login.html";
+          }
+        });
+      });
+    }
+  }
+
+  // --- Header & Sidebar login handling ---
+  document.addEventListener("DOMContentLoaded", async () => {
+    const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
+    const sidebarList = document.getElementById("sidebarList");
+    const headerRight = document.getElementById("headerRight");
+    
+    checkLoginStatus();
+
+    if (token && username) {
+      headerRight.innerHTML = "";
+      const auraContainer = document.createElement("div");
+      auraContainer.classList.add("aura-container");
+      auraContainer.innerHTML = `<img src="../../../images/aura.webp" class="aura-icon" alt="Aura Icon">
+        <span class="aura-points">Aura Points: ...</span>`;
+      headerRight.appendChild(auraContainer);
+      updateAuraDisplay();
+
+      // Sidebar user block
+      const existingItems = Array.from(sidebarList.children).filter(i => !i.classList.contains("logout-button"));
+      sidebarList.innerHTML = "";
+
+      const userContainer = document.createElement("li");
+      userContainer.classList.add("user-block-container");
+      const userBg = document.createElement("video");
+      userBg.classList.add("user-block-bg");
+      userBg.autoplay = true; userBg.loop = true; userBg.muted = true; userBg.playsInline = true;
+      userBg.innerHTML = `<source src="../../../images/profile2.webm" type="video/webm">`;
+      const usernameDisplay = document.createElement("div");
+      usernameDisplay.classList.add("username-display"); usernameDisplay.textContent = username;
+      userContainer.appendChild(userBg); userContainer.appendChild(usernameDisplay);
+      sidebarList.appendChild(userContainer);
+
+      existingItems.forEach(i => sidebarList.appendChild(i));
+
+      const logoutButton = document.createElement("a");
+      logoutButton.classList.add("logout-button"); 
+      logoutButton.href = "#"; 
+      logoutButton.innerHTML = '<i class="fas fa-sign-out-alt"></i> LOGOUT';
+      logoutButton.addEventListener("click", e => {
+        e.preventDefault(); 
+        localStorage.removeItem("token"); 
+        localStorage.removeItem("username");
+        window.location.href = "/index.html";
+      });
+      sidebarList.appendChild(logoutButton);
+
+    } else {
+      // USER IS LOGGED OUT - RESET TO DEFAULT STATE
+
+      // Reset sidebar to default items
+      const defaultItems = [
+        { href: "../../../challenges.html", text: "CHALLENGES", data: "challenges", icon: "bullseye" },
+        { href: "../../../academy.html", text: "ACADEMY", data: "academy", active:true, icon: "graduation-cap" },
+        { href: "../../../writeups.html", text: "WRITE UPS", data: "writeups", icon: "pen-fancy" },
+        { href: "../../../faq.html", text: "FAQ", data: "faq", icon: "question-circle" },
+        { href: "../../../contact.html", text: "CONTACT", data: "contact", icon: "envelope" },
+        { href: "../../../scoreboard.html", text: "SCOREBOARD", data: "scoreboard", icon: "trophy" },
+      ];
+
+      // Clear any existing items (in case there was a logout)
+      sidebarList.innerHTML = "";
+
+      // Add default items
+      defaultItems.forEach((item) => {
+        const link = document.createElement("a");
+        link.href = item.href;
+        link.className = "challenge-item" + (item.active ? " active" : "");
+        link.dataset.challenge = item.data;
+        link.innerHTML = `<i class="fas fa-${item.icon}"></i> ${item.text}`;
+        
+        // Also check current page URL to set active state
+        if (window.location.pathname.endsWith(item.href)) {
+          link.classList.add("active");
+        }
+        
+        sidebarList.appendChild(link);
+      });
+
+      document.querySelector(".sidebar").classList.add("logged-out");
+    }
+  });
+</script>
+
+
+</body>
+</html>
