@@ -843,10 +843,14 @@
     </div>
   </div>
   
-  <h3>Overall Progress</h3>
-  <div class="progress-bar-container">
-    <div class="progress-bar" id="overallProgressBar" style="width: 0%"></div>
+  <div class="progress-section">
+  <div class="progress-info">
+    Overall Academy Progress: <span id="academyProgressText">0%</span>
   </div>
+  <div class="progress-bar-container">
+    <div class="progress-bar" id="academyProgressBar"></div>
+  </div>
+</div>
 </div>
 
     
@@ -1013,6 +1017,76 @@
     }
   }
 
+  // --- Function to fetch Academy aura points ---
+  async function updateAcademyScore() {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const res = await fetch("https://api.wargames.batamladen.com/api/academy/academy_aura_points", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        document.getElementById("totalScore").textContent = data.academy_aura;
+      }
+    } catch(err) {
+      console.error("Error fetching academy score:", err);
+    }
+  }
+
+  // Function to update Getting Started module progress
+  async function updateGettingStartedProgress() {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      const gettingStartedProgressBar = document.querySelector('.card img[alt="Getting Started"]')
+        ?.parentElement.querySelector('.progress-fill');
+      if (gettingStartedProgressBar) {
+        gettingStartedProgressBar.style.width = '0%';
+      }
+      return;
+    }
+
+    try {
+      const progressResp = await fetch("https://api.wargames.batamladen.com/api/academy/progress", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      
+      if (progressResp.ok) {
+        const progressData = await progressResp.json();
+        
+        if (progressData.success) {
+          const gettingStartedModule = progressData.paths
+            .flatMap(path => path.modules)
+            .find(module => module.id === 1);
+          
+          if (gettingStartedModule) {
+            const completedLessons = gettingStartedModule.lessons.filter(lesson => lesson.completed).length;
+            const totalLessons = gettingStartedModule.lessons.length;
+            const progressPercentage = Math.round((completedLessons / totalLessons) * 100);
+            
+            const gettingStartedCard = document.querySelector('.card img[alt="Getting Started"]')?.parentElement;
+            if (gettingStartedCard) {
+              const progressBar = gettingStartedCard.querySelector('.progress-fill');
+              if (progressBar) {
+                progressBar.style.width = `${progressPercentage}%`;
+              }
+              
+              if (completedLessons === totalLessons) {
+                gettingStartedCard.classList.add('completed');
+              } else {
+                gettingStartedCard.classList.remove('completed');
+              }
+            }
+          }
+        }
+      }
+    } catch (err) {
+      console.error("Error fetching Getting Started progress:", err);
+    }
+  }
+
   // Check challenge completion status
   async function checkChallengeCompletion() {
     const token = localStorage.getItem("token");
@@ -1025,15 +1099,12 @@
       const data = await response.json();
 
       if (data.success) {
-        // Mark completed challenges
         const completedChallenges = new Set();
         data.progress.forEach(entry => {
           if (entry.series === 'shadows' && entry.level === '9') completedChallenges.add('shadows');
           if (entry.series === 'jugsaw' && entry.level === '10') completedChallenges.add('jugsaw');
-          // Add other challenges as needed
         });
 
-        // Add completed class to cards
         completedChallenges.forEach(challenge => {
           const card = document.querySelector(`.card img[alt="${challenge.charAt(0).toUpperCase() + challenge.slice(1)}"]`)?.parentElement;
           if (card) card.classList.add('completed');
@@ -1044,32 +1115,70 @@
     }
   }
 
-  // Load academy progress for logged in users
-  async function loadAcademyProgress() {
+  // --- MAIN PROGRESS FUNCTION - combines working parts ---
+  async function updateAcademyProgress() {
     const token = localStorage.getItem("token");
     if (!token) return;
-    
+
     try {
-      // Show progress dashboard
-      document.getElementById("progressDashboard").style.display = "block";
+      // 1. Get progress percentage from the working API endpoint
+      const progressResp = await fetch("https://api.wargames.batamladen.com/api/academy/progress_percentage", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const progressData = await progressResp.json();
       
-      // In a real implementation, you would fetch this from your API
-      // For now, we'll use mock data
-      const mockProgress = {
-        completed: 2,
-        inProgress: 3,
-        totalScore: 450,
-        overallProgress: 25
-      };
+      if (progressData.success) {
+        const percent = progressData.completed_percentage;
+        document.getElementById("academyProgressBar").style.width = percent + "%";
+        document.getElementById("academyProgressText").textContent = percent + "%";
+      }
+
+      // 2. Get module completion count from the detailed progress API
+      const detailedResp = await fetch("https://api.wargames.batamladen.com/api/academy/progress", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const detailedData = await detailedResp.json();
+
+      if (detailedData.success) {
+        let completedModules = 0;
+
+        // Use the working module counting logic
+        detailedData.paths.forEach(path => {
+          path.modules.forEach(module => {
+            let allLessonsCompleted = true;
+
+            // Check each lesson in the module
+            module.lessons.forEach(lesson => {
+              if (!lesson.completed) {
+                allLessonsCompleted = false;
+              }
+            });
+
+            // If all lessons in this module are completed, count as completed module
+            if (allLessonsCompleted && module.lessons.length > 0) {
+              completedModules++;
+            }
+          });
+        });
+
+        // Update completed modules count
+        document.getElementById("completedModules").textContent = completedModules;
+        
+        // Calculate completed tasks based on progress percentage (approximate)
+        // Since we know the percentage, we can estimate tasks completed
+        const totalTasks = 4; // Adjust this based on your actual total tasks
+        const completedTasks = Math.round((progressData.completed_percentage / 100) * totalTasks);
+        document.getElementById("completedTasks").textContent = completedTasks;
+      }
+
+      // 3. Update academy score
+      await updateAcademyScore();
       
-      // Update dashboard with progress data
-      document.getElementById("completedModules").textContent = mockProgress.completed;
-      document.getElementById("inProgress").textContent = mockProgress.inProgress;
-      document.getElementById("totalScore").textContent = mockProgress.totalScore;
-      document.getElementById("overallProgressBar").style.width = `${mockProgress.overallProgress}%`;
-      
+      // 4. Update Getting Started module progress
+      await updateGettingStartedProgress();
+
     } catch (err) {
-      console.error("Error loading academy progress:", err);
+      console.error("Error updating academy progress:", err);
     }
   }
 
@@ -1081,31 +1190,18 @@
 
   if (token && username) {
     // USER IS LOGGED IN
-
-    // Update header (remove login/register, add aura points container)
     headerRight.innerHTML = "";
 
     const auraContainer = document.createElement("div");
     auraContainer.classList.add("aura-container");
-
-    // Initially empty, will be filled by updateAuraDisplay()
     auraContainer.innerHTML = `
       <img src="images/aura.webp" class="aura-icon" alt="Aura Icon">
       <span class="aura-points">Aura Points: ...</span>
     `;
-
     headerRight.appendChild(auraContainer);
 
-    // Fetch and update actual aura points now
-    updateAuraDisplay();
-    
-    // Load academy progress
-    loadAcademyProgress();
-
-    // Update sidebar (add user block and logout, preserve other items)
+    // Update sidebar
     const existingItems = Array.from(sidebarList.children);
-
-    // Clear sidebar but keep a reference to the original items
     const originalItems = [];
     existingItems.forEach((item) => {
       if (!item.classList.contains("logout-button")) {
@@ -1118,7 +1214,6 @@
     // Add user block
     const userContainer = document.createElement("li");
     userContainer.classList.add("user-block-container");
-
     const userBg = document.createElement("video");
     userBg.classList.add("user-block-bg");
     userBg.setAttribute("autoplay", "");
@@ -1126,11 +1221,9 @@
     userBg.setAttribute("muted", "");
     userBg.setAttribute("playsinline", "");
     userBg.innerHTML = `<source src="images/profile2.webm" type="video/webm">`;
-
     const usernameDisplay = document.createElement("div");
     usernameDisplay.classList.add("username-display");
     usernameDisplay.textContent = username;
-
     userContainer.appendChild(userBg);
     userContainer.appendChild(usernameDisplay);
     sidebarList.appendChild(userContainer);
@@ -1141,268 +1234,63 @@
     });
 
     const logoutButton = document.createElement("a");
-      logoutButton.classList.add("logout-button"); 
-      logoutButton.href = "#"; 
-      logoutButton.innerHTML = '<i class="fas fa-sign-out-alt"></i> LOGOUT';
-      logoutButton.addEventListener("click", e => {
-        e.preventDefault(); 
-        localStorage.removeItem("token"); 
-        localStorage.removeItem("username");
-        window.location.href = "/index.html";
-      });
-
+    logoutButton.classList.add("logout-button"); 
+    logoutButton.href = "#"; 
+    logoutButton.innerHTML = '<i class="fas fa-sign-out-alt"></i> LOGOUT';
+    logoutButton.addEventListener("click", e => {
+      e.preventDefault(); 
+      localStorage.removeItem("token"); 
+      localStorage.removeItem("username");
+      window.location.href = "/index.html";
+    });
     sidebarList.appendChild(logoutButton);
-  } else {
-    // USER IS LOGGED OUT - RESET TO DEFAULT STATE
 
-    // Reset header to default (login/register buttons)
+    // Show dashboard and update ALL progress
+    document.getElementById("progressDashboard").style.display = "block";
+    updateAuraDisplay();
+    updateAcademyProgress(); // Single function that handles everything
+    checkChallengeCompletion();
+    
+  } else {
+    // USER IS LOGGED OUT
     headerRight.innerHTML = `
       <a href="login.html" class="auth-button" id="loginBtn">Login</a>
       <a href="register.html" class="auth-button" id="registerBtn">Register</a>
     `;
 
-      // Reset sidebar to default items
-      const defaultItems = [
-        { href: "challenges.html", text: "CHALLENGES", data: "challenges", icon: "bullseye" },
-        { href: "academy.html", text: "ACADEMY", data: "academy", active:true, icon: "graduation-cap" },
-        { href: "writeups.html", text: "WRITE UPS", data: "writeups", icon: "pen-fancy" },
-        { href: "faq.html", text: "FAQ", data: "faq", icon: "question-circle" },
-        { href: "contact.html", text: "CONTACT", data: "contact", icon: "envelope" },
-        { href: "scoreboard.html", text: "SCOREBOARD", data: "scoreboard", icon: "trophy" },
-      ];
+    const defaultItems = [
+      { href: "challenges.html", text: "CHALLENGES", data: "challenges", icon: "bullseye" },
+      { href: "academy.html", text: "ACADEMY", data: "academy", active:true, icon: "graduation-cap" },
+      { href: "writeups.html", text: "WRITE UPS", data: "writeups", icon: "pen-fancy" },
+      { href: "faq.html", text: "FAQ", data: "faq", icon: "question-circle" },
+      { href: "contact.html", text: "CONTACT", data: "contact", icon: "envelope" },
+      { href: "scoreboard.html", text: "SCOREBOARD", data: "scoreboard", icon: "trophy" },
+    ];
 
-      // Clear any existing items (in case there was a logout)
-      sidebarList.innerHTML = "";
-
-      defaultItems.forEach((item) => {
-        const link = document.createElement("a");
-        link.href = item.href;
-        link.className = "challenge-item" + (item.active ? " active" : "");
-        link.dataset.challenge = item.data;
-        link.innerHTML = `<i class="fas fa-${item.icon}"></i> ${item.text}`; // ← This includes icons
-        
-        // Also check current page URL to set active state
-        if (window.location.pathname.endsWith(item.href)) {
-          link.classList.add("active");
-        }
-        
-        sidebarList.appendChild(link);
-      });
+    sidebarList.innerHTML = "";
+    defaultItems.forEach((item) => {
+      const link = document.createElement("a");
+      link.href = item.href;
+      link.className = "challenge-item" + (item.active ? " active" : "");
+      link.dataset.challenge = item.data;
+      link.innerHTML = `<i class="fas fa-${item.icon}"></i> ${item.text}`;
+      if (window.location.pathname.endsWith(item.href)) {
+        link.classList.add("active");
+      }
+      sidebarList.appendChild(link);
+    });
 
     document.querySelector(".sidebar").classList.add("logged-out");
   }
 
+  // Fix the image alt text
   document.addEventListener("DOMContentLoaded", () => {
-    checkChallengeCompletion();
+    // Fix the typo in the image alt text
+    const gettingStartedImg = document.querySelector('.card img[alt="Getting Stared"]');
+    if (gettingStartedImg) {
+      gettingStartedImg.alt = "Getting Started";
+    }
   });
-// Load academy progress for logged in users
-async function loadAcademyProgress() {
-  const token = localStorage.getItem("token");
-  if (!token) return;
-
-  try {
-    // Show progress dashboard
-    document.getElementById("progressDashboard").style.display = "block";
-
-    // Fetch academy-specific score from API
-    await updateAcademyScore();
-
-    // You can still fetch completed/in-progress counts if you have an endpoint
-    // For now we keep mock data for those stats
-    const mockProgress = {
-      completed: 2,
-      inProgress: 3,
-      overallProgress: 25
-    };
-
-    document.getElementById("completedModules").textContent = mockProgress.completed;
-    document.getElementById("inProgress").textContent = mockProgress.inProgress;
-    document.getElementById("overallProgressBar").style.width = `${mockProgress.overallProgress}%`;
-
-  } catch (err) {
-    console.error("Error loading academy progress:", err);
-  }
-}
-
-// --- Function to fetch Academy aura points ---
-async function updateAcademyScore() {
-  const token = localStorage.getItem("token");
-  if (!token) return;
-
-  try {
-    const res = await fetch("https://api.wargames.batamladen.com/api/academy/academy_aura_points", {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    const data = await res.json();
-
-    if (data.success) {
-      document.getElementById("totalScore").textContent = data.academy_aura;
-    }
-  } catch(err) {
-    console.error("Error fetching academy score:", err);
-  }
-}
-
-// Call loadAcademyProgress() after login detection
-if (token && username) {
-  updateAuraDisplay();
-  loadAcademyProgress();  // <-- this now also updates academy score
-
-
-
-// Add this function after your existing JavaScript code in academy.html
-
-// Function to update Getting Started module progress
-async function updateGettingStartedProgress() {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    // If not logged in, hide progress or show 0%
-    const gettingStartedProgressBar = document.querySelector('.card img[alt="Getting Stared"]')
-      ?.parentElement.querySelector('.progress-fill');
-    if (gettingStartedProgressBar) {
-      gettingStartedProgressBar.style.width = '0%';
-    }
-    return;
-  }
-
-  try {
-    // Fetch academy progress data using the same API endpoint as getting-started.html
-    const progressResp = await fetch("https://api.wargames.batamladen.com/api/academy/progress", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    
-    if (progressResp.ok) {
-      const progressData = await progressResp.json();
-      
-      if (progressData.success) {
-        // Find the Getting Started module (ID 1)
-        const gettingStartedModule = progressData.paths
-          .flatMap(path => path.modules)
-          .find(module => module.id === 1); // Getting Started is module ID 1
-        
-        if (gettingStartedModule) {
-          // Count completed lessons
-          const completedLessons = gettingStartedModule.lessons.filter(lesson => lesson.completed).length;
-          const totalLessons = gettingStartedModule.lessons.length;
-          
-          // Calculate progress percentage
-          const progressPercentage = Math.round((completedLessons / totalLessons) * 100);
-          
-          // Find the Getting Started card's progress bar
-          const gettingStartedCard = document.querySelector('.card img[alt="Getting Stared"]')?.parentElement;
-          if (gettingStartedCard) {
-            const progressBar = gettingStartedCard.querySelector('.progress-fill');
-            if (progressBar) {
-              progressBar.style.width = `${progressPercentage}%`;
-            }
-            
-            // If module is completed, add the completed class
-            if (completedLessons === totalLessons) {
-              gettingStartedCard.classList.add('completed');
-            } else {
-              gettingStartedCard.classList.remove('completed');
-            }
-          }
-        }
-      }
-    }
-  } catch (err) {
-    console.error("Error fetching Getting Started progress:", err);
-  }
-}
-
-// Update your existing loadAcademyProgress function to include the Getting Started progress
-async function loadAcademyProgress() {
-  const token = localStorage.getItem("token");
-  if (!token) return;
-
-  try {
-    // Show progress dashboard
-    document.getElementById("progressDashboard").style.display = "block";
-
-    // Fetch academy-specific score from API
-    await updateAcademyScore();
-    
-    // Update Getting Started module progress
-    await updateGettingStartedProgress();
-
-    // You can still fetch completed/in-progress counts if you have an endpoint
-    // For now we keep mock data for those stats
-    const mockProgress = {
-      completed: 2,
-      inProgress: 3,
-      overallProgress: 25
-    };
-
-    document.getElementById("completedModules").textContent = mockProgress.completed;
-    document.getElementById("overallProgressBar").style.width = `${mockProgress.overallProgress}%`;
-
-  } catch (err) {
-    console.error("Error loading academy progress:", err);
-  }
-}
-
-// Also call updateGettingStartedProgress when the page loads for logged-in users
-if (token && username) {
-  updateAuraDisplay();
-  loadAcademyProgress();  // This now includes updateGettingStartedProgress()
-}
-
-// Optional: Add a function to update all module progress bars (for future modules)
-async function updateAllModuleProgress() {
-  const token = localStorage.getItem("token");
-  if (!token) return;
-
-  try {
-    const progressResp = await fetch("https://api.wargames.batamladen.com/api/academy/progress", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    
-    if (progressResp.ok) {
-      const progressData = await progressResp.json();
-      
-      if (progressData.success) {
-        const allModules = progressData.paths.flatMap(path => path.modules);
-        
-        // Update each module's progress
-        allModules.forEach(module => {
-          const completedLessons = module.lessons.filter(lesson => lesson.completed).length;
-          const totalLessons = module.lessons.length;
-          const progressPercentage = Math.round((completedLessons / totalLessons) * 100);
-          
-          // Find the corresponding card by module ID (you'd need to add data attributes to cards)
-          // For now, we handle Getting Started specifically
-          if (module.id === 1) { // Getting Started
-            const card = document.querySelector('.card img[alt="Getting Stared"]')?.parentElement;
-            if (card) {
-              const progressBar = card.querySelector('.progress-fill');
-              if (progressBar) {
-                progressBar.style.width = `${progressPercentage}%`;
-              }
-              
-              if (completedLessons === totalLessons) {
-                card.classList.add('completed');
-              } else {
-                card.classList.remove('completed');
-              }
-            }
-          }
-          
-          // Add more modules here as needed:
-          // if (module.id === 2) { // Next module
-          //   // Handle next module progress
-          // }
-        });
-      }
-    }
-  } catch (err) {
-    console.error("Error updating module progress:", err);
-  }
-}
-
-}
-
-
 </script>
 
 </body>
