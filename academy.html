@@ -874,6 +874,22 @@
           </div>
         </a>
 
+
+        <!-- Obfuscation & Steganography Master Path -->
+        <a href="academy/paths/invisible-guest.html" style="text-decoration: none;">
+          <div class="path-card obfuscation">
+            <img src="images/Invisible_Guest-removebg-preview.webp" alt="Invisible Guest Path" class="path-image">
+            <div class="path-content">
+              <h3>Invisible Guest</h3>
+              <p>Stay silent & invisible while attacking.</p>
+              <div class="path-stats">
+                <div class="path-stat">Modules <span>8</span></div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+
         <!-- Splunk Master Path -->
         <a href="splunk-master.html" style="text-decoration: none;">
           <div class="path-card splunk">
@@ -881,20 +897,6 @@
             <div class="path-content">
               <h3>Splunk Master</h3>
               <p>Understand the most popular SIEM solution, log reviews, and how to recognize a true/false positive.</p>
-              <div class="path-stats">
-                <div class="path-stat">Modules <span>Soon..</span></div>
-              </div>
-            </div>
-          </div>
-        </a>
-
-        <!-- Obfuscation & Steganography Master Path -->
-        <a href="academy/paths/phishing.html" style="text-decoration: none;">
-          <div class="path-card obfuscation">
-            <img src="images/phishing_logo-removebg-preview.webp" alt="Obfuscation Master Path" class="path-image">
-            <div class="path-content">
-              <h3>Invisible Guest</h3>
-              <p>Learn to hide information. Understand how to make code hard to read.</p>
               <div class="path-stats">
                 <div class="path-stat">Modules <span>Soon..</span></div>
               </div>
@@ -927,6 +929,20 @@
         </div>
       </a>
       
+      <!-- Foundations of Stealth Module -->
+      <a href="/academy/modules/Foundations of Stealth/Foundations-of-Stealth.html" style="text-decoration: none;">
+        <div class="card">
+          <img src="images/foundations_of_stealth.webp" alt="Foundations of Stealth" class="card-image">
+          <div class="card-content">
+            <h3>Foundations of Stealth</h3>
+            <span class="difficulty intermediate">Intermediate</span>
+            <p>Learn stealth techniques and information hiding in cybersecurity.</p>
+            <div class="progress-indicator">
+              <div class="progress-fill"></div>
+            </div>
+          </div>
+        </div>
+      </a>
       
       
       
@@ -1087,6 +1103,62 @@
     }
   }
 
+  // Function to update Foundations of Stealth module progress
+  async function updateFoundationsOfStealthProgress() {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      const stealthProgressBar = document.querySelector('.card img[alt="Foundations of Stealth"]')
+        ?.parentElement.querySelector('.progress-fill');
+      if (stealthProgressBar) {
+        stealthProgressBar.style.width = '0%';
+      }
+      return;
+    }
+
+    try {
+      const progressResp = await fetch("https://api.wargames.batamladen.com/api/academy/progress", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (progressResp.ok) {
+        const progressData = await progressResp.json();
+
+        if (progressData.success) {
+          const stealthModule = progressData.paths
+            .flatMap(path => path.modules)
+            .find(module => module.id === 2);
+
+          if (stealthModule) {
+            const completedLessons = stealthModule.lessons.filter(lesson => lesson.completed).length;
+            const totalLessons = stealthModule.lessons.length;
+            const progressPercentage = Math.round((completedLessons / totalLessons) * 100);
+
+            const stealthCard = document.querySelector('.card img[alt="Foundations of Stealth"]')?.parentElement;
+            if (stealthCard) {
+              const progressBar = stealthCard.querySelector('.progress-fill');
+              if (progressBar) {
+                progressBar.style.width = `${progressPercentage}%`;
+              }
+
+              if (completedLessons === totalLessons) {
+                stealthCard.classList.add('completed');
+              } else {
+                stealthCard.classList.remove('completed');
+              }
+            }
+          }
+        }
+      }
+    } catch (err) {
+      console.error("Error fetching Foundations of Stealth progress:", err);
+    }
+  }
+
+
+
+
+
+
   // Check challenge completion status
   async function checkChallengeCompletion() {
     const token = localStorage.getItem("token");
@@ -1164,11 +1236,7 @@
         // Update completed modules count
         document.getElementById("completedModules").textContent = completedModules;
         
-        // Calculate completed tasks based on progress percentage (approximate)
-        // Since we know the percentage, we can estimate tasks completed
-        const totalTasks = 4; // Adjust this based on your actual total tasks
-        const completedTasks = Math.round((progressData.completed_percentage / 100) * totalTasks);
-        document.getElementById("completedTasks").textContent = completedTasks;
+        
       }
 
       // 3. Update academy score
@@ -1176,6 +1244,13 @@
       
       // 4. Update Getting Started module progress
       await updateGettingStartedProgress();
+      await updateFoundationsOfStealthProgress();
+
+      // --- FIX: Tasks Completed uses Academy Score divided by 5 ---
+      const academyScore = document.getElementById("totalScore").textContent;
+      if (academyScore && !isNaN(academyScore)) {
+        document.getElementById("completedTasks").textContent = Math.floor(Number(academyScore) / 5);
+      }
 
     } catch (err) {
       console.error("Error updating academy progress:", err);
