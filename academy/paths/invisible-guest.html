@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>WBM &ndash; Splunk Master Path</title>
+  <title>WBM &ndash; Invisible Guest</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
@@ -697,10 +697,10 @@
   <div class="main-content">
     <!-- Path Header -->
     <div class="path-header">
-      <img src="../../images/intro_to_WBM-removebg-preview.webp" alt="Intro to WBM Academy" class="path-image">
+      <img src="../../images/Invisible_Guest-removebg-preview.webp" alt="Intro to WBM Academy" class="path-image">
       <div class="path-info">
-        <h1 class="path-title">Intro to The WBM Academy</h1>
-        <p class="path-description">Get a touch of the academy workflow.</p>
+        <h1 class="path-title">Invisible Guest</h1>
+        <p class="path-description">Stay Silent and Hidden while Attacking.</p>
       </div>
     </div>
     
@@ -719,16 +719,16 @@
     <div class="modules-list">
       <h2>Modules in this Path</h2>
       
-      <!-- Module 1 - Welcome -->
-      <div class="module-item" data-module="1">
+      <!-- Module 2 - Foundations of Stealth  -->
+      <div class="module-item" data-module="2">
         <div class="module-icon">
           <i class="fas fa-flag"></i>
         </div>
         <div class="module-details">
-          <h3 class="module-title">Getting Started</h3>
+          <h3 class="module-title">Foundations of Stealth</h3>
         </div>
-        <div class="module-status status-not-started" id="module1-status"></div>
-        <button class="start-button" data-module="1">Start Module</button>
+        <div class="module-status status-not-started" id="module2-status"></div>
+        <button class="start-button" data-module="2">Start Module</button>
       </div>
     </div>
   </div>
@@ -858,22 +858,22 @@
   }
 
   function updatePathProgress(progressData) {
-  // Only count module with ID 1 ("Getting Started")
-  let totalModules = 1;
+  // Only count modules for path ID 2 ("Invisible Guest")
+  let totalModules = 0;
   let completedModules = 0;
 
-  // Find the module with id 1 in the progress data
   progressData.forEach(path => {
-    path.modules.forEach(module => {
-      if (module.id === 1) {
+    if (path.id === 2) {
+      totalModules = path.modules.length;
+      path.modules.forEach(module => {
         // Module is considered completed if all its lessons are completed
         const allLessonsCompleted = module.lessons.every(lesson => lesson.completed);
-        if (allLessonsCompleted) completedModules = 1;
-      }
-    });
+        if (allLessonsCompleted) completedModules++;
+      });
+    }
   });
 
-  const progressPercentage = Math.round((completedModules / totalModules) * 100);
+  const progressPercentage = totalModules > 0 ? Math.round((completedModules / totalModules) * 100) : 0;
   document.getElementById("pathProgressBar").style.width = `${progressPercentage}%`;
   document.getElementById("progressPercentage").textContent = `${progressPercentage}%`;
   document.getElementById("completedCount").textContent = completedModules;
@@ -902,14 +902,14 @@
   // --- Module buttons ---
   document.querySelectorAll(".start-button").forEach(button => {
     button.addEventListener("click", function() {
-      const moduleId = parseInt(this.dataset.module);
-      let redirectUrl = "";
-      switch(moduleId) {
-        case 1: redirectUrl = "../modules/getting-started/getting-started.html"; break;
-        case 2: redirectUrl = "../modules/getting-started/getting-started.html"; break;
-        default: redirectUrl = "../modules/getting-started/getting-started.html";
-      }
-      window.location.href = redirectUrl;
+        const moduleId = parseInt(this.dataset.module);
+        let redirectUrl = "";
+        switch(moduleId) {
+            case 2: redirectUrl = "../modules/Foundations of Stealth/Foundations-of-Stealth.html"; break;
+            // Add more cases for future modules
+            default: redirectUrl = "../modules/foundations-of-stealth/foundations-of-stealth.html";
+        }
+        window.location.href = redirectUrl;
     });
   });
 
