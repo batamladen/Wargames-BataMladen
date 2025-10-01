@@ -10,7 +10,7 @@ Players connect via SSH to isolated container environments hosted on a remote se
 
 # Contact 📬
 
-For questions, write to [wargamesbatamladen@gmail.com](mailto:wargamesbatamladen@gmail.com)
+For questions, write to [contact@batamladen.com](mailto:contact@batamladen.com)
 
 
 # Contributing 🌟
