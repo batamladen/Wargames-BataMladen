@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>WBM &ndash; Getting Started: Navigation</title>
+  <title>WBM &ndash; Foundations of Stealth: Introduction to Stealth & OPSEC</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
@@ -295,7 +295,7 @@
     .lesson-content h2 {
       text-align: left;
       border-bottom: none;
-      margin-top: 0;
+      margin-top: 40px;
       padding-bottom: 0;
       color: var(--accent-color);
     }
@@ -542,7 +542,7 @@
       background-color: var(--bg-container);
       border-radius: 8px;
       padding: 20px;
-      margin-top: 90px;
+      margin-top: 30px;
       border-left: 4px solid var(--accent-color);
       transition: all 0.3s ease;
     }
@@ -552,6 +552,10 @@
     }
 
     .task-section.completed .task-icon {
+      color: var(--success-color);
+    }
+
+    .task-section.completed .task-title {
       color: var(--success-color);
     }
 
@@ -624,6 +628,7 @@
       font-family: 'League Spartan', sans-serif;
       cursor: pointer;
       transition: all 0.2s;
+      margin-top: 20px;
     }
 
     .submit-btn:hover {
@@ -635,7 +640,10 @@
       cursor: not-allowed;
     }
     
-
+    .submit-btn.completed {
+      background-color: var(--success-color);
+      cursor: not-allowed;
+    }
 
     .task-feedback {
       padding: 10px;
@@ -684,6 +692,153 @@
         border-radius: 2px; /* optional: rounded edges */
     }
 
+    .get-started-stylish {
+      display: inline-block;
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #9d50bb, #48bb78);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 12px rgba(110,72,170,0.2);
+      margin-top: 40px;
+    }
+
+    /* Quiz Styles for Multiple Questions */
+    .quiz-options {
+      margin-left: 10px;
+    }
+
+    .quiz-option {
+      background-color: var(--bg-darker);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      padding: 10px 15px;
+      margin: 5px 0;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quiz-option:hover {
+      background-color: rgba(110, 72, 170, 0.1);
+      border-color: var(--accent-color);
+    }
+
+    .quiz-option.selected {
+      background-color: rgba(110, 72, 170, 0.2);
+      border-color: var(--accent-color);
+    }
+
+    .quiz-option input[type="checkbox"],
+    .quiz-option input[type="radio"] {
+      margin-right: 10px;
+    }
+
+    .multiple-choice .quiz-option {
+      display: flex;
+      align-items: center;
+    }
+
+    .single-choice .quiz-option {
+      display: flex;
+      align-items: center;
+    }
+
+    .question-completed {
+      color: var(--success-color);
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .tasks-header {
+      text-align: center;
+      margin: 60px 0 30px 0;
+      padding: 20px;
+      background-color: var(--bg-container);
+      border-radius: 8px;
+      border-left: 4px solid var(--accent-color);
+    }
+
+    .tasks-title {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 600;
+      font-size: 1.5rem;
+      color: var(--accent-color);
+      margin: 0;
+    }
+
+    .tasks-description {
+      color: var(--text-secondary);
+      margin-top: 10px;
+    }
+
+
+    .tasks-main-header {
+      text-align: center;
+      margin: 60px 0 30px 0;
+    }
+
+    .tasks-main-title {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 600;
+      font-size: 2.0rem;
+      color: var(--accent-color);
+      margin: 0;
+      border-bottom: none !important; /* Remove any underline */
+      padding-bottom: 0;
+    }
+
+    .tasks-main-description {
+      color: var(--text-secondary);
+      margin-top: 0px;
+      font-size: 1.0rem;
+    }
+
+
+    .scenario-section {
+      margin: 50px 0;
+    }
+
+    .scenario-title {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 600;
+      font-size: 1.5rem;
+      color: var(--accent-color);
+      margin: 0 0 10px 0;
+      text-align: left;
+    }
+
+    .scenario-subtitle {
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      margin: 0 0 20px 0;
+      text-align: left;
+    }
+
+    .scenario-list {
+      margin: 15px 0;
+      padding-left: 20px;
+    }
+
+    .scenario-list li {
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    .instructions-box {
+      background-color: var(--bg-darker);
+      border-radius: 6px;
+      padding: 20px;
+      margin-top: 20px;
+      border-left: 3px solid var(--accent-color);
+    }
+
+    .instructions-box h4 {
+      margin-top: 0;
+      color: var(--accent-color);
+    }
 
     #mobile-warning {
       display: none;
@@ -741,7 +896,6 @@
 
 <div class="sidebar">
   <ul class="challenge-list" id="sidebarList">
-    <!-- User item will be inserted here if logged in -->
     <a href="../../../challenges.html" class="challenge-item" data-challenge="challenges">
       <i class="fas fa-bullseye"></i> CHALLENGES
     </a>
@@ -772,53 +926,131 @@
     </div>
     
     <div class="lesson-content">
-        <h2>What is Stealth & OPSEC?</h2>
-        <p>Stealth in cybersecurity means minimizing your footprint — avoiding detection while performing tasks. OPSEC (Operational Security) is the discipline of protecting sensitive information and ensuring adversaries cannot exploit leaks.</p>
+        <h2>TL;DR</h2>
+        <p>This lesson introduces the ethical foundations of stealth in cybersecurity — what stealth means, how OPSEC principles apply to ethical research, and how defenders detect stealthy activity. You'll also learn how to safely build your own isolated lab environment for hands-on practice.</p>
 
-        <h3>Key Concepts</h3>
+        <h2>Why Study Stealth?</h2>
         <ul>
-            <li><strong>Stealth</strong> – Blending into the environment and reducing visibility</li>
-            <li><strong>OPSEC</strong> – Protecting how, when, and where you operate</li>
-            <li><strong>Information control</strong> – Avoid oversharing details that may compromise security</li>
+          <li>Understanding stealthy behavior helps defenders improve detection, containment, and response.</li>
+          <li>Ethical research into stealth supports both red and blue team skill development.</li>
+        </ul>
+        <p><strong>Important:</strong> This material is strictly for authorized, ethical, and defensive use. Never apply these ideas on systems you don't own or have explicit permission to test.</p>
+
+        <h2>OPSEC Basics</h2>
+        <ul>
+          <li><strong>Least Exposure:</strong> minimize the information and artifacts you leave behind during experiments.</li>
+          <li><strong>Isolation:</strong> separate test environments from production systems.</li>
+          <li><strong>Authorization:</strong> always operate within approved scope and written permission.</li>
+          <li><strong>Minimal Impact:</strong> test safely and avoid real-world disruption.</li>
+          <li><strong>Documentation:</strong> keep records of your steps for transparency and accountability.</li>
         </ul>
 
-        <p>Throughout this module, you will explore how stealth and OPSEC apply to cybersecurity operations.</p>
+        <h2>Stealth Goals</h2>
+        <ul>
+          <li><strong>Avoiding detection</strong> by EDR, IDS, or logging tools.</li>
+          <li><strong>Reducing artifacts</strong> left on disk or memory.</li>
+          <li><strong>Blending in</strong> with normal traffic or user behavior.</li>
+          <li><strong>Maintaining long-term presence</strong> without triggering alerts.</li>
+        </ul>
+        <p>Defenders counter these goals by collecting telemetry and building behavioral baselines to detect anomalies.</p>
 
-      
-      <!-- Task Section - UPDATED -->
-      <div class="task-section" id="taskSection">
-        <div class="task-header">
-          <div class="task-icon">
-            <i class="fas fa-tasks"></i>
-          </div>
-          <h3 class="task-title">Task</h3>
-        </div>
-        <p class="task-description">If you finished reading this lesson write "Done" in the input field below to mark this lesson as completed.</p>
+        <h2>How Defenders Detect Stealth</h2>
+        <ul>
+          <li><strong>Telemetry-first:</strong> gathering logs from endpoints, networks, and authentication systems.</li>
+          <li><strong>Baseline detection:</strong> understanding "normal" to find "abnormal."</li>
+          <li><strong>Correlation:</strong> combining multiple data sources to reduce false positives.</li>
+          <li><strong>Hunting:</strong> forming hypotheses and verifying them with forensic analysis.</li>
+        </ul>
+
+        <h2>Threat Modeling Exercise</h2>
+        <p>Create a short one-page threat model for a small company scenario:</p>
+        <ul>
+          <li><strong>Assets:</strong> list what systems or data matter most.</li>
+          <li><strong>Adversary:</strong> what skills or resources do they have?</li>
+          <li><strong>Stealth goals:</strong> what kind of hidden activity might they attempt?</li>
+          <li><strong>Defender signals:</strong> which logs or sensors could expose them?</li>
+          <li><strong>Boundaries:</strong> what's in-scope and what's not?</li>
+        </ul>
         
-        <div class="task-input-container">
-          <input type="text" class="task-input" id="taskAnswer" placeholder="Enter your answer">
-          <button class="submit-btn" id="submitTask">Submit</button>
-        </div>
-        
-        <div class="task-feedback" id="taskFeedback"></div>
-      </div>
+        <h2>Safe Lab Setup</h2>
+        <ul>
+          <li>Use isolated virtual machines with no access to production systems.</li>
+          <li>Create snapshots before testing, so you can revert changes safely.</li>
+          <li>Keep your lab offline or simulate Internet access locally.</li>
+          <li>Log your actions and timestamps for every experiment.</li>
+        </ul>
+
+        <h2>Resources Covering this Topic</h2>
+        <ul>
+          <li>"The Art of Cyber Defense and Detection" – a guide to modern defensive operations.</li>
+          <li>MITRE ATT&amp;CK Framework – understanding adversary techniques and detection coverage.</li>
+          <li>OWASP Testing Guide – safe and ethical web security testing practices.</li>
+          <li>US-CERT Operational Security Guidelines – principles for protecting sensitive operations.</li>
+        </ul>
+
+      <p>
+        <span class="get-started-stylish">Key Takeaway</span>
+      </p>
+        <p>Stealth differs from each sides perspective:<br>
+          <strong>Offense (Red Team):</strong> is about hiding malicious intent and avoid being detected.<br>
+          <strong>Defense (Blue Team):</strong> is about understanding how attackers evade detection so they can build stronger defenses.</p>
+    </div>
+
+    <hr class="module-underline">
+
+    <!-- Tasks Header -->
+    <div class="tasks-main-header">
+      <h2 class="tasks-main-title">Tasks</h2>
+      <p class="tasks-main-description">Complete all the tasks to finish the lesson.</p>
+    </div>
+
+    <!-- Scenario Section -->
+    <div class="scenario-section">
+      <h3 class="scenario-title">Threat Modeling Exercise - Quiz</h3>
+      <p class="scenario-subtitle">Scenario: "HealthTrack" - Small Healthcare SaaS Company</p>
       
-      <div class="lesson-navigation">
-        <button class="lesson-btn" id="prevLesson">Previous</button>
-        <button class="lesson-btn" id="nextLesson">Next Lesson</button>
-      </div>
+      <h4>Company Profile</h4>
+      <ul class="scenario-list">
+        <li><strong>Size:</strong> 35 employees (15 remote, 20 in main office)</li>
+        <li><strong>Product:</strong> Patient appointment scheduling and medical records management web application</li>
+        <li><strong>Customers:</strong> 50 small medical clinics across the country with ~25,000 total patients</li>
+        <li><strong>Infrastructure:</strong> AWS-hosted (EC2 web servers, RDS PostgreSQL database, S3 for document storage)</li>
+        <li><strong>Tech Stack:</strong> Python/Django backend, Vue.js frontend, PostgreSQL database</li>
+        <li><strong>Team:</strong> 4 developers, 1 DevOps engineer, 2 customer support staff, sales and admin staff</li>
+        <li><strong>Compliance:</strong> Must follow HIPAA regulations for patient data protection</li>
+      </ul>
+      
+      <h4>Instructions</h4>
+      <p>Read the scenario above carefully. You will answer questions about creating a threat model for HealthTrack. Each question may have one or multiple correct answers. Select all answers that apply.</p>
+    </div>
+
+    <!-- Tasks Header -->
+    <div class="tasks-header">
+      <h3 class="tasks-title">HealthTrack Security Assessment</h3>
+      <p class="tasks-description">Complete all tasks below to finish this lesson. Answer all questions based on the HealthTrack scenario.</p>
+    </div>
+
+    <!-- Individual Task Sections - Will be dynamically loaded -->
+    <div id="tasksContainer">
+      <div class="loading-message">Loading tasks...</div>
+    </div>
+      
+    <div class="lesson-navigation">
+      <button class="lesson-btn" id="prevLesson">Previous</button>
+      <button class="lesson-btn" id="nextLesson">Next Lesson</button>
     </div>
   </div>
   
-    <div class="lesson-nav">
-        <div class="lesson-nav-title">Lessons</div>
-        <div class="lesson-numbers">
-            <a href="lesson1.html" class="lesson-number active" id="lesson5">1</a>
-            <a href="lesson2.html" class="lesson-number" id="lesson6">2</a>
-            <a href="lesson3.html" class="lesson-number" id="lesson7">3</a>
-            <a href="lesson4.html" class="lesson-number" id="lesson8">4</a>
-        </div>
+  <div class="lesson-nav">
+    <div class="lesson-nav-title">Lessons</div>
+    <div class="lesson-numbers">
+      <a href="lesson1.html" class="lesson-number active" id="lesson5">1</a>
+      <a href="lesson2.html" class="lesson-number" id="lesson6">2</a>
+      <a href="lesson3.html" class="lesson-number" id="lesson7">3</a>
+      <a href="lesson4.html" class="lesson-number" id="lesson8">4</a>
     </div>
+  </div>
+</div>
 
 <div id="mobile-warning">
   <p>THIS PLATFORM IS BEST EXPERIENCED ON A DESKTOP DEVICE.</p>
@@ -889,24 +1121,21 @@ async function updateAuraDisplay() {
 // Constants for this specific lesson
 const MODULE_ID = 2; // Foundations of Stealth module
 const LESSON_ID = 5; // Introduction to Stealth lesson
-const TASK_ID = 5;   // Task in the Introduction to Stealth lesson
 
 async function fetchProgressAndApply() {
   if (!token) return;
   try {
-    // Fetch user progress using your existing endpoint
     const res = await fetch("https://api.wargames.batamladen.com/api/academy/progress", {
       headers: { Authorization: `Bearer ${token}` }
     });
     const data = await res.json();
     
     if (data.success && data.paths) {
-      // Find the Getting Started module (assuming it's in the first path)
-      const gettingStartedModule = data.paths[0]?.modules?.find(module => module.id === MODULE_ID);
+      const foundationsModule = data.paths[0]?.modules?.find(module => module.id === MODULE_ID);
       
-      if (gettingStartedModule) {
+      if (foundationsModule) {
         // Mark completed lessons in the sidebar
-        gettingStartedModule.lessons.forEach(lesson => {
+        foundationsModule.lessons.forEach(lesson => {
           const lessonElement = document.getElementById(`lesson${lesson.id}`);
           if (lessonElement && lesson.completed) {
             lessonElement.classList.add('completed');
@@ -914,9 +1143,9 @@ async function fetchProgressAndApply() {
         });
         
         // Check if current lesson is completed
-        const currentLesson = gettingStartedModule.lessons.find(lesson => lesson.id === LESSON_ID);
+        const currentLesson = foundationsModule.lessons.find(lesson => lesson.id === LESSON_ID);
         if (currentLesson && currentLesson.completed) {
-          markUIAsCompleted();
+          lesson5.classList.add('completed');
         }
       }
     }
@@ -925,80 +1154,374 @@ async function fetchProgressAndApply() {
   }
 }
 
-/* ---------------------- TASK HANDLER ---------------------- */
-const taskAnswer = document.getElementById('taskAnswer');
-const submitTask = document.getElementById('submitTask');
-const taskFeedback = document.getElementById('taskFeedback');
-const taskSection = document.getElementById('taskSection');
-const lesson2 = document.getElementById('lesson2');
+/* ---------------------- TASK HANDLER - INDIVIDUAL TASK BOXES ---------------------- */
+const tasksContainer = document.getElementById('tasksContainer');
+const lesson5 = document.getElementById('lesson5');
 
-function markUIAsCompleted() {
-  taskFeedback.textContent = 'Correct! Lesson completed!';
-  taskFeedback.className = 'task-feedback success';
-  taskSection.classList.add('completed');
-  taskAnswer.value = 'This task is completed';
-  taskAnswer.classList.add('completed');
-  taskAnswer.disabled = true;
-  submitTask.textContent = 'Completed';
-  submitTask.classList.add('completed');
-  submitTask.disabled = true;
-  lesson2.classList.add('completed');
+let currentQuestions = [];
+let userAnswers = {};
+let completedQuestions = new Set();
+
+// Load tasks from backend
+async function loadTasks() {
+  if (!token) {
+    tasksContainer.innerHTML = '<div class="task-feedback error">Please log in to load tasks.</div>';
+    return;
+  }
+
+  try {
+    console.log('Loading tasks for lesson:', LESSON_ID);
+    const response = await fetch(`https://api.wargames.batamladen.com/api/academy/lesson/${LESSON_ID}/questions`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    
+    const data = await response.json();
+    console.log('Tasks response:', data);
+    
+    if (data.success && data.questions && data.questions.length > 0) {
+      currentQuestions = data.questions;
+      console.log(`Found ${currentQuestions.length} questions`);
+      
+      // Check completed status for each question
+      await checkQuestionCompletionStatus();
+      
+      // Render individual task boxes
+      renderIndividualTasks(currentQuestions);
+    } else {
+      console.log('No tasks found or empty response');
+      tasksContainer.innerHTML = '<div class="task-feedback">No tasks available for this lesson.</div>';
+    }
+  } catch (error) {
+    console.error('Error loading tasks:', error);
+    tasksContainer.innerHTML = '<div class="task-feedback error">Error loading tasks. Please try again.</div>';
+  }
 }
 
-async function markTaskCompletedBackend() {
-  if (!token) {
-    alert("Login required to save progress");
-    return false;
-  }
+// PROPER: Check completion status for each question using the new endpoint
+async function checkQuestionCompletionStatus() {
+  if (!token) return;
+  
   try {
-    const res = await fetch("https://api.wargames.batamladen.com/api/academy/complete_task", {
-      method: "POST",
+    console.log('Checking question completion status for lesson:', LESSON_ID);
+    
+    const response = await fetch(`https://api.wargames.batamladen.com/api/academy/lesson/${LESSON_ID}/question_status`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    
+    const data = await response.json();
+    console.log('Question status response:', data);
+    
+    if (data.success && data.question_status) {
+      // Clear existing completed questions
+      completedQuestions.clear();
+      
+      // Add completed questions to the set
+      Object.entries(data.question_status).forEach(([questionId, isCompleted]) => {
+        if (isCompleted) {
+          completedQuestions.add(parseInt(questionId));
+        }
+      });
+      
+      console.log(`Found ${completedQuestions.size} completed questions`);
+      
+      // Check if all questions are completed (lesson is complete)
+      if (completedQuestions.size === data.total_questions && data.total_questions > 0) {
+        console.log('All questions completed, marking lesson as completed');
+        lesson5.classList.add('completed');
+      }
+    }
+  } catch (error) {
+    console.error('Error checking question completion status:', error);
+    completedQuestions.clear();
+  }
+}
+    
+
+// Render individual task boxes
+function renderIndividualTasks(questions) {
+  tasksContainer.innerHTML = '';
+  
+  console.log(`Rendering ${questions.length} tasks, completed:`, Array.from(completedQuestions));
+  
+  questions.forEach((question, index) => {
+    const isCompleted = completedQuestions.has(question.id);
+    
+    const taskSection = document.createElement('div');
+    taskSection.className = `task-section ${isCompleted ? 'completed' : ''}`;
+    taskSection.id = `task-${question.id}`;
+    
+    let taskContent = '';
+    
+    if (question.question_type === 'text') {
+      taskContent = `
+        <div class="task-input-container">
+          <input type="text" 
+                 class="task-input ${isCompleted ? 'completed' : ''}" 
+                 id="input-${question.id}"
+                 placeholder="Type your answer here"
+                 ${isCompleted ? 'disabled value="Completed"' : ''}>
+          <button class="submit-btn ${isCompleted ? 'completed' : ''}" 
+                  id="submit-${question.id}"
+                  ${isCompleted ? 'disabled' : ''}>
+            ${isCompleted ? 'Completed' : 'Submit'}
+          </button>
+        </div>
+      `;
+    } else if (question.question_type === 'single') {
+      const options = question.answers.map(answer => `
+        <div class="quiz-option single-choice-option ${isCompleted ? 'completed' : ''}">
+          <input type="radio" 
+                 name="question_${question.id}" 
+                 value="${answer.id}" 
+                 id="option-${answer.id}"
+                 ${isCompleted ? 'disabled' : ''}>
+          <label for="option-${answer.id}">${answer.answer_text}</label>
+        </div>
+      `).join('');
+      
+      taskContent = `
+        <div class="quiz-options">
+          ${options}
+        </div>
+        <div class="task-input-container">
+          <button class="submit-btn ${isCompleted ? 'completed' : ''}" 
+                  id="submit-${question.id}"
+                  ${isCompleted ? 'disabled' : ''}>
+            ${isCompleted ? 'Completed' : 'Submit Answer'}
+          </button>
+        </div>
+      `;
+    } else if (question.question_type === 'multiple') {
+      const options = question.answers.map(answer => `
+        <div class="quiz-option multiple-choice-option ${isCompleted ? 'completed' : ''}">
+          <input type="checkbox" 
+                 name="question_${question.id}" 
+                 value="${answer.id}" 
+                 id="option-${answer.id}"
+                 ${isCompleted ? 'disabled' : ''}>
+          <label for="option-${answer.id}">${answer.answer_text}</label>
+        </div>
+      `).join('');
+      
+      taskContent = `
+        <div class="quiz-options">
+          ${options}
+        </div>
+        <div class="task-input-container">
+          <button class="submit-btn ${isCompleted ? 'completed' : ''}" 
+                  id="submit-${question.id}"
+                  ${isCompleted ? 'disabled' : ''}>
+            ${isCompleted ? 'Completed' : 'Submit Answer'}
+          </button>
+        </div>
+      `;
+    }
+    
+    taskSection.innerHTML = `
+      <div class="task-header">
+        <div class="task-icon">
+          <i class="fas fa-tasks"></i>
+        </div>
+        <h3 class="task-title">Task ${index + 1}</h3>
+      </div>
+      <p class="task-description">${question.question_text}</p>
+      ${taskContent}
+      <div class="task-feedback" id="feedback-${question.id}"></div>
+    `;
+    
+    tasksContainer.appendChild(taskSection);
+  });
+
+  // Add event listeners
+  addTaskEventListeners();
+}
+
+// Add event listeners for task interactions
+function addTaskEventListeners() {
+  // Text input changes
+  document.querySelectorAll('.task-input:not(.completed)').forEach(input => {
+    input.addEventListener('input', (e) => {
+      const questionId = e.target.id.replace('input-', '');
+      userAnswers[questionId] = e.target.value.trim();
+    });
+  });
+
+  // Single choice radio buttons
+  document.querySelectorAll('input[type="radio"]:not(:disabled)').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      const questionId = e.target.name.replace('question_', '');
+      userAnswers[questionId] = e.target.value;
+      
+      // Update visual selection
+      document.querySelectorAll(`input[name="${e.target.name}"]`).forEach(opt => {
+        opt.closest('.quiz-option').classList.remove('selected');
+      });
+      e.target.closest('.quiz-option').classList.add('selected');
+    });
+  });
+
+  // Multiple choice checkboxes
+  document.querySelectorAll('input[type="checkbox"]:not(:disabled)').forEach(checkbox => {
+    checkbox.addEventListener('change', (e) => {
+      const questionId = e.target.name.replace('question_', '');
+      const selectedOptions = Array.from(
+        document.querySelectorAll(`input[type="checkbox"][name="${e.target.name}"]:checked`)
+      ).map(cb => cb.value);
+      
+      userAnswers[questionId] = selectedOptions;
+      
+      // Update visual selection
+      e.target.closest('.quiz-option').classList.toggle('selected', e.target.checked);
+    });
+  });
+
+  // Submit buttons
+  document.querySelectorAll('.submit-btn:not(.completed)').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const questionId = e.target.id.replace('submit-', '');
+      submitSingleTask(questionId);
+    });
+  });
+}
+
+// Submit a single task
+async function submitSingleTask(questionId) {
+  if (!token) {
+    showFeedback(questionId, 'Please log in to submit answers.', 'error');
+    return;
+  }
+
+  const question = currentQuestions.find(q => q.id == questionId);
+  if (!question) return;
+
+  const answer = userAnswers[questionId];
+  
+  if (!answer || (Array.isArray(answer) && answer.length === 0)) {
+    showFeedback(questionId, 'Please provide an answer for this task.', 'error');
+    return;
+  }
+
+  const submitButton = document.getElementById(`submit-${questionId}`);
+  submitButton.disabled = true;
+  submitButton.textContent = 'Submitting...';
+
+  try {
+    const response = await fetch('https://api.wargames.batamladen.com/api/academy/submit_quiz', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify({ task_id: TASK_ID })
+      body: JSON.stringify({
+        question_id: questionId,
+        answer: answer
+      })
     });
 
-    const data = await res.json();
+    const result = await response.json();
+    console.log('Submit response:', result);
+    
+    if (result.success) {
+      if (result.correct) {
+        // Check if this is a duplicate submission (already completed)
+        if (result.message && result.message.includes("Already completed")) {
+          // Question was already completed - mark it as such
+          completedQuestions.add(parseInt(questionId));
+          markTaskAsCompleted(questionId);
+          showFeedback(questionId, 'Already completed — no additional aura awarded.', 'success');
+        } else {
+          // Mark task as completed
+          completedQuestions.add(parseInt(questionId));
+          
+          // Update UI to show completed state
+          markTaskAsCompleted(questionId);
+          
+          // Check if all tasks are now completed
+          if (completedQuestions.size === currentQuestions.length) {
+            console.log('All tasks completed, marking lesson as completed');
+            // All tasks completed - mark lesson as completed
+            const completeResponse = await fetch("https://api.wargames.batamladen.com/api/academy/complete_task", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+              },
+              body: JSON.stringify({ task_id: LESSON_ID })
+            });
 
-    if (data.success) {
-      if (data.aura_earned && data.aura_earned > 0) {
-        taskFeedback.textContent = `Task completed! +${data.aura_earned} Aura Points earned.`;
+            const completeData = await completeResponse.json();
+            console.log('Lesson completion response:', completeData);
+            
+            if (completeData.success) {
+              lesson5.classList.add('completed');
+              updateAuraDisplay();
+              setTimeout(fetchProgressAndApply, 100);
+
+              // SHOW THE SUCCESS MESSAGE
+              showLessonCompletedMessage();
+            }
+          }
+          
+          showFeedback(questionId, result.aura_awarded > 0 
+            ? `Correct! +${result.aura_awarded} Aura Points.`
+            : 'Correct!', 'success');
+        }
       } else {
-        taskFeedback.textContent = "Task completed!";
+        showFeedback(questionId, 'Incorrect. Please try again.', 'error');
+        submitButton.disabled = false;
+        submitButton.textContent = question.question_type === 'text' ? 'Submit' : 'Submit Answer';
       }
-      taskFeedback.className = "task-feedback success";
-      updateAuraDisplay();          // 🔥 Refresh total aura
-      setTimeout(fetchProgressAndApply, 100);
-      return true;
     } else {
-      console.error("Task completion failed:", data);
-      return false;
+      showFeedback(questionId, 'Error submitting answer. Please try again.', 'error');
+      submitButton.disabled = false;
+      submitButton.textContent = question.question_type === 'text' ? 'Submit' : 'Submit Answer';
     }
-  } catch(err) { 
-    console.error("Completion error:", err);
-    return false;
+  } catch (error) {
+    console.error('Error submitting task:', error);
+    showFeedback(questionId, 'Error submitting answer. Please try again.', 'error');
+    submitButton.disabled = false;
+    submitButton.textContent = question.question_type === 'text' ? 'Submit' : 'Submit Answer';
   }
 }
 
-
-submitTask.addEventListener('click', async () => {
-  const answer = taskAnswer.value.trim().toLowerCase();
-  if (answer === 'done') {
-    const success = await markTaskCompletedBackend();
-    if (success) {
-      taskFeedback.textContent = 'Task completed! Saving progress...';
-      taskFeedback.className = 'task-feedback success';
-    } else {
-      taskFeedback.textContent = 'Error saving progress. Please try again.';
-      taskFeedback.className = 'task-feedback error';
+// Mark a task as completed in the UI
+function markTaskAsCompleted(questionId) {
+  const taskSection = document.getElementById(`task-${questionId}`);
+  const submitButton = document.getElementById(`submit-${questionId}`);
+  const inputs = taskSection.querySelectorAll('input, textarea, select');
+  
+  // Add completed class to task section
+  taskSection.classList.add('completed');
+  
+  // Disable all inputs
+  inputs.forEach(input => {
+    input.disabled = true;
+    if (input.type === 'text') {
+      input.value = 'Completed';
+      input.classList.add('completed');
     }
-  } else {
-    taskFeedback.textContent = 'Incorrect. Please try again.';
-    taskFeedback.className = 'task-feedback error';
+  });
+  
+  // Update submit button
+  submitButton.textContent = 'Completed';
+  submitButton.classList.add('completed');
+  submitButton.disabled = true;
+}
+
+// Show feedback for a specific task
+function showFeedback(questionId, message, type) {
+  const feedback = document.getElementById(`feedback-${questionId}`);
+  feedback.textContent = message;
+  feedback.className = `task-feedback ${type}`;
+  feedback.style.display = 'block';
+  
+  // Auto-hide success messages after 3 seconds
+  if (type === 'success') {
+    setTimeout(() => {
+      feedback.style.display = 'none';
+    }, 3000);
   }
-});
+}
 
 /* ---------------------- NAVIGATION ---------------------- */
 document.getElementById('prevLesson')?.addEventListener('click',()=>{
@@ -1062,14 +1585,11 @@ function setupSidebar(){
     sidebarList.appendChild(logoutButton);
   } else {
       // USER IS LOGGED OUT - RESET TO DEFAULT STATE
-
-      // Reset header to default (login/register buttons)
       headerRight.innerHTML = `
         <a href="../../../login.html" class="auth-button" id="loginBtn">Login</a>
         <a href="../../../register.html" class="auth-button" id="registerBtn">Register</a>
       `;
 
-      // Reset sidebar to default items
       const defaultItems = [
         { href: "../../../challenges.html", text: "CHALLENGES", data: "challenges", icon: "bullseye" },
         { href: "../../../academy.html", text: "ACADEMY", data: "academy", active:true, icon: "graduation-cap" },
@@ -1079,7 +1599,6 @@ function setupSidebar(){
         { href: "../../../scoreboard.html", text: "SCOREBOARD", data: "scoreboard", icon: "trophy" },
       ];
 
-      // Clear any existing items (in case there was a logout)
       sidebarList.innerHTML = "";
 
       defaultItems.forEach((item) => {
@@ -1087,9 +1606,8 @@ function setupSidebar(){
         link.href = item.href;
         link.className = "challenge-item" + (item.active ? " active" : "");
         link.dataset.challenge = item.data;
-        link.innerHTML = `<i class="fas fa-${item.icon}"></i> ${item.text}`; // ← This includes icons
+        link.innerHTML = `<i class="fas fa-${item.icon}"></i> ${item.text}`;
         
-        // Also check current page URL to set active state
         if (window.location.pathname.endsWith(item.href)) {
           link.classList.add("active");
         }
@@ -1099,7 +1617,6 @@ function setupSidebar(){
 
       document.querySelector(".sidebar").classList.add("logged-out");
     }
-  
 }
 
 /* ---------------------- INIT ---------------------- */
@@ -1108,10 +1625,11 @@ document.addEventListener("DOMContentLoaded",()=>{
   if (token) {
     updateAuraDisplay();
     fetchProgressAndApply();
+    loadTasks(); // Load tasks when page loads
+  } else {
+    tasksContainer.innerHTML = '<div class="task-feedback error">Please log in to access the tasks.</div>';
   }
 });
 </script>
-
-
 </body>
 </html>
