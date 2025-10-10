@@ -626,7 +626,6 @@
       font-family: 'League Spartan', sans-serif;
       cursor: pointer;
       transition: all 0.2s;
-      margin-top: 20px;
     }
 
     .submit-btn:hover {
@@ -791,6 +790,36 @@
       color: var(--text-secondary);
       margin-top: 0px;
       font-size: 1.0rem;
+    }
+
+    /* Add smooth transition for lesson completion */
+    .lesson-number {
+      transition: all 0.5s ease-in-out;
+    }
+
+    .lesson-number.completed {
+      background-color: var(--success-color);
+      color: white;
+      border-color: var(--success-color);
+    }
+
+    .lesson-number.completed.pulse {
+      animation: pulse-green 0.6s ease-in-out;
+    }
+
+    @keyframes pulse-green {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+      }
+      50% {
+        transform: scale(1.15);
+        box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+      }
     }
 
     #mobile-warning {
@@ -1018,39 +1047,66 @@ async function updateAuraDisplay() {
 }
 
 /* ---------------------- BACKEND PROGRESS ---------------------- */
-// Constants for this specific lesson
-const MODULE_ID = 1; // Getting Started module
-const LESSON_ID = 1; // Welcome lesson
+const MODULE_ID = 1;
+const LESSON_ID = 1;
 
 async function fetchProgressAndApply() {
   if (!token) return;
+  
+  console.log('🔄 Checking progress for all lessons using quiz system...');
+  
+  // Check each lesson individually using the quiz system
+  const lessons = [1, 2, 3, 4];
+  
+  for (const lessonId of lessons) {
+    await checkLessonCompletion(lessonId);
+  }
+}
+
+// Check if a lesson is completed using the quiz system
+async function checkLessonCompletion(lessonId) {
   try {
-    const res = await fetch("https://api.wargames.batamladen.com/api/academy/progress", {
+    const response = await fetch(`https://api.wargames.batamladen.com/api/academy/lesson/${lessonId}/question_status`, {
       headers: { Authorization: `Bearer ${token}` }
     });
-    const data = await res.json();
     
-    if (data.success && data.paths) {
-      const gettingStartedModule = data.paths[0]?.modules?.find(module => module.id === MODULE_ID);
-      
-      if (gettingStartedModule) {
-        // Mark completed lessons in the sidebar
-        gettingStartedModule.lessons.forEach(lesson => {
-          const lessonElement = document.getElementById(`lesson${lesson.id}`);
-          if (lessonElement && lesson.completed) {
-            lessonElement.classList.add('completed');
-          }
-        });
-        
-        // Check if current lesson is completed
-        const currentLesson = gettingStartedModule.lessons.find(lesson => lesson.id === LESSON_ID);
-        if (currentLesson && currentLesson.completed) {
-          lesson1.classList.add('completed');
-        }
-      }
+    if (!response.ok) {
+      console.log(`❌ Failed to fetch status for lesson ${lessonId}`);
+      return;
     }
-  } catch(err) { 
-    console.error("Progress fetch failed:", err);
+    
+    const data = await response.json();
+    
+    if (data.success && data.question_status) {
+      const totalQuestions = data.total_questions;
+      const completedQuestions = Object.values(data.question_status).filter(status => status).length;
+      
+      const lessonElement = document.getElementById(`lesson${lessonId}`);
+      if (!lessonElement) {
+        console.log(`❌ Lesson element not found: lesson${lessonId}`);
+        return;
+      }
+      
+      if (totalQuestions === 0) {
+        console.log(`ℹ️ Lesson ${lessonId} has no questions`);
+        lessonElement.classList.remove('completed');
+      } else if (completedQuestions === totalQuestions) {
+        console.log(`✅ Lesson ${lessonId} COMPLETED: ${completedQuestions}/${totalQuestions} questions done`);
+        // Only animate if it's the current lesson and wasn't already completed
+        if (lessonId === LESSON_ID && !lessonElement.classList.contains('completed')) {
+          animateLessonCompletion();
+        } else {
+          lessonElement.classList.add('completed');
+        }
+      } else {
+        console.log(`❌ Lesson ${lessonId} NOT completed: ${completedQuestions}/${totalQuestions} questions done`);
+        lessonElement.classList.remove('completed');
+      }
+    } else {
+      console.log(`❌ Invalid response for lesson ${lessonId}:`, data);
+    }
+  } catch (error) {
+    console.error(`💥 Error checking lesson ${lessonId}:`, error);
   }
 }
 
@@ -1127,7 +1183,15 @@ async function checkQuestionCompletionStatus() {
       // Check if all questions are completed (lesson is complete)
       if (completedQuestions.size === data.total_questions && data.total_questions > 0) {
         console.log('All questions completed, marking lesson as completed');
-        lesson1.classList.add('completed');
+        // Use smooth animation instead of just adding class
+        const lessonElement = document.getElementById(`lesson${LESSON_ID}`);
+        if (lessonElement && !lessonElement.classList.contains('completed')) {
+          // If lesson wasn't already marked as completed, animate it
+          animateLessonCompletion();
+        } else if (lessonElement) {
+          // If it was already completed, just ensure the class is there
+          lessonElement.classList.add('completed');
+        }
       }
     }
   } catch (error) {
@@ -1352,14 +1416,15 @@ async function submitSingleTask(questionId) {
             console.log('Lesson completion response:', completeData);
             
             if (completeData.success) {
-              lesson1.classList.add('completed');
+              // Smooth animation instead of page refresh
+              animateLessonCompletion();
               updateAuraDisplay();
               setTimeout(fetchProgressAndApply, 100);
             }
           }
           
           showFeedback(questionId, result.aura_awarded > 0 
-            ? `Correct! +${result.aura_awarded} Aura Points earned.`
+            ? `Correct!`
             : 'Correct!', 'success');
         }
       } else {
@@ -1378,6 +1443,124 @@ async function submitSingleTask(questionId) {
     submitButton.disabled = false;
     submitButton.textContent = question.question_type === 'text' ? 'Submit' : 'Submit Answer';
   }
+}
+
+// Smooth animation for lesson completion
+function animateLessonCompletion() {
+  const lessonElement = document.getElementById(`lesson${LESSON_ID}`);
+  if (!lessonElement) {
+    console.error('Lesson element not found for animation');
+    return;
+  }
+  
+  console.log('Animating lesson completion for lesson:', LESSON_ID);
+  
+  // First ensure the completed class is added
+  lessonElement.classList.add('completed');
+  
+  // Add pulse animation
+  lessonElement.classList.add('pulse');
+  
+  // Remove pulse class after animation completes
+  setTimeout(() => {
+    lessonElement.classList.remove('pulse');
+  }, 600);
+  
+  // Show success message
+  showCompletionToast();
+}
+
+// Show completion toast message
+function showCompletionToast() {
+  // Remove any existing toast first
+  const existingToast = document.querySelector('.completion-toast');
+  if (existingToast) {
+    existingToast.remove();
+  }
+  
+  const toast = document.createElement('div');
+  toast.className = 'completion-toast';
+  toast.textContent = '🎉 Lesson Completed!';
+  toast.style.cssText = `
+    position: fixed;
+    top: 70px;
+    right: 100px;
+    background: var(--success-color);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 600;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    animation: slideInRight 0.5s ease-out, fadeOut 0.5s ease-in 2.5s forwards;
+  `;
+  
+  document.body.appendChild(toast);
+  
+  // Remove the toast after animation
+  setTimeout(() => {
+    if (toast.parentNode) {
+      toast.parentNode.removeChild(toast);
+    }
+  }, 3000);
+}
+
+// Add the CSS animations to the page
+function ensureAnimationStyles() {
+  if (document.getElementById('completion-animations')) return;
+  
+  const style = document.createElement('style');
+  style.id = 'completion-animations';
+  style.textContent = `
+    @keyframes slideInRight {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: translateX(100%);
+      }
+    }
+    
+    .lesson-number {
+      transition: all 0.5s ease-in-out;
+    }
+
+    .lesson-number.completed {
+      background-color: var(--success-color);
+      color: white;
+      border-color: var(--success-color);
+      transform: scale(1);
+    }
+
+    .lesson-number.completed.pulse {
+      animation: pulse-green 0.6s ease-in-out;
+    }
+
+    @keyframes pulse-green {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+      }
+      50% {
+        transform: scale(1.15);
+        box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+      }
+    }
+  `;
+  document.head.appendChild(style);
 }
 
 // Mark a task as completed in the UI
@@ -1516,9 +1699,10 @@ function setupSidebar(){
 /* ---------------------- INIT ---------------------- */
 document.addEventListener("DOMContentLoaded",()=>{
   setupSidebar();
+  ensureAnimationStyles(); // Add this line
   if (token) {
     updateAuraDisplay();
-    fetchProgressAndApply();
+    fetchProgressAndApply(); // This will now show ALL completed lessons
     loadTasks(); // Load tasks when page loads
   } else {
     tasksContainer.innerHTML = '<div class="task-feedback error">Please log in to access the tasks.</div>';
