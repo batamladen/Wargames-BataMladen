@@ -857,41 +857,34 @@
     updateModuleButton();
   }
   
-  // Function to fetch lesson progress from backend
+  const LESSON_IDS = [1, 2, 3, 4];
+
   async function fetchLessonProgress() {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-    
+  const token = localStorage.getItem("token");
+  if (!token) return;
+
+  let completedLessons = 0;
+
+  // Check each lesson's quiz completion status
+  for (const lessonId of LESSON_IDS) {
     try {
-      // Fetch academy progress data
-      const progressResp = await fetch("https://api.wargames.batamladen.com/api/academy/progress", {
-        headers: { Authorization: `Bearer ${token}` },
+      const resp = await fetch(`https://api.wargames.batamladen.com/api/academy/lesson/${lessonId}/question_status`, {
+        headers: { Authorization: `Bearer ${token}` }
       });
-      
-      if (progressResp.ok) {
-        const progressData = await progressResp.json();
-        
-        if (progressData.success) {
-          // Find the Getting Started module (ID 1)
-          const gettingStartedModule = progressData.paths
-            .flatMap(path => path.modules)
-            .find(module => module.id === 1); // Getting Started is module ID 1
-          
-          if (gettingStartedModule) {
-            // Count completed lessons
-            const completedLessons = gettingStartedModule.lessons.filter(lesson => lesson.completed).length;
-            
-            lessonProgress.completedLessons = completedLessons;
-            lessonProgress.totalLessons = gettingStartedModule.lessons.length;
-            
-            updateProgressDisplay();
-          }
-        }
+      const data = await resp.json();
+      // A lesson is completed if all questions are completed and there is at least one question
+      if (data.success && data.total_questions > 0 && data.completed_questions === data.total_questions) {
+        completedLessons++;
       }
     } catch (err) {
-      console.error("Error fetching lesson progress:", err);
+      console.error(`Error fetching progress for lesson ${lessonId}:`, err);
     }
   }
+
+  lessonProgress.completedLessons = completedLessons;
+  lessonProgress.totalLessons = LESSON_IDS.length;
+  updateProgressDisplay();
+}
   
   function checkLoginStatus() {
     const token = localStorage.getItem("token");
