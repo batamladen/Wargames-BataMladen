@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>WBM &ndash; Getting Started: Navigation</title>
+  <title>WBM &ndash; Foundations of Stealth: Introduction to Stealth & OPSEC</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
@@ -202,7 +202,7 @@
     }
 
     .challenge-item.active i {
-      color: var(--accent-color);
+      color: var(--accent-color); 
     }
 
     /* Content Styles */
@@ -226,6 +226,7 @@
         margin: 0 auto;
     }
 
+
     /* Lesson Navigation */
     .lesson-nav {
       width: 60px;
@@ -236,7 +237,7 @@
       right: 0;
       top: 0px;
       height: 100vh;
-      padding-top: 80px;
+      padding-top: 80px;  /* push content below header */
     }
 
     .lesson-nav-title {
@@ -294,16 +295,17 @@
     .lesson-content h2 {
       text-align: left;
       border-bottom: none;
-      margin-top: 0;
+      margin-top: 40px;
       padding-bottom: 0;
       color: var(--accent-color);
     }
 
     .lesson-content p,
     .lesson-content li {
-        font-size: 0.95rem;
+        font-size: 0.95rem;  /* smaller text */
         line-height: 1.6;
     }
+
 
     .lesson-content code {
       font-family: 'JetBrains Mono', monospace;
@@ -535,7 +537,7 @@
       text-align: center;
     }
 
-    /* Task Section Styles */
+    /* Task Section Styles - UPDATED */
     .task-section {
       background-color: var(--bg-container);
       border-radius: 8px;
@@ -621,11 +623,12 @@
       background-color: var(--accent-color);
       color: white;
       border: none;
-      padding: 0px 20px;
+      padding: 10px 20px;
       border-radius: 4px;
       font-family: 'League Spartan', sans-serif;
       cursor: pointer;
       transition: all 0.2s;
+      margin-top: 20px;
     }
 
     .submit-btn:hover {
@@ -665,28 +668,42 @@
 
     .lesson-header {
         text-align: center;
-        margin-bottom: 10px;
+        margin-bottom: 10px; /* a bit smaller spacing than before */
     }
 
     .module-title {
-        font-size: 1.5rem;
+        font-size: 1.5rem; /* smaller than the old 3rem */
         color: var(--accent-color);
-        margin: 0;
+        margin: 0; /* remove extra space above */
     }
 
     .lesson-name {
         font-size: 3rem;
         color: var(--text-primary);
-        margin-top: 5px;
+        margin-top: 5px; /* small gap under module title */
     }
 
     .module-underline {
-        width: 20cm;
-        height: 1.5px;
+        width: 20cm;        /* the width you want */
+        height: 1.5px;      /* thickness of the line */
         background-color: var(--accent-color);
-        border: none;
-        margin: -10px auto 0;
-        border-radius: 2px;
+        border: none;       /* remove default border styling */
+        margin: -10px auto 0; /* Reduced top margin to bring it closer */
+        border-radius: 2px; /* optional: rounded edges */
+    }
+
+    .get-started-stylish {
+      display: inline-block;
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #9d50bb, #48bb78);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 12px rgba(110,72,170,0.2);
+      margin-top: 40px;
     }
 
     /* Quiz Styles for Multiple Questions */
@@ -757,6 +774,7 @@
       margin-top: 10px;
     }
 
+
     .tasks-main-header {
       text-align: center;
       margin: 60px 0 30px 0;
@@ -768,7 +786,7 @@
       font-size: 2.0rem;
       color: var(--accent-color);
       margin: 0;
-      border-bottom: none !important;
+      border-bottom: none !important; /* Remove any underline */
       padding-bottom: 0;
     }
 
@@ -776,6 +794,50 @@
       color: var(--text-secondary);
       margin-top: 0px;
       font-size: 1.0rem;
+    }
+
+
+    .scenario-section {
+      margin: 50px 0;
+    }
+
+    .scenario-title {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 600;
+      font-size: 1.5rem;
+      color: var(--accent-color);
+      margin: 0 0 10px 0;
+      text-align: left;
+    }
+
+    .scenario-subtitle {
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      margin: 0 0 20px 0;
+      text-align: left;
+    }
+
+    .scenario-list {
+      margin: 15px 0;
+      padding-left: 20px;
+    }
+
+    .scenario-list li {
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    .instructions-box {
+      background-color: var(--bg-darker);
+      border-radius: 6px;
+      padding: 20px;
+      margin-top: 20px;
+      border-left: 3px solid var(--accent-color);
+    }
+
+    .instructions-box h4 {
+      margin-top: 0;
+      color: var(--accent-color);
     }
 
     /* Add smooth transition for lesson completion */
@@ -803,7 +865,7 @@
         box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
       }
       100% {
-        transform: scale(1.0);
+        transform: scale(1);
         box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
       }
     }
@@ -825,6 +887,22 @@
       line-height: 2rem;
       font-family: 'League Spartan', sans-serif;
     }
+
+    /* New styles for lesson completion */
+    .lesson-completion-message {
+      background-color: rgba(40, 167, 69, 0.1);
+      border: 1px solid var(--success-color);
+      color: var(--success-color);
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+      text-align: center;
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.2rem;
+    }
+
+
+
   </style>
 </head>
 <body>
@@ -888,34 +966,80 @@
 <div class="content-wrapper">
   <div class="main-content">
     <div class="lesson-header">
-        <h3 class="module-title">Module: Getting Started</h3>
-        <h1 class="lesson-name">Navigation</h1>
+        <h3 class="module-title">Module: Foundations of Stealth</h3>
+        <h1 class="lesson-name">Introduction to Stealth & OPSEC</h1>
         <hr class="module-underline">
     </div>
     
     <div class="lesson-content">
-      <h2>Understanding the Platform Layout</h2>
-      <p>Before diving into anything, it's important to understand how to navigate the platform effectively.</p>
-      
-      <h3>Main Navigation Areas</h3>
-      <ul>
-        <li><strong>Challenges</strong> - Where you'll find all available security challenges</li>
-        <li><strong>Academy</strong> - Learning modules like this one to build your skills</li>
-        <li><strong>Write Ups</strong> - Community solutions and explanations for challenges</li>
-        <li><strong>FAQ</strong> - Frequently asked questions and answers</li>
-        <li><strong>Contact</strong> - Get in touch with the platform administrators</li>
-        <li><strong>Scoreboard</strong> - See how you rank against other participants</li>
-      </ul>
-      
-      <h3>Academy Lesson Navigation</h3>
-      <p>When reading a lesson, on the right side of the screen, you'll notice the lesson navigation panel. This shows:</p>
-      <ul>
-        <li>Current lesson (highlighted in purple)</li>
-        <li>Completed lessons (green checkmarks)</li>
-        <li>Upcoming lessons (gray numbers)</li>
-      </ul>
-      
-      <p>Use the Previous and Next buttons at the bottom of each lesson to move between modules.</p>
+        <h2>TL;DR</h2>
+        <p>This lesson introduces the ethical foundations of stealth in cybersecurity — what stealth means, how OPSEC principles apply to ethical research, and how defenders detect stealthy activity. You'll also learn how to safely build your own isolated lab environment for hands-on practice.</p>
+
+        <h2>Why Study Stealth?</h2>
+        <ul>
+          <li>Understanding stealthy behavior helps defenders improve detection, containment, and response.</li>
+          <li>Ethical research into stealth supports both red and blue team skill development.</li>
+        </ul>
+        <p><strong>Important:</strong> This material is strictly for authorized, ethical, and defensive use. Never apply these ideas on systems you don't own or have explicit permission to test.</p>
+
+        <h2>OPSEC Basics</h2>
+        <ul>
+          <li><strong>Least Exposure:</strong> minimize the information and artifacts you leave behind during experiments.</li>
+          <li><strong>Isolation:</strong> separate test environments from production systems.</li>
+          <li><strong>Authorization:</strong> always operate within approved scope and written permission.</li>
+          <li><strong>Minimal Impact:</strong> test safely and avoid real-world disruption.</li>
+          <li><strong>Documentation:</strong> keep records of your steps for transparency and accountability.</li>
+        </ul>
+
+        <h2>Stealth Goals</h2>
+        <ul>
+          <li><strong>Avoiding detection</strong> by EDR, IDS, or logging tools.</li>
+          <li><strong>Reducing artifacts</strong> left on disk or memory.</li>
+          <li><strong>Blending in</strong> with normal traffic or user behavior.</li>
+          <li><strong>Maintaining long-term presence</strong> without triggering alerts.</li>
+        </ul>
+        <p>Defenders counter these goals by collecting telemetry and building behavioral baselines to detect anomalies.</p>
+
+        <h2>How Defenders Detect Stealth</h2>
+        <ul>
+          <li><strong>Telemetry-first:</strong> gathering logs from endpoints, networks, and authentication systems.</li>
+          <li><strong>Baseline detection:</strong> understanding "normal" to find "abnormal."</li>
+          <li><strong>Correlation:</strong> combining multiple data sources to reduce false positives.</li>
+          <li><strong>Hunting:</strong> forming hypotheses and verifying them with forensic analysis.</li>
+        </ul>
+
+        <h2>Threat Modeling Exercise</h2>
+        <p>Create a short one-page threat model for a small company scenario:</p>
+        <ul>
+          <li><strong>Assets:</strong> list what systems or data matter most.</li>
+          <li><strong>Adversary:</strong> what skills or resources do they have?</li>
+          <li><strong>Stealth goals:</strong> what kind of hidden activity might they attempt?</li>
+          <li><strong>Defender signals:</strong> which logs or sensors could expose them?</li>
+          <li><strong>Boundaries:</strong> what's in-scope and what's not?</li>
+        </ul>
+        
+        <h2>Safe Lab Setup</h2>
+        <ul>
+          <li>Use isolated virtual machines with no access to production systems.</li>
+          <li>Create snapshots before testing, so you can revert changes safely.</li>
+          <li>Keep your lab offline or simulate Internet access locally.</li>
+          <li>Log your actions and timestamps for every experiment.</li>
+        </ul>
+
+        <h2>Resources Covering this Topic</h2>
+        <ul>
+          <li>"The Art of Cyber Defense and Detection" – a guide to modern defensive operations.</li>
+          <li>MITRE ATT&amp;CK Framework – understanding adversary techniques and detection coverage.</li>
+          <li>OWASP Testing Guide – safe and ethical web security testing practices.</li>
+          <li>US-CERT Operational Security Guidelines – principles for protecting sensitive operations.</li>
+        </ul>
+
+      <p>
+        <span class="get-started-stylish">Key Takeaway</span>
+      </p>
+        <p>Stealth differs from each sides perspective:<br>
+          <strong>Offense (Red Team):</strong> is about hiding malicious intent and avoid being detected.<br>
+          <strong>Defense (Blue Team):</strong> is about understanding how attackers evade detection so they can build stronger defenses.</p>
     </div>
 
     <hr class="module-underline">
@@ -925,6 +1049,27 @@
       <h2 class="tasks-main-title">Tasks</h2>
       <p class="tasks-main-description">Complete all the tasks to finish the lesson.</p>
     </div>
+
+    <!-- Scenario Section -->
+    <div class="scenario-section">
+      <h3 class="scenario-title">Threat Modeling Exercise - Quiz</h3>
+      <p class="scenario-subtitle">Scenario: "HealthTrack" - Small Healthcare SaaS Company</p>
+      
+      <h4>Company Profile</h4>
+      <ul class="scenario-list">
+        <li><strong>Size:</strong> 35 employees (15 remote, 20 in main office)</li>
+        <li><strong>Product:</strong> Patient appointment scheduling and medical records management web application</li>
+        <li><strong>Customers:</strong> 50 small medical clinics across the country with ~25,000 total patients</li>
+        <li><strong>Infrastructure:</strong> AWS-hosted (EC2 web servers, RDS PostgreSQL database, S3 for document storage)</li>
+        <li><strong>Tech Stack:</strong> Python/Django backend, Vue.js frontend, PostgreSQL database</li>
+        <li><strong>Compliance:</strong> HIPAA regulations for patient data protection</li>
+      </ul>
+      
+      <h4>Instructions</h4>
+      <p>Read the scenario above carefully. You will answer questions about creating a threat model for HealthTrack. Each question may have one or multiple correct answers. Select all answers that apply.</p>
+    </div>
+
+
 
     <!-- Individual Task Sections - Will be dynamically loaded -->
     <div id="tasksContainer">
@@ -940,10 +1085,10 @@
   <div class="lesson-nav">
     <div class="lesson-nav-title">Lessons</div>
     <div class="lesson-numbers">
-      <a href="welcome.html" class="lesson-number" id="lesson1">1</a>
-      <a href="navigation.html" class="lesson-number active" id="lesson2">2</a>
-      <a href="tools.html" class="lesson-number" id="lesson3">3</a>
-      <a href="tasks.html" class="lesson-number" id="lesson4">4</a>
+      <a href="Introduction-to-Stealth-&-OPSEC.html" class="lesson-number active" id="lesson5">1</a>
+      <a href="lesson2.html" class="lesson-number" id="lesson6">2</a>
+      <a href="lesson3.html" class="lesson-number" id="lesson7">3</a>
+      <a href="lesson4.html" class="lesson-number" id="lesson8">4</a>
     </div>
   </div>
 </div>
@@ -1014,8 +1159,8 @@ async function updateAuraDisplay() {
 }
 
 /* ---------------------- BACKEND PROGRESS ---------------------- */
-const MODULE_ID = 1;
-const LESSON_ID = 2; // CHANGED FROM 1 TO 2
+const MODULE_ID = 2;
+const LESSON_ID = 5;
 
 async function fetchProgressAndApply() {
   if (!token) return;
@@ -1023,7 +1168,7 @@ async function fetchProgressAndApply() {
   console.log('🔄 Checking progress for all lessons using quiz system...');
   
   // Check each lesson individually using the quiz system
-  const lessons = [1, 2, 3, 4];
+  const lessons = [5, 6, 7, 8];
   
   for (const lessonId of lessons) {
     await checkLessonCompletion(lessonId);
@@ -1077,17 +1222,14 @@ async function checkLessonCompletion(lessonId) {
   }
 }
 
-
 /* ---------------------- TASK HANDLER - INDIVIDUAL TASK BOXES ---------------------- */
 const tasksContainer = document.getElementById('tasksContainer');
-const lesson2 = document.getElementById('lesson2'); // CHANGED FROM lesson4 TO lesson2
+const lesson5 = document.getElementById('lesson5');
 
-// ADD THESE MISSING VARIABLE DECLARATIONS:
 let currentQuestions = [];
 let userAnswers = {};
 let completedQuestions = new Set();
 
-// ADD THIS MISSING FUNCTION:
 // Load tasks from backend
 async function loadTasks() {
   if (!token) {
@@ -1169,6 +1311,7 @@ async function checkQuestionCompletionStatus() {
     completedQuestions.clear();
   }
 }
+    
 
 // Render individual task boxes
 function renderIndividualTasks(questions) {
@@ -1394,7 +1537,7 @@ async function submitSingleTask(questionId) {
           }
           
           showFeedback(questionId, result.aura_awarded > 0 
-            ? `Correct!`
+            ? `Correct! +${result.aura_awarded} Aura Points earned!`
             : 'Correct!', 'success');
         }
       } else {
@@ -1414,7 +1557,6 @@ async function submitSingleTask(questionId) {
     submitButton.textContent = question.question_type === 'text' ? 'Submit' : 'Submit Answer';
   }
 }
-
 
 // Smooth animation for lesson completion
 function animateLessonCompletion() {
@@ -1500,36 +1642,6 @@ function ensureAnimationStyles() {
         transform: translateX(100%);
       }
     }
-    
-    .lesson-number {
-      transition: all 0.5s ease-in-out;
-    }
-
-    .lesson-number.completed {
-      background-color: var(--success-color);
-      color: white;
-      border-color: var(--success-color);
-      transform: scale(1);
-    }
-
-    .lesson-number.completed.pulse {
-      animation: pulse-green 0.6s ease-in-out;
-    }
-
-    @keyframes pulse-green {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
-      }
-      50% {
-        transform: scale(1.15);
-        box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
-      }
-      100% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
-      }
-    }
   `;
   document.head.appendChild(style);
 }
@@ -1573,12 +1685,25 @@ function showFeedback(questionId, message, type) {
   }
 }
 
+// Show lesson completion message
+function showLessonCompletedMessage() {
+  const messageDiv = document.createElement('div');
+  messageDiv.className = 'lesson-completion-message';
+  messageDiv.innerHTML = `
+    <i class="fas fa-check-circle"></i> 
+    <strong>Congratulations!</strong> You have completed this lesson and earned Aura Points!
+  `;
+  
+  // Insert after the tasks container
+  tasksContainer.parentNode.insertBefore(messageDiv, tasksContainer.nextSibling);
+}
+
 /* ---------------------- NAVIGATION ---------------------- */
 document.getElementById('prevLesson')?.addEventListener('click',()=>{
-  window.location.href = "welcome.html";
+  window.location.href = "Foundations-of-Stealth.html";
 });
 document.getElementById('nextLesson')?.addEventListener('click',()=>{
-  window.location.href = "tools.html";
+  window.location.href = "lesson2.html";
 });
 
 /* ---------------------- SIDEBAR / LOGIN STATE ---------------------- */
@@ -1675,10 +1800,12 @@ document.addEventListener("DOMContentLoaded",()=>{
   ensureAnimationStyles(); // Add this line
   if (token) {
     updateAuraDisplay();
-    fetchProgressAndApply();
-    loadTasks();
+    fetchProgressAndApply(); // This will now show ALL completed lessons
+    loadTasks(); // Load tasks when page loads
   } else {
     tasksContainer.innerHTML = '<div class="task-feedback error">Please log in to access the tasks.</div>';
   }
 });
 </script>
+</body>
+</html>

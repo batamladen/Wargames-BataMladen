@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Getting Started &ndash; WBM Academy</title>
+  <!-- Change <title> per module -->
+  <title>[MODULE NAME] – WBM Academy</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="icon" type="image/png" href="../../../images/wargames-logo.ico">
@@ -632,8 +635,9 @@
   </style>
 </head>
 <body>
+<!-- HEADER -->
 <header class="header">
-  <a href="../../../home.html">
+  <a href="home.html">
     <img src="../../../images/wargame header logo 3 banner.webp" alt="Wargames Logo" class="header-logo"/>
   </a>
   <div class="header-right" id="headerRight">
@@ -642,8 +646,10 @@
   </div>
 </header>
 
+<!-- DONATE BUTTON -->
 <button class="donate-float" id="donateButton">Donate!</button>
 
+<!-- DONATION POPUP -->
 <div class="overlay" id="overlay"></div>
 <div class="donation-popup" id="donationPopup">
   <h2>SUPPORT US</h2>
@@ -666,9 +672,10 @@
   <button class="cancel-button" id="closePopup">CLOSE</button>
 </div>
 
+<!-- SIDEBAR NAVIGATION -->
 <div class="sidebar">
   <ul class="challenge-list" id="sidebarList">
-    <!-- User item will be inserted here if logged in -->
+    <!-- User block (auto inserted if logged in) -->
     <a href="../../../challenges.html" class="challenge-item" data-challenge="challenges">
       <i class="fas fa-bullseye"></i> CHALLENGES
     </a>
@@ -690,21 +697,29 @@
   </ul>
 </div>
 
+<!-- MAIN CONTENT -->
 <div class="content-wrapper">
   <div class="main-content">
-    <!-- Module Header -->
+
+    <!-- MODULE HEADER -->
     <div class="module-header">
-      <img src="../../../images/getting started module.webp" alt="Getting Started Module" class="module-image">
+      <!-- Replace image per module -->
+      <img src="../../../images/[module-image].webp" alt="[Module Image]" class="module-image">
       <div class="module-info">
-        <h1 class="module-title">Getting Started</h1>
-        <p class="module-description">Begin your journey into the world of ethical hacking and cybersecurity. Learn the fundamentals that will serve as the foundation for all advanced topics.</p>
+        <!-- Replace title per module -->
+        <h1 class="module-title">[MODULE TITLE]</h1>
+        <!-- Replace description per module -->
+        <p class="module-description">[Short description of what this module teaches]</p>
       </div>
     </div>
     
-    <!-- Progress Section -->
-    <div class="progress-section" id="progressSection">
+    <!-- PROGRESS SECTION -->
+    <div class="progress-section">
       <div class="progress-info">
-        <div class="progress-text">Your progress: <span id="completedCount">0</span> of <span id="totalLessons">4</span> lessons completed</div>
+        <div class="progress-text">
+          Your progress: <span id="completedCount">0</span> of 
+          <span id="totalLessons">[NUMBER OF LESSONS]</span> lessons completed
+        </div>
         <div class="progress-percentage" id="progressPercentage">0%</div>
       </div>
       <div class="progress-bar-container">
@@ -712,44 +727,47 @@
       </div>
     </div>
     
-    <!-- Login Prompt -->
+    <!-- LOGIN PROMPT + START BUTTON -->
     <div class="login-prompt">
       <button class="start-button" id="startModuleBtn">Start Module</button>
       <p class="login-message" id="loginMessage" style="display: none;"></p>
     </div>
     
-    <!-- Module Content -->
+    <!-- MODULE CONTENT -->
     <div class="module-content">
+      <!-- SECTION 1 -->
       <div class="content-section">
         <h3>Module Overview</h3>
-        <p>This module will introduce you to the WBM platform. You will learn:</p>
+        <p>[Brief explanation of what’s covered in this module]</p>
         <ul>
-          <li>How to start with the WBM platform</li>
-          <li>Navigationg through the platform</li>
-          <li>Logic behind "Aura Points" & how to earn them</li>
-          <li>How to finish lessons/modules/paths in the WBM academy</li>
+          <li>[Point 1]</li>
+          <li>[Point 2]</li>
+          <li>[Point 3]</li>
         </ul>
       </div>
 
+      <!-- SECTION 2 -->
       <div class="content-section">
         <h3>Prerequisites</h3>
         <ul>
-          <li>Basic computer skills</li>
-          <li>Familiarity with operating systems (Windows/Linux)</li>
-          <li>No prior hacking experience required</li>
+          <li>[Prerequisite 1]</li>
+          <li>[Prerequisite 2]</li>
+          <li>[Prerequisite 3]</li>
         </ul>
       </div>
+
+      <!-- Add more sections as needed -->
     </div>
   </div>
 </div>
-      
 
-
+<!-- MOBILE WARNING -->
 <div id="mobile-warning">
   <p>THIS PLATFORM IS BEST EXPERIENCED ON A DESKTOP DEVICE.</p>
   <p>PLEASE VISIT US USING A DESKTOP BROWSER.<br />⚠️</p>
 </div>
 
+<!-- JS (unchanged, except optional module-specific values) -->
 <script>
   // --- Mobile warning ---
   if (window.innerWidth <= 768) {
@@ -816,7 +834,7 @@
   // Track lesson progress
   let lessonProgress = {
     completedLessons: 0,
-    totalLessons: 4,
+    totalLessons: 0,      // CHANGE THE NUMBER OF LESSONS IF THE MODULE HAS A DIFFERENT COUNT
     status: "not-started" // not-started, in-progress, completed
   };
   
@@ -857,34 +875,41 @@
     updateModuleButton();
   }
   
-  const LESSON_IDS = [1, 2, 3, 4];
-
+  // Function to fetch lesson progress from backend
   async function fetchLessonProgress() {
-  const token = localStorage.getItem("token");
-  if (!token) return;
-
-  let completedLessons = 0;
-
-  // Check each lesson's quiz completion status
-  for (const lessonId of LESSON_IDS) {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    
     try {
-      const resp = await fetch(`https://api.wargames.batamladen.com/api/academy/lesson/${lessonId}/question_status`, {
-        headers: { Authorization: `Bearer ${token}` }
+      // Fetch academy progress data
+      const progressResp = await fetch("https://api.wargames.batamladen.com/api/academy/progress", {
+        headers: { Authorization: `Bearer ${token}` },
       });
-      const data = await resp.json();
-      // A lesson is completed if all questions are completed and there is at least one question
-      if (data.success && data.total_questions > 0 && data.completed_questions === data.total_questions) {
-        completedLessons++;
+      
+      if (progressResp.ok) {
+        const progressData = await progressResp.json();
+        
+        if (progressData.success) {
+          // Find the module ID in the backend (Info available in the API docs)
+          const gettingStartedModule = progressData.paths
+            .flatMap(path => path.modules)
+            .find(module => module.id === 0); // CHANGE THIS ID TO THE CURRENT MODULE'S ID
+          
+          if (gettingStartedModule) {
+            // Count completed lessons
+            const completedLessons = gettingStartedModule.lessons.filter(lesson => lesson.completed).length;
+            
+            lessonProgress.completedLessons = completedLessons;
+            lessonProgress.totalLessons = gettingStartedModule.lessons.length;
+            
+            updateProgressDisplay();
+          }
+        }
       }
     } catch (err) {
-      console.error(`Error fetching progress for lesson ${lessonId}:`, err);
+      console.error("Error fetching lesson progress:", err);
     }
   }
-
-  lessonProgress.completedLessons = completedLessons;
-  lessonProgress.totalLessons = LESSON_IDS.length;
-  updateProgressDisplay();
-}
   
   function checkLoginStatus() {
     const token = localStorage.getItem("token");
@@ -896,7 +921,7 @@
       fetchLessonProgress();
       
       startButton.addEventListener('click', function() {
-        window.location.href = 'welcome.html';
+        window.location.href = 'Change-Me.html';    // CHANGE TO THE FIRST LESSON HTML FILE
       });
     } else {
       // User is not logged in
@@ -1022,7 +1047,5 @@
     }
   });
 </script>
-
-
 </body>
 </html>

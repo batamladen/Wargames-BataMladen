@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Getting Started &ndash; WBM Academy</title>
+  <title>WBM &ndash; Invisible Guest</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="icon" type="image/png" href="../../../images/wargames-logo.ico">
+  <link rel="icon" type="image/png" href="../../images/wargames-logo.ico">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
-    /* Your existing CSS styles remain unchanged */
     :root {
       --bg-dark: #121212;
       --bg-darker: #0a0a0a;
@@ -29,7 +28,7 @@
       --obfuscation-color: #ffffff;
     }
 
-        /* Font Styles */
+    /* Font Styles */
     body {
       font-family: 'Open Sans', sans-serif;
       font-weight: 400;
@@ -125,7 +124,7 @@
 
     .auth-button:hover {
       color: #815bbe;
-      background: transparent;
+      background-color: transparent;
     }
 
     .donate-float {
@@ -201,7 +200,7 @@
     }
 
     .challenge-item.active i {
-      color: var(--accent-color); 
+      color: var(--accent-color);
     }
 
     /* Content Styles */
@@ -224,8 +223,8 @@
       padding: 40px;
     }
 
-    /* Module Header */
-    .module-header {
+    /* Path Header */
+    .path-header {
       background-color: var(--bg-container);
       border-radius: 10px;
       padding: 25px;
@@ -236,124 +235,26 @@
       gap: 20px;
     }
 
-    .module-image {
-      width: 200px;
-      height: 200px;
+    .path-image {
+      width: 120px;
+      height: 120px;
       object-fit: contain;
     }
 
-    .module-info {
+    .path-info {
       flex: 1;
     }
 
-    .module-title {
+    .path-title {
       font-size: 2.2rem;
       margin: 0 0 10px 0;
       color: var(--splunk-color);
     }
 
-    .module-description {
+    .path-description {
       font-size: 1.1rem;
       line-height: 1.7;
       margin-bottom: 15px;
-      color: var(--text-secondary);
-    }
-
-    /* Login Prompt */
-    .login-prompt {
-      background-color: transparent;
-      border-radius: 10px;
-      padding: 10px;
-      margin-bottom: 30px;
-      text-align: center;
-    }
-
-    .login-prompt h3 {
-      color: var(--accent-color);
-      margin-bottom: 15px;
-      font-size: 22px;
-    }
-
-    .login-prompt p {
-      margin-bottom: 20px;
-      color: var(--text-primary);
-      line-height: 1.6;
-    }
-
-    .start-button {
-      background-color: var(--accent-color);
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 6px;
-      font-family: 'League Spartan', sans-serif;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 16px;
-      margin-top: 0px;
-    }
-
-    .start-button:hover {
-      background-color: rgb(115, 60, 137);
-    }
-
-    .start-button:disabled {
-      background-color: #555;
-      cursor: not-allowed;
-    }
-
-    /* Button states */
-    .start-button.continue {
-      background-color: var(--intermediate-color);
-    }
-    
-    .start-button.continue:hover {
-      background-color: #d69e2e;
-    }
-    
-    .start-button.review {
-      background-color: var(--beginner-color);
-    }
-    
-    .start-button.review:hover {
-      background-color: #38a169;
-    }
-
-    .login-message {
-      color: #ff6b6b;
-      margin-top: 15px;
-      font-size: 14px;
-    }
-
-    /* Module Content */
-    .module-content {
-      background-color: var(--bg-container);
-      border-radius: 10px;
-      padding: 25px;
-      margin-bottom: 30px;
-      border: 1px solid var(--border-color);
-    }
-
-    .content-section {
-      margin-bottom: 25px;
-    }
-
-    .content-section h3 {
-      color: var(--text-primary);
-      margin-bottom: 15px;
-      font-size: 20px;
-      padding-bottom: 5px;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .content-section ul {
-      list-style-position: inside;
-      padding-left: 20px;
-    }
-
-    .content-section li {
-      margin-bottom: 10px;
       color: var(--text-secondary);
     }
 
@@ -397,6 +298,97 @@
       width: 0%;
     }
 
+    /* Modules List */
+    .modules-list {
+      background-color: var(--bg-container);
+      border-radius: 10px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+    }
+
+    .module-item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid var(--border-color);
+      transition: background-color 0.2s;
+    }
+
+    .module-item:last-child {
+      border-bottom: none;
+    }
+
+    .module-item:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .module-icon {
+      width: 40px;
+      height: 40px;
+      background-color: var(--bg-darker);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 20px;
+      color: var(--splunk-color);
+      font-size: 1.2rem;
+    }
+
+    .module-details {
+      flex: 1;
+    }
+
+    .module-title {
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+    }
+
+    .module-description {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .module-status {
+      margin-right: 20px;
+      font-size: 0.9rem;
+    }
+
+    .status-completed {
+      color: var(--beginner-color);
+    }
+
+    .status-in-progress {
+      color: var(--intermediate-color);
+    }
+
+    .status-not-started {
+      color: var(--text-secondary);
+    }
+
+    .start-button {
+      background-color: var(--splunk-color);
+      color: var(--bg-dark);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .start-button:hover {
+      background-color: #cccccc;
+    }
+
+    .start-button.completed {
+      background-color: var(--beginner-color);
+      color: white;
+    }
+
     /* Donation Popup */
     .donation-popup {
       display: none;
@@ -428,7 +420,7 @@
       align-items: center;
       justify-content: center;
       padding: 6px 12px;
-      background-color: rgba(0, 0, 0, 0.2);
+      background-color: rgba(0, 0, 0, 0.3);
       border-radius: 4px;
       text-decoration: none;
       color: white;
@@ -490,7 +482,7 @@
       display: flex;
       align-items: center;
       padding-top: 2px;
-      gap: 10px;
+      gap: 0px;
     }
 
     .aura-points {
@@ -529,7 +521,6 @@
       position: absolute;
       top: 0;
       left: 0;
-      background-color: rgba(110, 72, 170, 0.3);
     }
 
     .username-display {
@@ -571,10 +562,12 @@
     }
 
     .logout-button i {
-      margin-right: 12px;
+      margin-right: 12px; 
       width: 16px;
       text-align: center;
     }
+
+  
 
     /* Mobile Styles */
     @media (max-width: 768px) {
@@ -596,7 +589,7 @@
           margin-right: 10px;
       }
       .donate-float {
-          top: 15px;
+          top: 70px;
       }
       .title {
           font-size: 2.5rem;
@@ -605,9 +598,20 @@
         padding: 20px;
         max-width: 100%;
       }
-      .module-header {
+      .path-header {
         flex-direction: column;
         text-align: center;
+      }
+      .module-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+      }
+      .module-icon {
+        margin-right: 0;
+      }
+      .module-status {
+        margin-right: 0;
       }
     }
 
@@ -628,17 +632,16 @@
       line-height: 2rem;
       font-family: 'League Spartan', sans-serif;
     }
-    
   </style>
 </head>
 <body>
 <header class="header">
-  <a href="../../../home.html">
-    <img src="../../../images/wargame header logo 3 banner.webp" alt="Wargames Logo" class="header-logo"/>
+  <a href="home.html">
+    <img src="../../images/wargame header logo 3 banner.webp" alt="Wargames Logo" class="header-logo"/>
   </a>
   <div class="header-right" id="headerRight">
-    <a href="../../../login.html" class="auth-button" id="loginBtn">Login</a>
-    <a href="../../../register.html" class="auth-button" id="registerBtn">Register</a>
+    <a href="../../login.html" class="auth-button" id="loginBtn">Login</a>
+    <a href="../..register.html" class="auth-button" id="registerBtn">Register</a>
   </div>
 </header>
 
@@ -672,7 +675,7 @@
     <a href="../../../challenges.html" class="challenge-item" data-challenge="challenges">
       <i class="fas fa-bullseye"></i> CHALLENGES
     </a>
-    <a href="../../../academy.html" class="challenge-item active" data-challenge="academy">
+    <a href="../../../academy.html" class="challenge-item" data-challenge="academy">
       <i class="fas fa-graduation-cap"></i> ACADEMY
     </a>
     <a href="../../../writeups.html" class="challenge-item" data-challenge="writeups">
@@ -692,52 +695,40 @@
 
 <div class="content-wrapper">
   <div class="main-content">
-    <!-- Module Header -->
-    <div class="module-header">
-      <img src="../../../images/getting started module.webp" alt="Getting Started Module" class="module-image">
-      <div class="module-info">
-        <h1 class="module-title">Getting Started</h1>
-        <p class="module-description">Begin your journey into the world of ethical hacking and cybersecurity. Learn the fundamentals that will serve as the foundation for all advanced topics.</p>
+    <!-- Path Header -->
+    <div class="path-header">
+      <img src="../../images/Invisible_Guest-removebg-preview.webp" alt="Intro to WBM Academy" class="path-image">
+      <div class="path-info">
+        <h1 class="path-title">Invisible Guest</h1>
+        <p class="path-description">Stay Silent and Hidden while Attacking.</p>
       </div>
     </div>
     
     <!-- Progress Section -->
-    <div class="progress-section" id="progressSection">
+    <div class="progress-section">
       <div class="progress-info">
-        <div class="progress-text">Your progress: <span id="completedCount">0</span> of <span id="totalLessons">4</span> lessons completed</div>
+        <div class="progress-text">Your progress: <span id="completedCount">0</span> of <span>1</span> modules completed</div>
         <div class="progress-percentage" id="progressPercentage">0%</div>
       </div>
       <div class="progress-bar-container">
-        <div class="progress-bar" id="moduleProgressBar"></div>
+        <div class="progress-bar" id="pathProgressBar"></div>
       </div>
     </div>
     
-    <!-- Login Prompt -->
-    <div class="login-prompt">
-      <button class="start-button" id="startModuleBtn">Start Module</button>
-      <p class="login-message" id="loginMessage" style="display: none;"></p>
-    </div>
-    
-    <!-- Module Content -->
-    <div class="module-content">
-      <div class="content-section">
-        <h3>Module Overview</h3>
-        <p>This module will introduce you to the WBM platform. You will learn:</p>
-        <ul>
-          <li>How to start with the WBM platform</li>
-          <li>Navigationg through the platform</li>
-          <li>Logic behind "Aura Points" & how to earn them</li>
-          <li>How to finish lessons/modules/paths in the WBM academy</li>
-        </ul>
-      </div>
-
-      <div class="content-section">
-        <h3>Prerequisites</h3>
-        <ul>
-          <li>Basic computer skills</li>
-          <li>Familiarity with operating systems (Windows/Linux)</li>
-          <li>No prior hacking experience required</li>
-        </ul>
+    <!-- Modules List -->
+    <div class="modules-list">
+      <h2>Modules in this Path</h2>
+      
+      <!-- Module 2 - Foundations of Stealth  -->
+      <div class="module-item" data-module="2">
+        <div class="module-icon">
+          <i class="fas fa-flag"></i>
+        </div>
+        <div class="module-details">
+          <h3 class="module-title">Foundations of Stealth</h3>
+        </div>
+        <div class="module-status status-not-started" id="module2-status"></div>
+        <button class="start-button" data-module="2">Start Module</button>
       </div>
     </div>
   </div>
@@ -801,158 +792,134 @@
       if (data.success) {
         const auraContainer = document.querySelector(".aura-container");
         if (auraContainer) {
-          auraContainer.innerHTML = `<img src="../../../images/aura.webp" class="aura-icon" alt="Aura Icon">
+          auraContainer.innerHTML = `<img src="../../images/aura.webp" class="aura-icon" alt="Aura Icon">
             <span class="aura-points">Aura Points: ${data.total_aura}</span>`;
         }
       }
     } catch (err) { console.error("Error updating aura points:", err); }
   }
 
-  // --- Lesson progress tracking ---
-  const startButton = document.getElementById("startModuleBtn");
-  const loginMessage = document.getElementById("loginMessage");
-  const progressSection = document.getElementById("progressSection");
-  
-  // Track lesson progress
-  let lessonProgress = {
-    completedLessons: 0,
-    totalLessons: 4,
-    status: "not-started" // not-started, in-progress, completed
-  };
-  
-  // Function to update button based on progress
-  function updateModuleButton() {
-    if (lessonProgress.status === "completed") {
-      startButton.textContent = "Review";
-      startButton.className = "start-button review";
-      startButton.disabled = false;
-    } else if (lessonProgress.completedLessons > 0) {
-      startButton.textContent = "Continue";
-      startButton.className = "start-button continue";
-      startButton.disabled = false;
-    } else {
-      startButton.textContent = "Start Module";
-      startButton.className = "start-button";
-      startButton.disabled = false;
-    }
-  }
-  
-  // Function to update progress display
-  function updateProgressDisplay() {
-    const progressPercentage = Math.round((lessonProgress.completedLessons / lessonProgress.totalLessons) * 100);
-    document.getElementById("completedCount").textContent = lessonProgress.completedLessons;
-    document.getElementById("totalLessons").textContent = lessonProgress.totalLessons;
-    document.getElementById("progressPercentage").textContent = `${progressPercentage}%`;
-    document.getElementById("moduleProgressBar").style.width = `${progressPercentage}%`;
-    
-    // Update lesson status
-    if (lessonProgress.completedLessons === lessonProgress.totalLessons) {
-      lessonProgress.status = "completed";
-    } else if (lessonProgress.completedLessons > 0) {
-      lessonProgress.status = "in-progress";
-    } else {
-      lessonProgress.status = "not-started";
-    }
-    
-    updateModuleButton();
-  }
-  
-  const LESSON_IDS = [1, 2, 3, 4];
-
-  async function fetchLessonProgress() {
+  // --- Backend integration ---
   const token = localStorage.getItem("token");
-  if (!token) return;
+  const username = localStorage.getItem("username");
+  const sidebarList = document.getElementById("sidebarList");
+  const headerRight = document.getElementById("headerRight");
 
-  let completedLessons = 0;
-
-  // Check each lesson's quiz completion status
-  for (const lessonId of LESSON_IDS) {
+  async function fetchAcademyData() {
+    if (!token) return;
     try {
-      const resp = await fetch(`https://api.wargames.batamladen.com/api/academy/lesson/${lessonId}/question_status`, {
-        headers: { Authorization: `Bearer ${token}` }
+      const pathsResp = await fetch("https://api.wargames.batamladen.com/api/academy/paths", {
+        headers: { Authorization: `Bearer ${token}` },
       });
-      const data = await resp.json();
-      // A lesson is completed if all questions are completed and there is at least one question
-      if (data.success && data.total_questions > 0 && data.completed_questions === data.total_questions) {
-        completedLessons++;
-      }
-    } catch (err) {
-      console.error(`Error fetching progress for lesson ${lessonId}:`, err);
-    }
+      const paths = await pathsResp.json();
+
+      const progressResp = await fetch("https://api.wargames.batamladen.com/api/academy/progress", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const progress = await progressResp.json();
+      if (!paths || !progress.success) return;
+
+      renderModules(paths, progress.paths);
+    } catch (err) { console.error("Error fetching academy data:", err); }
   }
 
-  lessonProgress.completedLessons = completedLessons;
-  lessonProgress.totalLessons = LESSON_IDS.length;
-  updateProgressDisplay();
-}
-  
-  function checkLoginStatus() {
-    const token = localStorage.getItem("token");
-    const username = localStorage.getItem("username");
-    
-    if (token && username) {
-      // User is logged in
-      startButton.disabled = false;
-      fetchLessonProgress();
-      
-      startButton.addEventListener('click', function() {
-        window.location.href = 'welcome.html';
-      });
-    } else {
-      // User is not logged in
-      startButton.disabled = true;
-      startButton.textContent = "Login Required";
-      progressSection.style.display = "none";
-      
-      // Show popup when page loads for non-logged-in users
-      Swal.fire({
-        title: "Authentication Required",
-        html: "You must be logged in to access this module. Our training modules contain exclusive content available only to registered members of our community.<br><br>Please log in to your account or register if you don't have an account yet.",
-        icon: "warning",
-        confirmButtonText: "Go to Login",
-        confirmButtonColor: "#6e48aa",
-        showCancelButton: true,
-        cancelButtonText: "Register",
-        cancelButtonColor: "#333"
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = "../../../login.html";
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          window.location.href = "../../../register.html";
+  function renderModules(paths, progressData) {
+    paths.forEach(path => {
+      path.modules.forEach(module => {
+        const moduleProgress = progressData.find(p => p.id === path.id)
+          ?.modules.find(m => m.id === module.id);
+
+        const completedLessons = moduleProgress?.lessons.filter(l => l.completed).length || 0;
+
+        const statusEl = document.getElementById(`module${module.id}-status`);
+        const buttonEl = document.querySelector(`.start-button[data-module="${module.id}"]`);
+        if (!statusEl || !buttonEl) return;
+
+        if (completedLessons === module.lessons.length) {
+          statusEl.textContent = "Completed";
+          statusEl.className = "module-status status-completed";
+          buttonEl.textContent = "Review";
+          buttonEl.classList.add("completed");
+        } else if (completedLessons > 0) {
+          statusEl.textContent = `In Progress (${completedLessons}/${module.lessons.length})`;
+          statusEl.className = "module-status status-in-progress";
+          buttonEl.textContent = "Continue";
+          buttonEl.classList.remove("completed");
+        } else {
+          statusEl.textContent = "";
+          statusEl.className = "module-status status-not-started";
+          buttonEl.textContent = "Start Module";
+          buttonEl.classList.remove("completed");
         }
       });
-      
-      // Add click event to suggest login
-      startButton.addEventListener('click', function() {
-        Swal.fire({
-          title: "Login Required",
-          text: "Please log in to access this module.",
-          icon: "warning",
-          confirmButtonText: "Go to Login",
-          confirmButtonColor: "#6e48aa"
-        }).then((result) => {
-          if (result.isConfirmed) {
-            window.location.href = "../../../login.html";
-          }
-        });
+    });
+
+    updatePathProgress(progressData);
+  }
+
+  function updatePathProgress(progressData) {
+  // Only count modules for path ID 2 ("Invisible Guest")
+  let totalModules = 0;
+  let completedModules = 0;
+
+  progressData.forEach(path => {
+    if (path.id === 2) {
+      totalModules = path.modules.length;
+      path.modules.forEach(module => {
+        // Module is considered completed if all its lessons are completed
+        const allLessonsCompleted = module.lessons.every(lesson => lesson.completed);
+        if (allLessonsCompleted) completedModules++;
       });
     }
+  });
+
+  const progressPercentage = totalModules > 0 ? Math.round((completedModules / totalModules) * 100) : 0;
+  document.getElementById("pathProgressBar").style.width = `${progressPercentage}%`;
+  document.getElementById("progressPercentage").textContent = `${progressPercentage}%`;
+  document.getElementById("completedCount").textContent = completedModules;
+}
+
+  async function completeLesson(taskId) {
+    try {
+      const resp = await fetch("https://api.wargames.batamladen.com/api/academy/complete_task", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ task_id: taskId }),
+      });
+      const data = await resp.json();
+      if (data.success) {
+        Swal.fire({
+          title: "Lesson Completed!",
+          text: "You've marked this lesson as done.",
+          icon: "success",
+          confirmButtonColor: "#6e48aa",
+        });
+        fetchAcademyData();
+      }
+    } catch (err) { console.error("Error completing lesson:", err); }
   }
+
+  // --- Module buttons ---
+  document.querySelectorAll(".start-button").forEach(button => {
+    button.addEventListener("click", function() {
+        const moduleId = parseInt(this.dataset.module);
+        let redirectUrl = "";
+        switch(moduleId) {
+            case 2: redirectUrl = "../modules/Foundations of Stealth/Foundations-of-Stealth.html"; break;
+            // Add more cases for future modules
+            default: redirectUrl = "../modules/foundations-of-stealth/foundations-of-stealth.html";
+        }
+        window.location.href = redirectUrl;
+    });
+  });
 
   // --- Header & Sidebar login handling ---
   document.addEventListener("DOMContentLoaded", async () => {
-    const token = localStorage.getItem("token");
-    const username = localStorage.getItem("username");
-    const sidebarList = document.getElementById("sidebarList");
-    const headerRight = document.getElementById("headerRight");
-    
-    checkLoginStatus();
-
     if (token && username) {
       headerRight.innerHTML = "";
       const auraContainer = document.createElement("div");
       auraContainer.classList.add("aura-container");
-      auraContainer.innerHTML = `<img src="../../../images/aura.webp" class="aura-icon" alt="Aura Icon">
+      auraContainer.innerHTML = `<img src="../../images/aura.webp" class="aura-icon" alt="Aura Icon">
         <span class="aura-points">Aura Points: ...</span>`;
       headerRight.appendChild(auraContainer);
       updateAuraDisplay();
@@ -966,7 +933,7 @@
       const userBg = document.createElement("video");
       userBg.classList.add("user-block-bg");
       userBg.autoplay = true; userBg.loop = true; userBg.muted = true; userBg.playsInline = true;
-      userBg.innerHTML = `<source src="../../../images/profile2.webm" type="video/webm">`;
+      userBg.innerHTML = `<source src="../../images/profile2.webm" type="video/webm">`;
       const usernameDisplay = document.createElement("div");
       usernameDisplay.classList.add("username-display"); usernameDisplay.textContent = username;
       userContainer.appendChild(userBg); userContainer.appendChild(usernameDisplay);
@@ -982,12 +949,18 @@
         e.preventDefault(); 
         localStorage.removeItem("token"); 
         localStorage.removeItem("username");
-        window.location.href = "/index.html";
+        window.location.href = "../../../index.html";
       });
       sidebarList.appendChild(logoutButton);
 
     } else {
       // USER IS LOGGED OUT - RESET TO DEFAULT STATE
+
+      // Reset header to default (login/register buttons)
+      headerRight.innerHTML = `
+        <a href="../../../login.html" class="auth-button" id="loginBtn">Login</a>
+        <a href="../../register.html" class="auth-button" id="registerBtn">Register</a>
+      `;
 
       // Reset sidebar to default items
       const defaultItems = [
@@ -1002,13 +975,12 @@
       // Clear any existing items (in case there was a logout)
       sidebarList.innerHTML = "";
 
-      // Add default items
       defaultItems.forEach((item) => {
         const link = document.createElement("a");
         link.href = item.href;
         link.className = "challenge-item" + (item.active ? " active" : "");
         link.dataset.challenge = item.data;
-        link.innerHTML = `<i class="fas fa-${item.icon}"></i> ${item.text}`;
+        link.innerHTML = `<i class="fas fa-${item.icon}"></i> ${item.text}`; // ← This includes icons
         
         // Also check current page URL to set active state
         if (window.location.pathname.endsWith(item.href)) {
@@ -1020,6 +992,9 @@
 
       document.querySelector(".sidebar").classList.add("logged-out");
     }
+
+    // Fetch backend data
+    fetchAcademyData();
   });
 </script>
 

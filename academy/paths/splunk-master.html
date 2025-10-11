@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="icon" type="image/png" href="../../images/wargames-logo.ico">
+  <link rel="icon" type="image/png" href="images/wargames-logo.ico">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
@@ -200,7 +200,7 @@
     }
 
     .challenge-item.active i {
-      color: var(--accent-color);
+      color: var(--accent-color); 
     }
 
     /* Content Styles */
@@ -341,7 +341,7 @@
 
     .module-title {
       font-size: 1.1rem;
-      margin-bottom: 20px;
+      margin: 0 0 5px 0;
       color: var(--text-primary);
     }
 
@@ -382,6 +382,7 @@
 
     .start-button:hover {
       background-color: #cccccc;
+      transform: translateY(-2px);
     }
 
     .start-button.completed {
@@ -562,12 +563,10 @@
     }
 
     .logout-button i {
-      margin-right: 12px; 
+      margin-right: 12px;
       width: 16px;
       text-align: center;
     }
-
-  
 
     /* Mobile Styles */
     @media (max-width: 768px) {
@@ -637,11 +636,11 @@
 <body>
 <header class="header">
   <a href="home.html">
-    <img src="../../images/wargame header logo 3 banner.webp" alt="Wargames Logo" class="header-logo"/>
+    <img src="images/wargame header logo 3 banner.webp" alt="Wargames Logo" class="header-logo"/>
   </a>
   <div class="header-right" id="headerRight">
-    <a href="../../login.html" class="auth-button" id="loginBtn">Login</a>
-    <a href="../..register.html" class="auth-button" id="registerBtn">Register</a>
+    <a href="/login.html" class="auth-button" id="loginBtn">Login</a>
+    <a href="register.html" class="auth-button" id="registerBtn">Register</a>
   </div>
 </header>
 
@@ -672,22 +671,22 @@
 <div class="sidebar">
   <ul class="challenge-list" id="sidebarList">
     <!-- User item will be inserted here if logged in -->
-    <a href="../../../challenges.html" class="challenge-item" data-challenge="challenges">
+    <a href="challenges.html" class="challenge-item" data-challenge="challenges">
       <i class="fas fa-bullseye"></i> CHALLENGES
     </a>
-    <a href="../../../academy.html" class="challenge-item" data-challenge="academy">
+    <a href="academy.html" class="challenge-item" data-challenge="academy">
       <i class="fas fa-graduation-cap"></i> ACADEMY
     </a>
-    <a href="../../../writeups.html" class="challenge-item" data-challenge="writeups">
+    <a href="writeups.html" class="challenge-item" data-challenge="writeups">
       <i class="fas fa-pen-fancy"></i> WRITE UPS
     </a>
-    <a href="../../../faq.html" class="challenge-item" data-challenge="faq">
+    <a href="faq.html" class="challenge-item" data-challenge="faq">
       <i class="fas fa-question-circle"></i> FAQ
     </a>
-    <a href="../../../contact.html" class="challenge-item" data-challenge="contact">
+    <a href="contact.html" class="challenge-item" data-challenge="contact">
       <i class="fas fa-envelope"></i> CONTACT
     </a>
-    <a href="../../../scoreboard.html" class="challenge-item" data-challenge="scoreboard">
+    <a href="scoreboard.html" class="challenge-item" data-challenge="scoreboard">
       <i class="fas fa-trophy"></i> SCOREBOARD
     </a>
   </ul>
@@ -697,17 +696,17 @@
   <div class="main-content">
     <!-- Path Header -->
     <div class="path-header">
-      <img src="../../images/intro_to_WBM-removebg-preview.webp" alt="Intro to WBM Academy" class="path-image">
+      <img src="images/splunk_logo-removebg-preview.webp" alt="Splunk Master" class="path-image">
       <div class="path-info">
-        <h1 class="path-title">Intro to The WBM Academy</h1>
-        <p class="path-description">Get a touch of the academy workflow.</p>
+        <h1 class="path-title">Splunk Master</h1>
+        <p class="path-description">Master the most popular SIEM solution, learn log analysis, and develop skills to recognize true and false positives in security monitoring.</p>
       </div>
     </div>
     
     <!-- Progress Section -->
     <div class="progress-section">
       <div class="progress-info">
-        <div class="progress-text">Your progress: <span id="completedCount">0</span> of <span>1</span> modules completed</div>
+        <div class="progress-text">Your progress: <span id="completedCount">0</span> of <span>8</span> modules completed</div>
         <div class="progress-percentage" id="progressPercentage">0%</div>
       </div>
       <div class="progress-bar-container">
@@ -719,22 +718,104 @@
     <div class="modules-list">
       <h2>Modules in this Path</h2>
       
-      <!-- Module 1 - Welcome -->
+      <!-- Module 1 -->
       <div class="module-item" data-module="1">
         <div class="module-icon">
-          <i class="fas fa-flag"></i>
+          <i class="fas fa-search"></i>
         </div>
         <div class="module-details">
-          <h3 class="module-title">Getting Started</h3>
+          <h3 class="module-title">Introduction to Splunk</h3>
         </div>
-        <div class="module-status status-not-started" id="module1-status"></div>
+        <div class="module-status status-not-started" id="module1-status">Not Started</div>
         <button class="start-button" data-module="1">Start Module</button>
+      </div>
+      
+      <!-- Module 2 -->
+      <div class="module-item" data-module="2">
+        <div class="module-icon">
+          <i class="fas fa-database"></i>
+        </div>
+        <div class="module-details">
+          <h3 class="module-title">Data Ingestion</h3>
+        </div>
+        <div class="module-status status-not-started" id="module2-status">Not Started</div>
+        <button class="start-button" data-module="2">Start Module</button>
+      </div>
+      
+      <!-- Module 3 -->
+      <div class="module-item" data-module="3">
+        <div class="module-icon">
+          <i class="fas fa-code"></i>
+        </div>
+        <div class="module-details">
+          <h3 class="module-title">SPL Fundamentals</h3>
+        </div>
+        <div class="module-status status-not-started" id="module3-status">Not Started</div>
+        <button class="start-button" data-module="3">Start Module</button>
+      </div>
+      
+      <!-- Module 4 -->
+      <div class="module-item" data-module="4">
+        <div class="module-icon">
+          <i class="fas fa-chart-bar"></i>
+        </div>
+        <div class="module-details">
+          <h3 class="module-title">Visualizations and Dashboards</h3>
+        </div>
+        <div class="module-status status-not-started" id="module4-status">Not Started</div>
+        <button class="start-button" data-module="4">Start Module</button>
+      </div>
+      
+      <!-- Module 5 -->
+      <div class="module-item" data-module="5">
+        <div class="module-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <div class="module-details">
+          <h3 class="module-title">Security Monitoring</h3>
+        </div>
+        <div class="module-status status-not-started" id="module5-status">Not Started</div>
+        <button class="start-button" data-module="5">Start Module</button>
+      </div>
+      
+      <!-- Module 6 -->
+      <div class="module-item" data-module="6">
+        <div class="module-icon">
+          <i class="fas fa-bug"></i>
+        </div>
+        <div class="module-details">
+          <h3 class="module-title">Threat Hunting with Splunk</h3>
+        </div>
+        <div class="module-status status-not-started" id="module6-status">Not Started</div>
+        <button class="start-button" data-module="6">Start Module</button>
+      </div>
+      
+      <!-- Module 7 -->
+      <div class="module-item" data-module="7">
+        <div class="module-icon">
+          <i class="fas fa-tasks"></i>
+        </div>
+        <div class="module-details">
+          <h3 class="module-title">Advanced Use Cases</h3>
+        </div>
+        <div class="module-status status-not-started" id="module7-status">Not Started</div>
+        <button class="start-button" data-module="7">Start Module</button>
+      </div>
+      
+      <!-- Module 8 -->
+      <div class="module-item" data-module="8">
+        <div class="module-icon">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <div class="module-details">
+          <h3 class="module-title">Capstone Project</h3>
+        </div>
+        <div class="module-status status-not-started" id="module8-status">Not Started</div>
+        <button class="start-button" data-module="8">Start Module</button>
       </div>
     </div>
   </div>
 </div>
-      
-
 
 <div id="mobile-warning">
   <p>THIS PLATFORM IS BEST EXPERIENCED ON A DESKTOP DEVICE.</p>
@@ -742,15 +823,17 @@
 </div>
 
 <script>
-  // --- Mobile warning ---
+  // Mobile warning
   if (window.innerWidth <= 768) {
     document.getElementById("mobile-warning").style.display = "block";
     [...document.body.children].forEach((child) => {
-      if (child.id !== "mobile-warning") child.style.display = "none";
+      if (child.id !== "mobile-warning") {
+        child.style.display = "none";
+      }
     });
   }
 
-  // --- Donation popup ---
+  // Donation popup handlers
   const donateButton = document.getElementById("donateButton");
   const donationPopup = document.getElementById("donationPopup");
   const overlay = document.getElementById("overlay");
@@ -760,244 +843,268 @@
     donationPopup.style.display = "block";
     overlay.style.display = "block";
   });
+
   closePopup.addEventListener("click", () => {
     donationPopup.style.display = "none";
     overlay.style.display = "none";
   });
+
   overlay.addEventListener("click", () => {
     donationPopup.style.display = "none";
     overlay.style.display = "none";
   });
 
-  // --- Scroll hide/show header ---
+  // Scroll hide/show header functionality
   let lastScroll = 0;
   const header = document.querySelector(".header");
+
   window.addEventListener("scroll", () => {
     const currentScroll = window.pageYOffset;
-    if (currentScroll <= 0) header.classList.remove("hide");
-    else if (currentScroll > lastScroll && !header.classList.contains("hide")) header.classList.add("hide");
-    else if (currentScroll < lastScroll && header.classList.contains("hide")) header.classList.remove("hide");
+
+    if (currentScroll <= 0) {
+      header.classList.remove("hide");
+      return;
+    }
+
+    if (currentScroll > lastScroll && !header.classList.contains("hide")) {
+      header.classList.add("hide");
+    } else if (currentScroll < lastScroll && header.classList.contains("hide")) {
+      header.classList.remove("hide");
+    }
+
     lastScroll = currentScroll;
   });
 
-  // --- Aura points ---
+  // Fetch and update aura points from API
   async function updateAuraDisplay() {
     const token = localStorage.getItem("token");
     if (!token) return;
+
     try {
       const response = await fetch("https://api.wargames.batamladen.com/api/auth/aura_points", {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
+
       if (data.success) {
         const auraContainer = document.querySelector(".aura-container");
         if (auraContainer) {
-          auraContainer.innerHTML = `<img src="../../images/aura.webp" class="aura-icon" alt="Aura Icon">
-            <span class="aura-points">Aura Points: ${data.total_aura}</span>`;
+          auraContainer.innerHTML = `
+            <img src="images/aura.webp" class="aura-icon" alt="Aura Icon">
+            <span class="aura-points">Aura Points: ${data.total_aura}</span>
+          `;
         }
       }
-    } catch (err) { console.error("Error updating aura points:", err); }
+    } catch (err) {
+      console.error("Error updating aura points:", err);
+    }
   }
 
-  // --- Backend integration ---
+
+  // Module completion tracking
+  let completedModules = [];
+  const totalModules = 8;
+  
+  // Load progress from localStorage if available
+  function loadProgress() {
+    const savedProgress = localStorage.getItem('splunkMasterProgress');
+    if (savedProgress) {
+      completedModules = JSON.parse(savedProgress);
+      updateUI();
+    }
+  }
+  
+  // Save progress to localStorage
+  function saveProgress() {
+    localStorage.setItem('splunkMasterProgress', JSON.stringify(completedModules));
+  }
+  
+  // Update UI based on current progress
+  function updateUI() {
+    const completedCount = completedModules.length;
+    const progressPercentage = Math.round((completedCount / totalModules) * 100);
+    
+    // Update progress bar
+    document.getElementById('pathProgressBar').style.width = `${progressPercentage}%`;
+    
+    // Update progress text
+    document.getElementById('completedCount').textContent = completedCount;
+    document.getElementById('progressPercentage').textContent = `${progressPercentage}%`;
+    
+    // Update each module status
+    for (let i = 1; i <= totalModules; i++) {
+      const statusElement = document.getElementById(`module${i}-status`);
+      const buttonElement = document.querySelector(`.start-button[data-module="${i}"]`);
+      
+      if (completedModules.includes(i)) {
+        statusElement.textContent = 'Completed';
+        statusElement.className = 'module-status status-completed';
+        buttonElement.textContent = 'Review';
+        buttonElement.classList.add('completed');
+      } else {
+        statusElement.textContent = 'Not Started';
+        statusElement.className = 'module-status status-not-started';
+        buttonElement.textContent = 'Start Module';
+        buttonElement.classList.remove('completed');
+      }
+    }
+  }
+  
+  // Handle module completion
+  function completeModule(moduleId) {
+    if (!completedModules.includes(moduleId)) {
+      completedModules.push(moduleId);
+      saveProgress();
+      updateUI();
+      
+      // Show completion message
+      Swal.fire({
+        title: 'Module Completed!',
+        text: `You've completed module ${moduleId}. Your progress has been saved.`,
+        icon: 'success',
+        confirmButtonColor: '#6e48aa'
+      });
+    }
+  }
+  
+  // Set up event listeners for start buttons
+  document.querySelectorAll('.start-button').forEach(button => {
+    button.addEventListener('click', function() {
+      const moduleId = parseInt(this.getAttribute('data-module'));
+      
+      // For demo purposes, we'll just mark as complete
+      // In a real implementation, this would navigate to the module page
+      completeModule(moduleId);
+    });
+  });
+  
+  // Initialize the page
+  document.addEventListener('DOMContentLoaded', function() {
+    loadProgress();
+    updateUI();
+    
+    // Set academy as active in sidebar
+    document.querySelector('a[data-challenge="academy"]').classList.add('active');
+  });
+
+  // --- User login detection and UI adjustment ---
   const token = localStorage.getItem("token");
   const username = localStorage.getItem("username");
-  const sidebarList = document.getElementById("sidebarList");
   const headerRight = document.getElementById("headerRight");
+  const sidebarList = document.getElementById("sidebarList");
 
-  async function fetchAcademyData() {
-    if (!token) return;
-    try {
-      const pathsResp = await fetch("https://api.wargames.batamladen.com/api/academy/paths", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const paths = await pathsResp.json();
+  if (token && username) {
+    // USER IS LOGGED IN
 
-      const progressResp = await fetch("https://api.wargames.batamladen.com/api/academy/progress", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const progress = await progressResp.json();
-      if (!paths || !progress.success) return;
+    // Update header (remove login/register, add aura points container)
+    headerRight.innerHTML = "";
 
-      renderModules(paths, progress.paths);
-    } catch (err) { console.error("Error fetching academy data:", err); }
-  }
+    const auraContainer = document.createElement("div");
+    auraContainer.classList.add("aura-container");
 
-  function renderModules(paths, progressData) {
-    paths.forEach(path => {
-      path.modules.forEach(module => {
-        const moduleProgress = progressData.find(p => p.id === path.id)
-          ?.modules.find(m => m.id === module.id);
+    // Initially empty, will be filled by updateAuraDisplay()
+    auraContainer.innerHTML = `
+      <img src="images/aura.webp" class="aura-icon" alt="Aura Icon">
+      <span class="aura-points">Aura Points: ...</span>
+    `;
 
-        const completedLessons = moduleProgress?.lessons.filter(l => l.completed).length || 0;
+    headerRight.appendChild(auraContainer);
 
-        const statusEl = document.getElementById(`module${module.id}-status`);
-        const buttonEl = document.querySelector(`.start-button[data-module="${module.id}"]`);
-        if (!statusEl || !buttonEl) return;
+    updateAuraDisplay();
 
-        if (completedLessons === module.lessons.length) {
-          statusEl.textContent = "Completed";
-          statusEl.className = "module-status status-completed";
-          buttonEl.textContent = "Review";
-          buttonEl.classList.add("completed");
-        } else if (completedLessons > 0) {
-          statusEl.textContent = `In Progress (${completedLessons}/${module.lessons.length})`;
-          statusEl.className = "module-status status-in-progress";
-          buttonEl.textContent = "Continue";
-          buttonEl.classList.remove("completed");
-        } else {
-          statusEl.textContent = "";
-          statusEl.className = "module-status status-not-started";
-          buttonEl.textContent = "Start Module";
-          buttonEl.classList.remove("completed");
-        }
-      });
-    });
+    // Update sidebar (add user block and logout, preserve other items)
+    const existingItems = Array.from(sidebarList.children);
 
-    updatePathProgress(progressData);
-  }
-
-  function updatePathProgress(progressData) {
-  // Only count module with ID 1 ("Getting Started")
-  let totalModules = 1;
-  let completedModules = 0;
-
-  // Find the module with id 1 in the progress data
-  progressData.forEach(path => {
-    path.modules.forEach(module => {
-      if (module.id === 1) {
-        // Module is considered completed if all its lessons are completed
-        const allLessonsCompleted = module.lessons.every(lesson => lesson.completed);
-        if (allLessonsCompleted) completedModules = 1;
+    // Clear sidebar but keep a reference to the original items
+    const originalItems = [];
+    existingItems.forEach((item) => {
+      if (!item.classList.contains("logout-button")) {
+        originalItems.push(item.cloneNode(true));
       }
     });
-  });
 
-  const progressPercentage = Math.round((completedModules / totalModules) * 100);
-  document.getElementById("pathProgressBar").style.width = `${progressPercentage}%`;
-  document.getElementById("progressPercentage").textContent = `${progressPercentage}%`;
-  document.getElementById("completedCount").textContent = completedModules;
-}
+    sidebarList.innerHTML = "";
 
-  async function completeLesson(taskId) {
-    try {
-      const resp = await fetch("https://api.wargames.batamladen.com/api/academy/complete_task", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-        body: JSON.stringify({ task_id: taskId }),
-      });
-      const data = await resp.json();
-      if (data.success) {
-        Swal.fire({
-          title: "Lesson Completed!",
-          text: "You've marked this lesson as done.",
-          icon: "success",
-          confirmButtonColor: "#6e48aa",
-        });
-        fetchAcademyData();
-      }
-    } catch (err) { console.error("Error completing lesson:", err); }
-  }
+    // Add user block
+    const userContainer = document.createElement("li");
+    userContainer.classList.add("user-block-container");
 
-  // --- Module buttons ---
-  document.querySelectorAll(".start-button").forEach(button => {
-    button.addEventListener("click", function() {
-      const moduleId = parseInt(this.dataset.module);
-      let redirectUrl = "";
-      switch(moduleId) {
-        case 1: redirectUrl = "../modules/getting-started/getting-started.html"; break;
-        case 2: redirectUrl = "../modules/getting-started/getting-started.html"; break;
-        default: redirectUrl = "../modules/getting-started/getting-started.html";
-      }
-      window.location.href = redirectUrl;
+    const userBg = document.createElement("video");
+    userBg.classList.add("user-block-bg");
+    userBg.setAttribute("autoplay", "");
+    userBg.setAttribute("loop", "");
+    userBg.setAttribute("muted", "");
+    userBg.setAttribute("playsinline", "");
+    userBg.innerHTML = `<source src="images/profile2.webm" type="video/webm">`;
+
+    const usernameDisplay = document.createElement("div");
+    usernameDisplay.classList.add("username-display");
+    usernameDisplay.textContent = username;
+
+    userContainer.appendChild(userBg);
+    userContainer.appendChild(usernameDisplay);
+    sidebarList.appendChild(userContainer);
+
+    // Re-add original items
+    originalItems.forEach((item) => {
+      sidebarList.appendChild(item);
     });
-  });
 
-  // --- Header & Sidebar login handling ---
-  document.addEventListener("DOMContentLoaded", async () => {
-    if (token && username) {
-      headerRight.innerHTML = "";
-      const auraContainer = document.createElement("div");
-      auraContainer.classList.add("aura-container");
-      auraContainer.innerHTML = `<img src="../../images/aura.webp" class="aura-icon" alt="Aura Icon">
-        <span class="aura-points">Aura Points: ...</span>`;
-      headerRight.appendChild(auraContainer);
-      updateAuraDisplay();
+    // Add logout button
+    const logoutButton = document.createElement("a");
+    logoutButton.classList.add("logout-button");
+    logoutButton.href = "#";
+    logoutButton.textContent = "LOGOUT";
 
-      // Sidebar user block
-      const existingItems = Array.from(sidebarList.children).filter(i => !i.classList.contains("logout-button"));
-      sidebarList.innerHTML = "";
+    logoutButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      window.location.href = "index.html";
+    });
 
-      const userContainer = document.createElement("li");
-      userContainer.classList.add("user-block-container");
-      const userBg = document.createElement("video");
-      userBg.classList.add("user-block-bg");
-      userBg.autoplay = true; userBg.loop = true; userBg.muted = true; userBg.playsInline = true;
-      userBg.innerHTML = `<source src="../../images/profile2.webm" type="video/webm">`;
-      const usernameDisplay = document.createElement("div");
-      usernameDisplay.classList.add("username-display"); usernameDisplay.textContent = username;
-      userContainer.appendChild(userBg); userContainer.appendChild(usernameDisplay);
-      sidebarList.appendChild(userContainer);
+    sidebarList.appendChild(logoutButton);
+  } else {
+    // USER IS LOGGED OUT - RESET TO DEFAULT STATE
 
-      existingItems.forEach(i => sidebarList.appendChild(i));
+    // Reset header to default (login/register buttons)
+    headerRight.innerHTML = `
+      <a href="/login.html" class="auth-button" id="loginBtn">Login</a>
+      <a href="register.html" class="auth-button" id="registerBtn">Register</a>
+    `;
 
-      const logoutButton = document.createElement("a");
-      logoutButton.classList.add("logout-button"); 
-      logoutButton.href = "#"; 
-      logoutButton.innerHTML = '<i class="fas fa-sign-out-alt"></i> LOGOUT';
-      logoutButton.addEventListener("click", e => {
-        e.preventDefault(); 
-        localStorage.removeItem("token"); 
-        localStorage.removeItem("username");
-        window.location.href = "../../../index.html";
-      });
-      sidebarList.appendChild(logoutButton);
+    // Reset sidebar to default items
+    const defaultItems = [
+      { href: "challenges.html", text: "CHALLENGES", data: "challenges" },
+      { href: "academy.html", text: "ACADEMY", data: "academy" },
+      { href: "writeups.html", text: "WRITE UPS", data: "writeups" },
+      { href: "faq.html", text: "FAQ", data: "faq" },
+      { href: "contact.html", text: "CONTACT", data: "contact" },
+      { href: "scoreboard.html", text: "SCOREBOARD", data: "scoreboard" },
+    ];
 
-    } else {
-      // USER IS LOGGED OUT - RESET TO DEFAULT STATE
+    // Clear any existing items (in case there was a logout)
+    sidebarList.innerHTML = "";
 
-      // Reset header to default (login/register buttons)
-      headerRight.innerHTML = `
-        <a href="../../../login.html" class="auth-button" id="loginBtn">Login</a>
-        <a href="../../register.html" class="auth-button" id="registerBtn">Register</a>
-      `;
+    // Add default items
+    defaultItems.forEach((item) => {
+      const link = document.createElement("a");
+      link.href = item.href;
+      link.className = "challenge-item";
+      link.dataset.challenge = item.data;
+      link.textContent = item.text;
+      
+      // Also check current page URL to set active state
+      if (window.location.pathname.endsWith(item.href)) {
+        link.classList.add("active");
+      }
+      
+      sidebarList.appendChild(link);
+    });
 
-      // Reset sidebar to default items
-      const defaultItems = [
-        { href: "../../../challenges.html", text: "CHALLENGES", data: "challenges", icon: "bullseye" },
-        { href: "../../../academy.html", text: "ACADEMY", data: "academy", active:true, icon: "graduation-cap" },
-        { href: "../../../writeups.html", text: "WRITE UPS", data: "writeups", icon: "pen-fancy" },
-        { href: "../../../faq.html", text: "FAQ", data: "faq", icon: "question-circle" },
-        { href: "../../../contact.html", text: "CONTACT", data: "contact", icon: "envelope" },
-        { href: "../../../scoreboard.html", text: "SCOREBOARD", data: "scoreboard", icon: "trophy" },
-      ];
-
-      // Clear any existing items (in case there was a logout)
-      sidebarList.innerHTML = "";
-
-      defaultItems.forEach((item) => {
-        const link = document.createElement("a");
-        link.href = item.href;
-        link.className = "challenge-item" + (item.active ? " active" : "");
-        link.dataset.challenge = item.data;
-        link.innerHTML = `<i class="fas fa-${item.icon}"></i> ${item.text}`; // ← This includes icons
-        
-        // Also check current page URL to set active state
-        if (window.location.pathname.endsWith(item.href)) {
-          link.classList.add("active");
-        }
-        
-        sidebarList.appendChild(link);
-      });
-
-      document.querySelector(".sidebar").classList.add("logged-out");
-    }
-
-    // Fetch backend data
-    fetchAcademyData();
-  });
+    document.querySelector(".sidebar").classList.add("logged-out");
+  }
 </script>
-
 
 </body>
 </html>
