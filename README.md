@@ -15,7 +15,8 @@ For questions, write to [contact@batamladen.com](mailto:contact@batamladen.com)
 
 # Contributing 🌟
 
-The platform is Open-Source-ish. The frontend is fully available here on GitHub while the Backend is hosted on a private server, because if we make the backend available at GitHub as well, people can just look at how the challenges are structured in the DockerImages and finish them easier.
+The platform is Open-Source-ish. The Frontend is fully available here on GitHub while the Backend is hosted on a private server, 
+because if we make the backend available at GitHub as well, people can just look at how the challenges are structured in the DockerImages and finish them easier.
 
 
 But... Everyone loves Pull Requests. And we accept contibutions to the "Academy" section.
