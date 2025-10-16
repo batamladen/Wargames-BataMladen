@@ -14,10 +14,13 @@ For questions, write to [contact@batamladen.com](mailto:contact@batamladen.com)
 
 
 # Contributing 🌟
-Everyone loves Pull Requests! 
 
-Look at the Issues marked "Help Needed" to see planned changes and where help is needed.
-Or if you think the platform will be better with a certain update - Send a PR so everyone can benefit.
+The platform is Open-Source-ish. The frontend is fully available here on GitHub while the Backend is hosted on a private server, because if we make the backend available at GitHub as well, people can just look at how the challenges are structured in the DockerImages and finish them easier.
+
+
+But... Everyone loves Pull Requests. And we accept contibutions to the "Academy" section.
+We need help with writing lessons for the academy modules.
+Look at the Issues marked "Help Needed" to see where help is needed in the academy.
 
 For more substantial changes, open an issue to ensure we're on the same page. Together, we make this project better for all! ✨
 
