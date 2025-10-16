@@ -489,6 +489,13 @@
     .sidebar.logged-out {
       padding-top: 60px !important;
     }
+
+    .logout-button i {
+      margin-right: 12px; 
+      width: 16px;
+      text-align: center;
+    }
+
   </style>
 </head>
 <body>
@@ -864,14 +871,19 @@
       
       if (userPosition > 10 || userPosition === 0) {
         html += `
-          <tr><td colspan="3"><div class="separator"></div></td></tr>
-          <tr class="user-row">
+          <tr>
+            <td colspan="3" style="text-align:center; font-size: 1.5rem; color: var(--accent-color); letter-spacing: 5px; opacity: 0.5;">
+              &bull;&bull;&bull;
+            </td>
+          </tr>
+          <tr class="user-row" style="background-color: rgba(110,72,170,0.1); font-weight: bold;">
             <td class="position">${userPosition > 0 ? userPosition : 'N/A'}</td>
             <td>${currentUser.username}</td>
             <td class="points">${currentUser.aura_points}</td>
           </tr>
         `;
       }
+
     }
     
     html += `
