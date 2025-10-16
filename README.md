@@ -4,7 +4,7 @@
 
 Each **challenge** focuses on a specific topic — such as file permissions, network services, reverse engineering, or privilege escalation — and is divided into multiple **progressive levels** that increase in difficulty.
 
-Players connect via SSH to isolated container environments hosted on a remote server. To advance, they must solve each level and retrieve a hidden **flag**, which contains the **SSH password for the next challenge**. This chained structure reinforces practical skill development and simulates real-world attack paths.
+Players connect via SSH to isolated container environments hosted on a private server. To advance, they must solve each level and retrieve a hidden **flag**, which contains the **SSH password for the next challenge**. This chained structure reinforces practical skill development and simulates real-world attack paths.
 
 
 
