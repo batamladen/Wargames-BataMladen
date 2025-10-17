@@ -901,7 +901,25 @@
       font-size: 1.2rem;
     }
 
+    .lesson-footer {
+      text-align: center;
+      padding: 30px 20px 20px;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      margin-top: 40px;
+      border-top: 1px solid var(--border-color);
+      font-family: 'Open Sans', sans-serif;
+    }
 
+    .lesson-footer a {
+      color: var(--accent-hover);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .lesson-footer a:hover {
+      color: var(--accent-color);
+    }
 
   </style>
 </head>
@@ -960,6 +978,10 @@
     <a href="../../../scoreboard.html" class="challenge-item" data-challenge="scoreboard">
       <i class="fas fa-trophy"></i> SCOREBOARD
     </a>
+    <a href="../../../contributors.html" class="challenge-item" data-challenge="contributors">
+      <i class="fas fa-trophy"></i> CONTRIBUTORS
+    </a>
+    
   </ul>
 </div>
 
@@ -1080,6 +1102,10 @@
       <button class="lesson-btn" id="prevLesson">Previous</button>
       <button class="lesson-btn" id="nextLesson">Next Lesson</button>
     </div>
+
+    <footer style="text-align: center; padding: 20px; color: #b0b0b0; font-size: 0.8rem; margin-top: 40px;">
+      Lesson Created by: <a href="https://github.com/Discovered12345" target="_blank" style="color: var(--accent-color); text-decoration: none;">@Discovered12345</a>
+    </footer>
   </div>
   
   <div class="lesson-nav">
@@ -1091,12 +1117,15 @@
       <a href="lesson4.html" class="lesson-number" id="lesson8">4</a>
     </div>
   </div>
+  
 </div>
 
 <div id="mobile-warning">
   <p>THIS PLATFORM IS BEST EXPERIENCED ON A DESKTOP DEVICE.</p>
   <p>PLEASE VISIT US USING A DESKTOP BROWSER.<br />⚠️</p>
 </div>
+
+
 
 <script>
 /* ---------------------- MOBILE WARNING ---------------------- */
@@ -1772,6 +1801,8 @@ function setupSidebar(){
         { href: "../../../faq.html", text: "FAQ", data: "faq", icon: "question-circle" },
         { href: "../../../contact.html", text: "CONTACT", data: "contact", icon: "envelope" },
         { href: "../../../scoreboard.html", text: "SCOREBOARD", data: "scoreboard", icon: "trophy" },
+        { href: "../../../contributors.html", text: "CONTRIBUTORS", data: "contributors", icon: "users" },
+
       ];
 
       sidebarList.innerHTML = "";
