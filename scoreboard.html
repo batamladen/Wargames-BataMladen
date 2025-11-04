@@ -509,7 +509,7 @@
   </a>
   <div class="header-right" id="headerRight">
     <a href="/login.html" class="auth-button" id="loginBtn">Login</a>
-    <a href="register.html" class="auth-button" id="registerBtn">Register</a>
+    <a href="/register.html" class="auth-button" id="registerBtn">Register</a>
   </div>
 </header>
 
@@ -568,6 +568,9 @@
       </a>
       <a href="scoreboard.html" class="challenge-item active" data-challenge="scoreboard">
         <i class="fas fa-trophy"></i> SCOREBOARD
+      </a>
+      <a href="contributors.html" class="challenge-item" data-challenge="contributors">
+        <i class="fas fa-users"></i> CONTRIBUTORS
       </a>
     </ul>
   </div>
@@ -753,7 +756,7 @@
     // Reset header to default (login/register buttons)
     headerRight.innerHTML = `
       <a href="/login.html" class="auth-button" id="loginBtn">Login</a>
-      <a href="register.html" class="auth-button" id="registerBtn">Register</a>
+      <a href="/register.html" class="auth-button" id="registerBtn">Register</a>
     `;
 
       // Reset sidebar to default items
@@ -764,6 +767,7 @@
         { href: "faq.html", text: "FAQ", data: "faq", icon: "question-circle" },
         { href: "contact.html", text: "CONTACT", data: "contact", icon: "envelope" },
         { href: "scoreboard.html", text: "SCOREBOARD", data: "scoreboard", icon: "trophy" },
+        { href: "contributors.html", text: "CONTRIBUTORS", data: "contributors", icon: "users" }
       ];
 
       // Clear any existing items (in case there was a logout)

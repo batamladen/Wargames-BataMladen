@@ -331,6 +331,21 @@
         font-size: 1.2rem;
     }
 
+    .privacy-text {
+        display: none;
+        text-align: center;
+        color: var(--accent-color);
+        font-style: italic;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #444;
+        animation: fadeIn 0.3s ease;
+    }
+
+    .contributor-card.active .privacy-text {
+        display: block;
+    }
+
     @keyframes fadeIn {
         from { opacity: 0; }
         to { opacity: 1; }
@@ -630,14 +645,14 @@
       <a href="faq.html" class="challenge-item" data-challenge="faq">
         <i class="fas fa-question-circle"></i> FAQ
       </a>
-      <a href="contributors.html" class="challenge-item active" data-challenge="contributors">
-        <i class="fas fa-users"></i> CONTRIBUTORS
-      </a>
       <a href="contact.html" class="challenge-item" data-challenge="contact">
         <i class="fas fa-envelope"></i> CONTACT
       </a>
       <a href="scoreboard.html" class="challenge-item" data-challenge="scoreboard">
         <i class="fas fa-trophy"></i> SCOREBOARD
+      </a>
+      <a href="contributors.html" class="challenge-item active" data-challenge="contributors">
+        <i class="fas fa-users"></i> CONTRIBUTORS
       </a>
     </ul>
   </div>
@@ -668,7 +683,7 @@
       id: 1,
       name: "BataMladen",
       role: "Platform Creator",
-      bio: "Unemployment final-boss.",
+      bio: "Aspiring SOC Analyst",
       avatar: "/images/contributors/batamladen.webp",
       socials: [
         { platform: "github", url: "https://github.com/batamladen", icon: "fab fa-github" },
@@ -682,10 +697,7 @@
       role: "Contributor",
       bio: "Full-stack developer building intuitive web and mobile apps.",
       avatar: "images/contributors/jovans.webp",
-      socials: [
-        { platform: "github", url: "https://github.com/cyberninja", icon: "fab fa-github" },
-        { platform: "twitter", url: "https://twitter.com/cyberninja", icon: "fab fa-twitter" }
-      ]
+      privacyText: "Privacy Paranoid Guy"
     },
     {
       id: 3,
@@ -760,7 +772,7 @@
   const headerRight = document.getElementById("headerRight");
   const sidebarList = document.getElementById("sidebarList");
 
-  // Aura points update function (from jugsaw.html)
+  // Aura points update function 
   async function updateAuraDisplay() {
     if (!token) return;
 
@@ -862,7 +874,7 @@
     // Reset header to default (login/register buttons)
     headerRight.innerHTML = `
       <a href="/login.html" class="auth-button" id="loginBtn">Login</a>
-      <a href="register.html" class="auth-button" id="registerBtn">Register</a>
+      <a href="/register.html" class="auth-button" id="registerBtn">Register</a>
     `;
 
       // Reset sidebar to default items
@@ -871,9 +883,9 @@
         { href: "academy.html", text: "ACADEMY", data: "academy", icon: "graduation-cap" },
         { href: "writeups.html", text: "WRITE UPS", data: "writeups", icon: "pen-fancy" },
         { href: "faq.html", text: "FAQ", data: "faq", icon: "question-circle" },
-        { href: "contributors.html", text: "CONTRIBUTORS", data: "contributors", icon: "users" },
         { href: "contact.html", text: "CONTACT", data: "contact", icon: "envelope" },
         { href: "scoreboard.html", text: "SCOREBOARD", data: "scoreboard", icon: "trophy" },
+        { href: "contributors.html", text: "CONTRIBUTORS", data: "contributors", icon: "users", active: true }
       ];
 
       // Clear any existing items (in case there was a logout)
@@ -923,6 +935,16 @@
         `;
       }
       
+      // Add privacy text for Jovans
+      let privacyTextHTML = '';
+      if (contributor.privacyText) {
+        privacyTextHTML = `
+          <div class="privacy-text">
+            ${contributor.privacyText}
+          </div>
+        `;
+      }
+      
       card.innerHTML = `
         <div class="contributor-header">
           <img src="${contributor.avatar}" alt="${contributor.name}" class="contributor-avatar" onerror="this.src='images/contributors/default.webp'">
@@ -935,6 +957,7 @@
           ${contributor.bio}
         </div>
         ${socialLinksHTML}
+        ${privacyTextHTML}
       `;
       
       contributorsGrid.appendChild(card);

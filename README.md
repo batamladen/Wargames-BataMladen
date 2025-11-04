@@ -24,4 +24,3 @@ We need help with writing lessons for the academy modules.
 Look at the Issue "[Help Needed](https://github.com/batamladen/Wargames-BataMladen/issues/2)" to see where help is needed in the academy.
 
 For more substantial changes, open an issue to ensure we're on the same page. Together, we make this project better for all! ✨
-
