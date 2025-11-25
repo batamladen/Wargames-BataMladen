@@ -75,6 +75,16 @@
       margin-top: 1.5em;
     }
 
+    .clean-link {
+      text-decoration: none;   /* removes underline */
+      color: #b7a31d;          /* change this to any color you like */
+    }
+
+    .clean-link:hover {
+      color: #ffe11c; /* optional hover effect */
+    }
+
+
     /* Header Styles */
     .header {
       background-color: var(--bg-darker);
@@ -824,8 +834,14 @@
     <!-- Academy Introduction -->
     <div class="academy-intro">
       <h2>Welcome to the WBM Academy</h2>
-      <p>The WBM Academy is your learning hub for developing cybersecurity skills through structured modules and hands-on practice. Whether you're a beginner looking to get started or an experienced practitioner wanting to sharpen your skills, our academy provides the resources you need to progress in your cybersecurity journey.</p>
-      <p>Each module contains comprehensive learning materials, practical exercises, and challenges that will help you master specific security domains. Track your progress, earn achievements, and build your skills systematically.</p>
+      <p>The WBM Academy is your learning hub for developing cybersecurity skills through structured modules and hands-on practice. Each module will teach you a skill or multiple of them that you can use in our challenges or test them in our "Practice Field"(Still in developement) </p>
+      <p>Each module contains comprehensive learning materials, practical exercises, and challenges that will help you master specific security domains. Track your progress, earn achievements, and build your skills systematically.</p> <br>
+      <p>
+        If you would like to contribute – do reach out to us via
+        <a class="clean-link" href="/contact.html">mail</a> or on
+        <a class="clean-link" href="https://discord.gg/FrYYVAbapX" target="_blank">Discord</a>.
+      </p>
+
     </div>
     
 <!-- Progress Dashboard (only shown when logged in) -->
@@ -856,60 +872,6 @@
 </div>
 </div>
 
-    
-    <!-- Paths Section -->
-    <div class="paths-section">
-      <h2>Paths</h2>
-      <div class="paths-grid">
-        
-
-        <!-- Intro to WBM Academy Path -->
-        <a href="academy/paths/introduction-to-academy.html" style="text-decoration: none;">
-          <div class="path-card splunk">
-            <img src="images/intro_to_WBM-removebg-preview.webp" alt="Intro to WBM Academy Path" class="path-image">
-            <div class="path-content">
-              <h3>Intro to WBM Academy</h3>
-              <p>Get a feel of how the academy works.</p>
-              <div class="path-stats">
-                <div class="path-stat">Modules <span>1</span></div>
-              </div>
-            </div>
-          </div>
-        </a>
-
-
-        <!-- Obfuscation & Steganography Master Path -->
-        <a href="academy/paths/invisible-guest.html" style="text-decoration: none;">
-          <div class="path-card obfuscation">
-            <img src="images/Invisible_Guest-removebg-preview.webp" alt="Invisible Guest Path" class="path-image">
-            <div class="path-content">
-              <h3>Invisible Guest</h3>
-              <p>Stay silent & invisible while attacking.</p>
-              <div class="path-stats">
-                <div class="path-stat">Modules <span>8</span></div>
-              </div>
-            </div>
-          </div>
-        </a>
-
-
-        <!-- Splunk Master Path -->
-        <a href="splunk-master.html" style="text-decoration: none;">
-          <div class="path-card splunk">
-            <img src="images/splunk_logo-removebg-preview.webp" alt="Splunk Master Path" class="path-image">
-            <div class="path-content">
-              <h3>Splunk Master</h3>
-              <p>Understand the most popular SIEM solution, log reviews, and how to recognize a true/false positive.</p>
-              <div class="path-stats">
-                <div class="path-stat">Modules <span>Soon..</span></div>
-              </div>
-            </div>
-          </div>
-        </a>
-
-      </div>
-    </div>
-    
     <!-- Academy Modules Grid -->
     <h2>Modules</h2>
     <div class="modules-grid">
@@ -931,24 +893,7 @@
           </div>
         </div>
       </a>
-      
-      <!-- Foundations of Stealth Module -->
-      <a href="/academy/modules/Foundations of Stealth/Foundations-of-Stealth.html" style="text-decoration: none;">
-        <div class="card">
-          <img src="images/Foundations of stealth.webp" alt="Foundations of Stealth" class="card-image">
-          <div class="card-content">
-            <h3>Foundations of Stealth</h3>
-            <span class="difficulty intermediate">Intermediate</span>
-            <p>Learn stealth techniques and information hiding in cybersecurity.</p>
-            <div class="progress-indicator">
-              <div class="progress-fill"></div>
-            </div>
-          </div>
-        </div>
-      </a>
-      
-      
-      
+    
     </div>
   </div>
 </div>
