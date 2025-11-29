@@ -893,6 +893,21 @@
           </div>
         </div>
       </a>
+
+      <!-- Getting Started Module -->
+      <a href="/academy/modules/Python-Obfuscation/Python-Obfuscation.html" style="text-decoration: none;">
+        <div class="card">
+          <img src="images/python_obfuscation_module.webp" alt="Python Obfuscation" class="card-image">
+          <div class="card-content">
+            <h3>Getting Started</h3>
+            <span class="difficulty beginner">Beginner</span>
+            <p>Module explainin how python code is obfuscated</p>
+            <div class="progress-indicator">
+              <div class="progress-fill" style="width: 30%"></div>
+            </div>
+          </div>
+        </div>
+      </a>
     
     </div>
   </div>
@@ -1051,11 +1066,11 @@
     }
   }
 
-  // Function to update Foundations of Stealth module progress
+  // Function to update python obfuscation module progress
   async function updateFoundationsOfStealthProgress() {
     const token = localStorage.getItem("token");
     if (!token) {
-      const stealthProgressBar = document.querySelector('.card img[alt="Foundations of Stealth"]')
+      const stealthProgressBar = document.querySelector('.card img[alt="Python Obfuscation"]')
         ?.parentElement.querySelector('.progress-fill');
       if (stealthProgressBar) {
         stealthProgressBar.style.width = '0%';
@@ -1074,14 +1089,14 @@
         if (progressData.success) {
           const stealthModule = progressData.paths
             .flatMap(path => path.modules)
-            .find(module => module.id === 2);
+            .find(module => module.id === 3);
 
           if (stealthModule) {
             const completedLessons = stealthModule.lessons.filter(lesson => lesson.completed).length;
             const totalLessons = stealthModule.lessons.length;
             const progressPercentage = Math.round((completedLessons / totalLessons) * 100);
 
-            const stealthCard = document.querySelector('.card img[alt="Foundations of Stealth"]')?.parentElement;
+            const stealthCard = document.querySelector('.card img[alt="Python Obfuscation"]')?.parentElement;
             if (stealthCard) {
               const progressBar = stealthCard.querySelector('.progress-fill');
               if (progressBar) {
@@ -1098,7 +1113,7 @@
         }
       }
     } catch (err) {
-      console.error("Error fetching Foundations of Stealth progress:", err);
+      console.error("Error fetching Python Obfuscation progress:", err);
     }
   }
 

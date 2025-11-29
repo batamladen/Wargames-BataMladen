@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Foundations of Stealth &ndash; WBM Academy</title>
+  <!-- Change <title> per module -->
+  <title>[MODULE NAME] – WBM Academy</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -12,6 +13,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
+    /* Your existing CSS styles remain unchanged */
     :root {
       --bg-dark: #121212;
       --bg-darker: #0a0a0a;
@@ -635,7 +637,7 @@
 <body>
 <!-- HEADER -->
 <header class="header">
-  <a href="../../../home.html">
+  <a href="home.html">
     <img src="../../../images/wargame header logo 3 banner.webp" alt="Wargames Logo" class="header-logo"/>
   </a>
   <div class="header-right" id="headerRight">
@@ -692,9 +694,6 @@
     <a href="../../../scoreboard.html" class="challenge-item" data-challenge="scoreboard">
       <i class="fas fa-trophy"></i> SCOREBOARD
     </a>
-    <a href="../../../contributors.html" class="challenge-item" data-challenge="contributors">
-      <i class="fas fa-users"></i> CONTRIBUTORS
-    </a>
   </ul>
 </div>
 
@@ -704,17 +703,23 @@
 
     <!-- MODULE HEADER -->
     <div class="module-header">
-      <img src="../../../images/Foundations of stealth.webp" alt="[Module Image]" class="module-image">
+      <!-- Replace image per module -->
+      <img src="../../../images/[module-image].webp" alt="[Module Image]" class="module-image">
       <div class="module-info">
-        <h1 class="module-title">Foundations of Stealth</h1>
-        <p class="module-description">Understand the basics of stealth operations and operational security principles</p>
+        <!-- Replace title per module -->
+        <h1 class="module-title">[MODULE TITLE]</h1>
+        <!-- Replace description per module -->
+        <p class="module-description">[Short description of what this module teaches]</p>
       </div>
     </div>
     
-    <!-- Progress Section -->
-    <div class="progress-section" id="progressSection">
+    <!-- PROGRESS SECTION -->
+    <div class="progress-section">
       <div class="progress-info">
-        <div class="progress-text">Your progress: <span id="completedCount">0</span> of <span id="totalLessons">4</span> lessons completed</div>
+        <div class="progress-text">
+          Your progress: <span id="completedCount">0</span> of 
+          <span id="totalLessons">[NUMBER OF LESSONS]</span> lessons completed
+        </div>
         <div class="progress-percentage" id="progressPercentage">0%</div>
       </div>
       <div class="progress-bar-container">
@@ -742,16 +747,6 @@
       </div>
 
       <!-- SECTION 2 -->
-      <div class="content-section">
-        <h3>Lessons</h3>
-        <ul>
-          <li>Introdution To Stelath & OPSEC</li>
-          <li>[Lesson 2]</li>
-          <li>[Lesson 3]</li>
-        </ul>
-      </div>
-
-      <!-- SECTION 3 -->
       <div class="content-section">
         <h3>Prerequisites</h3>
         <ul>
@@ -839,7 +834,7 @@
   // Track lesson progress
   let lessonProgress = {
     completedLessons: 0,
-    totalLessons: 4,      // CHANGE THE NUMBER OF LESSONS IF THE MODULE HAS A DIFFERENT COUNT
+    totalLessons: 0,      // CHANGE THE NUMBER OF LESSONS IF THE MODULE HAS A DIFFERENT COUNT
     status: "not-started" // not-started, in-progress, completed
   };
   
@@ -879,36 +874,41 @@
     
     updateModuleButton();
   }
-
-
-  const LESSON_IDS = [5, 6, 7, 8];
-
+  
   // Function to fetch lesson progress from backend
   async function fetchLessonProgress() {
     const token = localStorage.getItem("token");
     if (!token) return;
-
-    let completedLessons = 0;
-
-    // Check each lesson's quiz completion status
-    for (const lessonId of LESSON_IDS) {
-      try {
-        const resp = await fetch(`https://api.wargames.batamladen.com/api/academy/lesson/${lessonId}/question_status`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        const data = await resp.json();
-        // A lesson is completed if all questions are completed and there is at least one question
-        if (data.success && data.total_questions > 0 && data.completed_questions === data.total_questions) {
-          completedLessons++;
+    
+    try {
+      // Fetch academy progress data
+      const progressResp = await fetch("https://api.wargames.batamladen.com/api/academy/progress", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      
+      if (progressResp.ok) {
+        const progressData = await progressResp.json();
+        
+        if (progressData.success) {
+          // Find the module ID in the backend (Info available in the API docs)
+          const gettingStartedModule = progressData.paths
+            .flatMap(path => path.modules)
+            .find(module => module.id === 0); // CHANGE THIS ID TO THE CURRENT MODULE'S ID
+          
+          if (gettingStartedModule) {
+            // Count completed lessons
+            const completedLessons = gettingStartedModule.lessons.filter(lesson => lesson.completed).length;
+            
+            lessonProgress.completedLessons = completedLessons;
+            lessonProgress.totalLessons = gettingStartedModule.lessons.length;
+            
+            updateProgressDisplay();
+          }
         }
-      } catch (err) {
-        console.error(`Error fetching progress for lesson ${lessonId}:`, err);
       }
+    } catch (err) {
+      console.error("Error fetching lesson progress:", err);
     }
-
-    lessonProgress.completedLessons = completedLessons;
-    lessonProgress.totalLessons = LESSON_IDS.length;
-    updateProgressDisplay();
   }
   
   function checkLoginStatus() {
@@ -921,7 +921,7 @@
       fetchLessonProgress();
       
       startButton.addEventListener('click', function() {
-        window.location.href = 'Introduction-to-Stealth-&-OPSEC.html';    // CHANGE TO THE FIRST LESSON HTML FILE
+        window.location.href = 'Change-Me.html';    // CHANGE TO THE FIRST LESSON HTML FILE
       });
     } else {
       // User is not logged in
@@ -1022,7 +1022,6 @@
         { href: "../../../faq.html", text: "FAQ", data: "faq", icon: "question-circle" },
         { href: "../../../contact.html", text: "CONTACT", data: "contact", icon: "envelope" },
         { href: "../../../scoreboard.html", text: "SCOREBOARD", data: "scoreboard", icon: "trophy" },
-        { href: "../../../contributors.html", text: "CONTRIBUTORS", data: "contributors", icon: "users" }
       ];
 
       // Clear any existing items (in case there was a logout)

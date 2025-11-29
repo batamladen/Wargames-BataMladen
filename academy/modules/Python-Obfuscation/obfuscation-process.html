@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>WBM &ndash; Getting Started: Tasks</title>
+  <title>WBM &ndash; Python Obfuscation: Obfuscation Process</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
@@ -73,8 +73,9 @@
 
     h3 {
       font-size: 1.5rem;
-      margin-top: 1.5em;
-      color: var(--accent-color);
+      margin-top: 1.5rem;
+      margin-bottom: -1rem;
+      color: #cdcad1;
     }
 
     /* Header Styles */
@@ -196,7 +197,7 @@
     }
 
     .challenge-item i {
-      margin-right: 12px; 
+      margin-right: 12px;
       width: 16px;
       text-align: center;
     }
@@ -295,7 +296,8 @@
     .lesson-content h2 {
       text-align: left;
       border-bottom: none;
-      margin-top: 0;
+      margin-top: 40px;
+      margin-bottom: -1rem;
       padding-bottom: 0;
       color: var(--accent-color);
     }
@@ -326,6 +328,7 @@
     .lesson-content pre code {
       background: none;
       padding: 0;
+      font-size: small;
     }
 
     .lesson-navigation {
@@ -532,12 +535,12 @@
     }
 
     .logout-button i {
-      margin-right: 12px; 
+      margin-right: 12px;
       width: 16px;
       text-align: center;
     }
 
-    /* Task Section Styles - UPDATED TO MATCH WELCOME.HTML */
+    /* Task Section Styles - UPDATED */
     .task-section {
       background-color: var(--bg-container);
       border-radius: 8px;
@@ -591,22 +594,38 @@
       transition: color 0.3s ease;
     }
 
+    /* Base container styles */
     .task-input-container {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 15px;
-      transition: all 0.3s ease;
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+        transition: all 0.3s ease;
     }
 
+    /* For TEXT input questions only - NO margin */
+    .task-input-container.text-input {
+        align-items: center;
+        margin-top: 0;
+    }
+
+    /* For QUIZ questions (multiple choice/single choice) - WITH margin */
+    .task-input-container.quiz-input {
+        margin-top: 20px;
+    }
+
+
+
     .task-input {
-      flex: 1;
-      padding: 10px 15px;
-      border-radius: 4px;
-      border: 1px solid var(--border-color);
-      background-color: var(--bg-darker);
-      color: var(--text-primary);
-      font-family: 'Open Sans', sans-serif;
-      transition: all 0.3s ease;
+        flex: 1;
+        padding: 10px 15px;
+        border-radius: 4px;
+        border: 1px solid var(--border-color);
+        background-color: var(--bg-darker);
+        color: var(--text-primary);
+        font-family: 'Open Sans', sans-serif;
+        transition: all 0.3s ease;
+        height: 40px; /* Set explicit height */
+        box-sizing: border-box; /* Include padding in height calculation */
     }
 
     .task-input:focus {
@@ -620,15 +639,17 @@
     }
 
     .submit-btn {
-      background-color: var(--accent-color);
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 4px;
-      font-family: 'League Spartan', sans-serif;
-      cursor: pointer;
-      transition: all 0.2s;
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-family: 'League Spartan', sans-serif;
+        cursor: pointer;
+        transition: all 0.2s;
+        height: 30px;  /* ← ADD THIS */
     }
+    
 
     .submit-btn:hover {
       background-color: var(--accent-hover);
@@ -667,28 +688,42 @@
 
     .lesson-header {
         text-align: center;
-        margin-bottom: 10px;
+        margin-bottom: 10px; /* a bit smaller spacing than before */
     }
 
     .module-title {
-        font-size: 1.5rem;
+        font-size: 1.5rem; /* smaller than the old 3rem */
         color: var(--accent-color);
-        margin: 0;
+        margin: 0; /* remove extra space above */
     }
 
     .lesson-name {
         font-size: 3rem;
         color: var(--text-primary);
-        margin-top: 5px;
+        margin-top: 5px; /* small gap under module title */
     }
 
     .module-underline {
-        width: 20cm;
-        height: 1.5px;
+        width: 20cm;        /* the width you want */
+        height: 1.5px;      /* thickness of the line */
         background-color: var(--accent-color);
-        border: none;
-        margin: -10px auto 0;
-        border-radius: 2px;
+        border: none;       /* remove default border styling */
+        margin: -10px auto 0; /* Reduced top margin to bring it closer */
+        border-radius: 2px; /* optional: rounded edges */
+    }
+
+    .get-started-stylish {
+      display: inline-block;
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, #9d50bb, #48bb78);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 1px;
+      text-shadow: 0 2px 12px rgba(110,72,170,0.2);
+      margin-top: 40px;
     }
 
     /* Quiz Styles for Multiple Questions */
@@ -759,6 +794,7 @@
       margin-top: 10px;
     }
 
+
     .tasks-main-header {
       text-align: center;
       margin: 60px 0 30px 0;
@@ -770,7 +806,7 @@
       font-size: 2.0rem;
       color: var(--accent-color);
       margin: 0;
-      border-bottom: none !important;
+      border-bottom: none !important; /* Remove any underline */
       padding-bottom: 0;
     }
 
@@ -780,6 +816,89 @@
       font-size: 1.0rem;
     }
 
+    /* Markdown-style Code Blocks for Questions */
+    .task-description pre {
+        background-color: #1a1a1a !important;
+        border: 1px solid #333 !important;
+        border-radius: 6px !important;
+        padding: 16px !important;
+        margin: 12px 0 !important;
+        overflow-x: auto !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 0.85rem !important;
+        line-height: 1.5 !important;
+        border-left: 3px solid var(--accent-color) !important;
+    }
+
+    .task-description pre code {
+        background: none !important;
+        padding: 0 !important;
+        color: #e0e0e0 !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        white-space: pre !important;
+    }
+
+    /* For inline code within question text */
+    .task-description code:not(pre code) {
+        background-color: var(--bg-darker) !important;
+        padding: 2px 6px !important;
+        border-radius: 3px !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 0.85rem !important;
+        color: var(--text-primary) !important;
+    }
+
+    /* Syntax highlighting colors (optional) */
+    .task-description pre .keyword { color: #ff79c6; }
+    .task-description pre .string { color: #f1fa8c; }
+    .task-description pre .comment { color: #6272a4; }
+    .task-description pre .function { color: #50fa7b; }
+    .task-description pre .number { color: #bd93f9; }
+
+
+    .scenario-section {
+      margin: 50px 0;
+    }
+
+    .scenario-title {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 600;
+      font-size: 1.5rem;
+      color: var(--accent-color);
+      margin: 0 0 10px 0;
+      text-align: left;
+    }
+
+    .scenario-subtitle {
+      color: var(--text-primary);
+      font-size: 1.1rem;
+      margin: 0 0 20px 0;
+      text-align: left;
+    }
+
+    .scenario-list {
+      margin: 15px 0;
+      padding-left: 20px;
+    }
+
+    .scenario-list li {
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+
+    .instructions-box {
+      background-color: var(--bg-darker);
+      border-radius: 6px;
+      padding: 20px;
+      margin-top: 20px;
+      border-left: 3px solid var(--accent-color);
+    }
+
+    .instructions-box h4 {
+      margin-top: 0;
+      color: var(--accent-color);
+    }
 
     /* Add smooth transition for lesson completion */
     .lesson-number {
@@ -828,6 +947,48 @@
       line-height: 2rem;
       font-family: 'League Spartan', sans-serif;
     }
+
+    /* New styles for lesson completion */
+    .lesson-completion-message {
+      background-color: rgba(40, 167, 69, 0.1);
+      border: 1px solid var(--success-color);
+      color: var(--success-color);
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+      text-align: center;
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.2rem;
+    }
+
+    .lesson-footer {
+      text-align: center;
+      padding: 30px 20px 20px;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      margin-top: 40px;
+      border-top: 1px solid var(--border-color);
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .lesson-footer a {
+      color: var(--accent-hover);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .lesson-footer a:hover {
+      color: var(--accent-color);
+    }
+
+    .note {
+      padding: 10px;
+      border-left: 4px solid #d3d0d6;
+      background-color: #2d204299;
+      margin: 10px 0;
+      border-radius: 4px;
+    }
+
   </style>
 </head>
 <body>
@@ -870,7 +1031,7 @@
     <a href="../../../challenges.html" class="challenge-item" data-challenge="challenges">
       <i class="fas fa-bullseye"></i> CHALLENGES
     </a>
-    <a href="../../../academy.html" class="challenge-item" data-challenge="academy">
+    <a href="../../../academy.html" class="challenge-item active" data-challenge="academy">
       <i class="fas fa-graduation-cap"></i> ACADEMY
     </a>
     <a href="../../../writeups.html" class="challenge-item" data-challenge="writeups">
@@ -888,41 +1049,189 @@
     <a href="../../../contributors.html" class="challenge-item" data-challenge="contributors">
       <i class="fas fa-trophy"></i> CONTRIBUTORS
     </a>
+    
   </ul>
 </div>
 
 <div class="content-wrapper">
   <div class="main-content">
     <div class="lesson-header">
-        <h3 class="module-title">Module: Getting Started</h3>
-        <h1 class="lesson-name">Tasks</h1>
+        <h3 class="module-title">Module: Python Obfuscation</h3>
+        <h1 class="lesson-name">Obfuscation Process</h1>
         <hr class="module-underline">
     </div>
     
     <div class="lesson-content">
-      <h2 style="margin-top: 10px;">How to Complete Each Lesson task?</h2>
+      <h3>Starting Point</h3>
+      <p> When obfuscating code, you first need to have it written normally. This is your starting point before any obfuscation techniques are applied. </p>
+      <p> Once you written your code, create at the top of your code, a list with characters including space.</p>
+      <p> For example: </p>
+      <pre><code>qwe = list("qwertyuiopasdfghjklzxcvbnm. :")</code></pre>
 
-      <p>
-        At the end of every lesson in Wargames Academy, you'll find one or more tasks that must be completed to mark the lesson as <strong>finished</strong>. Completing these tasks is required to track your progress and unlock new content.
-      </p>
-
-      <ul>
-        <li>
-          <strong>Simple tasks:</strong> Sometimes, you'll just need to type <code>Done</code> in the input box after reading the lesson.
-        </li>
-        
-        <li>
-          <strong>Theoretical tasks:</strong> Theoretical tasks will require you to answer questions related to the topic you just learned.
-        </li>
-
-        <li>
-          <strong>Interactive tasks:</strong> Other lessons may ask you to connect to an IP address or Domain, use SSH or RDP to access a virtual machine to answer questions.
-        </li>
-      </ul>
+      <p> Use random order for more confusion and difficulty.</p>
+      
       <br>
-      <p>
-        <span style="color:var(--accent-color);font-weight:600;">Make sure to complete all tasks for each lesson!</span> Only then will your progress be saved and the lesson marked as finished. For each completed task you get +5 aura points.
-      </p>
+      <h3>Variable Obfuscation</h3>
+      <p> Next, find all the variables you have and rename them in gibberish.</p>
+      <p> For example:</p>
+      <pre><code># Normal code:
+name = "Marc"
+address = "Brick Street"
+
+# Obfuscated
+qwe = "Marc"
+weq = "Brick Street"</code></pre>
+      
+      <br>
+      <h3>String Obfuscation</h3>
+      <p> Now, for the strings in your variables or in general, you can obfuscate them by encoding each character using the list you created at the start. (Pricess known as indexing)</p>
+<pre><code>qwe = list("qwertyuiopasdfghjklzxcvbnm. :")
+
+# Normal code:
+name = "Marc"
+address = "Brick Street"
+
+# Obfuscated
+weq = "".join([qwe[25].upper(), qwe[10], qwe[3], qwe[21]])
+eqw = "".join([qwe[23].upper(), qwe[3], qwe[7], qwe[21], qwe[17], qwe[27], qwe[11].upper(), qwe[4], qwe[3], qwe[2], qwe[2], qwe[4]])</code></pre>
+
+      <p> This way, the strings are not directly visible in the code, making it harder to understand.</p>
+      <div class="note">
+        <strong>Note:</strong> When indexing, remember that Python list indexes start at 0, not 1.
+      </div>
+
+      <br>
+      <h3>Control Flow statements obfuscation</h3>
+
+      <p>When obfuscating for loops, make sure you have all of your variables in a list, it will make iterations possible and easier for us.</p>
+
+      <p> Example:</p>
+<pre><code>qwe = list("qwertyuiopasdfghjklzxcvbnm. :")
+
+# Normal code:
+name = "Marc"
+address = "Brick Street"
+
+# Obfuscated
+weq = "".join([qwe[25].upper(), qwe[10], qwe[3], qwe[21]])
+eqw = "".join([qwe[23].upper(), qwe[3], qwe[7], qwe[21], qwe[17], qwe[27], qwe[11].upper(), qwe[4], qwe[3], qwe[2], qwe[2], qwe[4]])
+
+variables_list = [weq, eqw]</code></pre>
+
+      <p> Idealy you want to name the list of the variables gibberish as well.</p>
+
+<pre><code>qwe = list("qwertyuiopasdfghjklzxcvbnm. :")
+
+# Normal code:
+name = "Marc"
+address = "Brick Street"
+
+# Obfuscated
+weq = "".join([qwe[25].upper(), qwe[10], qwe[3], qwe[21]])
+eqw = "".join([qwe[23].upper(), qwe[3], qwe[7], qwe[21], qwe[17], qwe[27], qwe[11].upper(), qwe[4], qwe[3], qwe[2], qwe[2], qwe[4]])
+
+wqe = [weq, eqw]</code></pre>
+
+      <p> At this point, you can still use the for loop normally, just remember to use the obfuscated list name.</p>
+
+<pre><code>qwe = list("qwertyuiopasdfghjklzxcvbnm. :")
+
+# Normal code:
+name = "Marc"
+address = "Brick Street"
+
+# Obfuscated
+weq = "".join([qwe[25].upper(), qwe[10], qwe[3], qwe[21]])
+eqw = "".join([qwe[23].upper(), qwe[3], qwe[7], qwe[21], qwe[17], qwe[27], qwe[11].upper(), qwe[4], qwe[3], qwe[2], qwe[2], qwe[4]])
+
+wqe = [weq, eqw]
+
+for item in wqe:
+	print(item)</code></pre>
+
+      <p> The process is the same for while & if statements... <br>Below are some examples of obfuscated while, and if statements.</p>
+      <br>
+      <p><strong>If satement</strong></p>
+<pre><code>qwe = list("qwertyuiopasdfghjklzxcvbnm. :")
+
+# Normal code:
+score = 85
+if score >= 90:
+    print("A")
+elif score >= 80:
+    print("B")
+else:
+    print("C")
+
+# Obfuscated
+weq = 85  # score
+eqw = 90  # first threshold
+qew = 80  # second threshold
+www = [weq,eqw, qew]
+
+if weq >= www[1]:
+    print("".join([qwe[10].upper()]))  # "A"
+elif weq >= www[2]:
+    print("".join([qwe[23].upper()]))  # "B"
+else:
+    print("".join([qwe[21].upper()]))  # "C"</code></pre>
+
+<br>
+<p><strong>While statement</strong></p>
+<pre><code>qwe = list("qwertyuiopasdfghjklzxcvbnm. :")
+
+# Normal code:
+password = ""
+while password != "secret":
+    password = input("Enter password: ")
+
+# Obfuscated
+weq = ""  # password
+eqw = "".join([qwe[11], qwe[2], qwe[21], qwe[3], qwe[2], qwe[4]])  # "secret"
+
+while weq != eqw:
+    weq = input("".join([qwe[4].upper(), qwe[24], qwe[4], qwe[2], qwe[3], qwe[27], qwe[9], qwe[10], qwe[11], qwe[11], qwe[1], qwe[8], qwe[3], qwe[12], qwe[28], qwe[27]]))  # "Enter password: "</code></pre>
+
+
+    <br>
+    <h3>Commands</h3>
+    <p>Commands in Python are functions from built-in or imported libraries, so they need to be written as plaintext and cannot be obfuscated. </p>
+    
+<pre><code>print() # Must stay as "print" 
+input() # Must stay as "input" 
+time.sleep() # Must stay as "time.sleep" </code></pre>
+
+<p>  You can only obfuscate the arguments passed to these functions.</p>
+<br>
+
+<h3> Finishing Touches </h3>
+<p> When you are done obfuscating the last thing you want to do is delete all line spacing there is.</p>
+<p> After applying all the obfuscation techniques, review your code to ensure it still functions as intended. Test it thoroughly to confirm that the obfuscation hasn't introduced any errors.</p>
+
+<br>
+<h3> Small Code Example </h3>
+<pre><code>import time
+qwe = list("qwertyuiopasdfghjklzxcvbnm. ")
+weq = "".join([qwe[4].upper(), qwe[6], qwe[24], qwe[7], qwe[24], qwe[14], qwe[27], qwe[4], qwe[15], qwe[2], qwe[27], qwe[25], qwe[8], qwe[12], qwe[2], qwe[18], qwe[26], qwe[26], qwe[26]])
+eqw = "".join([qwe[4].upper(),qwe[3],qwe[5],qwe[7],qwe[24],qwe[14],qwe[27],qwe[12],qwe[7],qwe[13],qwe[13],qwe[2],qwe[3],qwe[2], qwe[24],qwe[4], qwe[27],qwe[-7], qwe[-10], qwe[10],qwe[11],qwe[11],qwe[7],qwe[13],qwe[7],qwe[2],qwe[3],qwe[11],qwe[26], qwe[26], qwe[26]])
+ewq = "".join([qwe[1].upper(), qwe[8], qwe[3], qwe[-11], qwe[7], qwe[24], qwe[14], qwe[27],qwe[25], qwe[5], qwe[27], qwe[10], qwe[11], qwe[11], qwe[27], qwe[8], qwe[-15], qwe[-15],qwe[26], qwe[26], qwe[26]])
+wqe = [weq, eqw, ewq]
+for qew in wqe:
+    print(qew)
+    time.sleep(1.5)
+wwe = wqe[1][4].upper(), wqe[0][12], " :",")"
+print("\nFinal answer:")
+time.sleep(1)
+for char in wwe:
+    print(char, end='', flush=True)
+    time.sleep(0.5)</code></pre>
+
+      <br>
+      <div class="note">
+        <strong>Note:</strong><br> You undersand that every code is uniqe, and that there are different methods of obfuscation, there are even tools that obfuscate code in seconds. But the process of mannual obfuscation makes you understand later what the tools acctualy do.<br> Oh yeah and... ynd also, you can index negatively so the code looks even more confusing.
+      </div>
+        
+
     </div>
 
     <hr class="module-underline">
@@ -930,7 +1239,7 @@
     <!-- Tasks Header -->
     <div class="tasks-main-header">
       <h2 class="tasks-main-title">Tasks</h2>
-      <p class="tasks-main-description">Complete all the tasks to finish the lesson.</p>
+      <p class="tasks-main-description">Complete the quiz to finish this lesson.</p>
     </div>
 
     <!-- Individual Task Sections - Will be dynamically loaded -->
@@ -940,25 +1249,32 @@
       
     <div class="lesson-navigation">
       <button class="lesson-btn" id="prevLesson">Previous</button>
-      <button class="lesson-btn" id="nextLesson">Next Module</button>
+      <button class="lesson-btn" id="nextLesson">Next Lesson</button>
     </div>
+
+    <footer style="text-align: center; padding: 20px; color: #b0b0b0; font-size: 0.8rem; margin-top: 40px;">
+      Lesson Created by: <a href="https://github.com/batamladen" target="_blank" style="color: var(--accent-color); text-decoration: none;">@BataMladen</a>
+    </footer>
   </div>
   
   <div class="lesson-nav">
     <div class="lesson-nav-title">Lessons</div>
     <div class="lesson-numbers">
-      <a href="welcome.html" class="lesson-number" id="lesson1">1</a>
-      <a href="navigation.html" class="lesson-number" id="lesson2">2</a>
-      <a href="tools.html" class="lesson-number" id="lesson3">3</a>
-      <a href="tasks.html" class="lesson-number active" id="lesson4">4</a>
+      <a href="introduction-to-obfuscation.html" class="lesson-number" id="lesson9">1</a>
+      <a href="obfuscation-principle.html" class="lesson-number active" id="lesson10">2</a>
+      <a href="deobfuscation.html" class="lesson-number" id="lesson11">3</a>
+      <a href="practical-challenge.html" class="lesson-number" id="lesson12">4</a>
     </div>
   </div>
+  
 </div>
 
 <div id="mobile-warning">
   <p>THIS PLATFORM IS BEST EXPERIENCED ON A DESKTOP DEVICE.</p>
   <p>PLEASE VISIT US USING A DESKTOP BROWSER.<br />⚠️</p>
 </div>
+
+
 
 <script>
 /* ---------------------- MOBILE WARNING ---------------------- */
@@ -1021,8 +1337,8 @@ async function updateAuraDisplay() {
 }
 
 /* ---------------------- BACKEND PROGRESS ---------------------- */
-const MODULE_ID = 1;
-const LESSON_ID = 4;
+const MODULE_ID = 3;  // Python Obfuscation module
+const LESSON_ID = 10;  // Obfuscation Process lesson
 
 async function fetchProgressAndApply() {
   if (!token) return;
@@ -1030,7 +1346,7 @@ async function fetchProgressAndApply() {
   console.log('🔄 Checking progress for all lessons using quiz system...');
   
   // Check each lesson individually using the quiz system
-  const lessons = [1, 2, 3, 4];
+  const lessons = [9, 10, 11, 12];  // All lessons in Python Obfuscation module
   
   for (const lessonId of lessons) {
     await checkLessonCompletion(lessonId);
@@ -1086,7 +1402,7 @@ async function checkLessonCompletion(lessonId) {
 
 /* ---------------------- TASK HANDLER - INDIVIDUAL TASK BOXES ---------------------- */
 const tasksContainer = document.getElementById('tasksContainer');
-const lesson4 = document.getElementById('lesson4');
+const lesson9 = document.getElementById('lesson10');
 
 let currentQuestions = [];
 let userAnswers = {};
@@ -1173,6 +1489,7 @@ async function checkQuestionCompletionStatus() {
     completedQuestions.clear();
   }
 }
+    
 
 // Render individual task boxes
 function renderIndividualTasks(questions) {
@@ -1191,7 +1508,7 @@ function renderIndividualTasks(questions) {
     
     if (question.question_type === 'text') {
       taskContent = `
-        <div class="task-input-container">
+        <div class="task-input-container text-input">
           <input type="text" 
                  class="task-input ${isCompleted ? 'completed' : ''}" 
                  id="input-${question.id}"
@@ -1220,7 +1537,7 @@ function renderIndividualTasks(questions) {
         <div class="quiz-options">
           ${options}
         </div>
-        <div class="task-input-container">
+        <div class="task-input-container quiz-input">
           <button class="submit-btn ${isCompleted ? 'completed' : ''}" 
                   id="submit-${question.id}"
                   ${isCompleted ? 'disabled' : ''}>
@@ -1244,7 +1561,7 @@ function renderIndividualTasks(questions) {
         <div class="quiz-options">
           ${options}
         </div>
-        <div class="task-input-container">
+        <div class="task-input-container quiz-input">
           <button class="submit-btn ${isCompleted ? 'completed' : ''}" 
                   id="submit-${question.id}"
                   ${isCompleted ? 'disabled' : ''}>
@@ -1398,7 +1715,7 @@ async function submitSingleTask(questionId) {
           }
           
           showFeedback(questionId, result.aura_awarded > 0 
-            ? `Correct!`
+            ? `Correct! +${result.aura_awarded} Aura Points earned!`
             : 'Correct!', 'success');
         }
       } else {
@@ -1418,7 +1735,6 @@ async function submitSingleTask(questionId) {
     submitButton.textContent = question.question_type === 'text' ? 'Submit' : 'Submit Answer';
   }
 }
-
 
 // Smooth animation for lesson completion
 function animateLessonCompletion() {
@@ -1508,7 +1824,6 @@ function ensureAnimationStyles() {
   document.head.appendChild(style);
 }
 
-
 // Mark a task as completed in the UI
 function markTaskAsCompleted(questionId) {
   const taskSection = document.getElementById(`task-${questionId}`);
@@ -1548,12 +1863,26 @@ function showFeedback(questionId, message, type) {
   }
 }
 
+// Show lesson completion message
+function showLessonCompletedMessage() {
+  const messageDiv = document.createElement('div');
+  messageDiv.className = 'lesson-completion-message';
+  messageDiv.innerHTML = `
+    <i class="fas fa-check-circle"></i> 
+    <strong>Congratulations!</strong> You have completed this lesson and earned Aura Points!
+  `;
+  
+  // Insert after the tasks container
+  tasksContainer.parentNode.insertBefore(messageDiv, tasksContainer.nextSibling);
+}
+
 /* ---------------------- NAVIGATION ---------------------- */
 document.getElementById('prevLesson')?.addEventListener('click',()=>{
-  window.location.href = "tools.html";
+  // Update this to point to the previous lesson in the module
+  window.location.href = "introduction-to-obfuscation.html"; // Adjust path as needed
 });
 document.getElementById('nextLesson')?.addEventListener('click',()=>{
-  window.location.href = "../../../academy.html";
+  window.location.href = "deobfuscation.html.html";
 });
 
 /* ---------------------- SIDEBAR / LOGIN STATE ---------------------- */
@@ -1622,7 +1951,8 @@ function setupSidebar(){
         { href: "../../../faq.html", text: "FAQ", data: "faq", icon: "question-circle" },
         { href: "../../../contact.html", text: "CONTACT", data: "contact", icon: "envelope" },
         { href: "../../../scoreboard.html", text: "SCOREBOARD", data: "scoreboard", icon: "trophy" },
-        { href: "../../../contributors.html", text: "CONTRIBUTORS", data: "contributors", icon: "trophy" },
+        { href: "../../../contributors.html", text: "CONTRIBUTORS", data: "contributors", icon: "users" },
+
       ];
 
       sidebarList.innerHTML = "";
@@ -1658,5 +1988,3 @@ document.addEventListener("DOMContentLoaded",()=>{
   }
 });
 </script>
-</body>
-</html>

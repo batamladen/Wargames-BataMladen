@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Foundations of Stealth &ndash; WBM Academy</title>
+  <title>Python Obfuscation &ndash; WBM Academy</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="icon" type="image/png" href="../../../images/wargames-logo.ico">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
+    /* Your existing CSS styles remain unchanged */
     :root {
       --bg-dark: #121212;
       --bg-darker: #0a0a0a;
@@ -633,7 +632,6 @@
   </style>
 </head>
 <body>
-<!-- HEADER -->
 <header class="header">
   <a href="../../../home.html">
     <img src="../../../images/wargame header logo 3 banner.webp" alt="Wargames Logo" class="header-logo"/>
@@ -644,10 +642,8 @@
   </div>
 </header>
 
-<!-- DONATE BUTTON -->
 <button class="donate-float" id="donateButton">Donate!</button>
 
-<!-- DONATION POPUP -->
 <div class="overlay" id="overlay"></div>
 <div class="donation-popup" id="donationPopup">
   <h2>SUPPORT US</h2>
@@ -670,10 +666,9 @@
   <button class="cancel-button" id="closePopup">CLOSE</button>
 </div>
 
-<!-- SIDEBAR NAVIGATION -->
 <div class="sidebar">
   <ul class="challenge-list" id="sidebarList">
-    <!-- User block (auto inserted if logged in) -->
+    <!-- User item will be inserted here if logged in -->
     <a href="../../../challenges.html" class="challenge-item" data-challenge="challenges">
       <i class="fas fa-bullseye"></i> CHALLENGES
     </a>
@@ -698,16 +693,14 @@
   </ul>
 </div>
 
-<!-- MAIN CONTENT -->
 <div class="content-wrapper">
   <div class="main-content">
-
-    <!-- MODULE HEADER -->
+    <!-- Module Header -->
     <div class="module-header">
-      <img src="../../../images/Foundations of stealth.webp" alt="[Module Image]" class="module-image">
+      <img src="../../../images/python_obfuscation_module.webp" alt="Python Obfusction Module" class="module-image">
       <div class="module-info">
-        <h1 class="module-title">Foundations of Stealth</h1>
-        <p class="module-description">Understand the basics of stealth operations and operational security principles</p>
+        <h1 class="module-title">Python Obfuscation</h1>
+        <p class="module-description">Learn hiding pyhon code for harder detection and understanding of what it does.</p>
       </div>
     </div>
     
@@ -722,57 +715,42 @@
       </div>
     </div>
     
-    <!-- LOGIN PROMPT + START BUTTON -->
+    <!-- Login Prompt -->
     <div class="login-prompt">
       <button class="start-button" id="startModuleBtn">Start Module</button>
       <p class="login-message" id="loginMessage" style="display: none;"></p>
     </div>
     
-    <!-- MODULE CONTENT -->
+    <!-- Module Content -->
     <div class="module-content">
-      <!-- SECTION 1 -->
       <div class="content-section">
         <h3>Module Overview</h3>
-        <p>[Brief explanation of what’s covered in this module]</p>
+        <p>This module teaches you to obfuscate your python code. You will learn:</p>
         <ul>
-          <li>[Point 1]</li>
-          <li>[Point 2]</li>
-          <li>[Point 3]</li>
+          <li>What is obfuscation</li>
+          <li>When is it used and when not</li>
+          <li>One method of obfuscating python code</li>
+          <li>How to de-obfuscate</li>
         </ul>
       </div>
 
-      <!-- SECTION 2 -->
-      <div class="content-section">
-        <h3>Lessons</h3>
-        <ul>
-          <li>Introdution To Stelath & OPSEC</li>
-          <li>[Lesson 2]</li>
-          <li>[Lesson 3]</li>
-        </ul>
-      </div>
-
-      <!-- SECTION 3 -->
       <div class="content-section">
         <h3>Prerequisites</h3>
         <ul>
-          <li>[Prerequisite 1]</li>
-          <li>[Prerequisite 2]</li>
-          <li>[Prerequisite 3]</li>
+          <li>Basic python knowledge</li>
         </ul>
       </div>
-
-      <!-- Add more sections as needed -->
     </div>
   </div>
 </div>
+      
 
-<!-- MOBILE WARNING -->
+
 <div id="mobile-warning">
   <p>THIS PLATFORM IS BEST EXPERIENCED ON A DESKTOP DEVICE.</p>
   <p>PLEASE VISIT US USING A DESKTOP BROWSER.<br />⚠️</p>
 </div>
 
-<!-- JS (unchanged, except optional module-specific values) -->
 <script>
   // --- Mobile warning ---
   if (window.innerWidth <= 768) {
@@ -839,7 +817,7 @@
   // Track lesson progress
   let lessonProgress = {
     completedLessons: 0,
-    totalLessons: 4,      // CHANGE THE NUMBER OF LESSONS IF THE MODULE HAS A DIFFERENT COUNT
+    totalLessons: 4,
     status: "not-started" // not-started, in-progress, completed
   };
   
@@ -879,37 +857,35 @@
     
     updateModuleButton();
   }
+  
+  const LESSON_IDS = [9, 10, 11, 12];
 
-
-  const LESSON_IDS = [5, 6, 7, 8];
-
-  // Function to fetch lesson progress from backend
   async function fetchLessonProgress() {
-    const token = localStorage.getItem("token");
-    if (!token) return;
+  const token = localStorage.getItem("token");
+  if (!token) return;
 
-    let completedLessons = 0;
+  let completedLessons = 0;
 
-    // Check each lesson's quiz completion status
-    for (const lessonId of LESSON_IDS) {
-      try {
-        const resp = await fetch(`https://api.wargames.batamladen.com/api/academy/lesson/${lessonId}/question_status`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        const data = await resp.json();
-        // A lesson is completed if all questions are completed and there is at least one question
-        if (data.success && data.total_questions > 0 && data.completed_questions === data.total_questions) {
-          completedLessons++;
-        }
-      } catch (err) {
-        console.error(`Error fetching progress for lesson ${lessonId}:`, err);
+  // Check each lesson's quiz completion status
+  for (const lessonId of LESSON_IDS) {
+    try {
+      const resp = await fetch(`https://api.wargames.batamladen.com/api/academy/lesson/${lessonId}/question_status`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await resp.json();
+      // A lesson is completed if all questions are completed and there is at least one question
+      if (data.success && data.total_questions > 0 && data.completed_questions === data.total_questions) {
+        completedLessons++;
       }
+    } catch (err) {
+      console.error(`Error fetching progress for lesson ${lessonId}:`, err);
     }
-
-    lessonProgress.completedLessons = completedLessons;
-    lessonProgress.totalLessons = LESSON_IDS.length;
-    updateProgressDisplay();
   }
+
+  lessonProgress.completedLessons = completedLessons;
+  lessonProgress.totalLessons = LESSON_IDS.length;
+  updateProgressDisplay();
+}
   
   function checkLoginStatus() {
     const token = localStorage.getItem("token");
@@ -921,7 +897,7 @@
       fetchLessonProgress();
       
       startButton.addEventListener('click', function() {
-        window.location.href = 'Introduction-to-Stealth-&-OPSEC.html';    // CHANGE TO THE FIRST LESSON HTML FILE
+        window.location.href = 'introduction-to-obfuscation.html';
       });
     } else {
       // User is not logged in
@@ -1048,5 +1024,7 @@
     }
   });
 </script>
+
+
 </body>
 </html>
