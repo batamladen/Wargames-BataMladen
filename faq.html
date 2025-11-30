@@ -517,7 +517,7 @@
 </head>
 <body>
 <header class="header">
-  <a href="home.html">
+  <a href="/home">
     <img
       src="images/wargame header logo 3 banner.webp"
       alt="Wargames Logo"
@@ -525,8 +525,8 @@
     />
   </a>
   <div class="header-right" id="headerRight">
-    <a href="/login.html" class="auth-button" id="loginBtn">Login</a>
-    <a href="/register.html" class="auth-button" id="registerBtn">Register</a>
+    <a href="/login" class="auth-button" id="loginBtn">Login</a>
+    <a href="/register" class="auth-button" id="registerBtn">Register</a>
   </div>
 </header>
 
@@ -568,25 +568,25 @@
   <div class="sidebar">
     <ul class="challenge-list" id="sidebarList">
       <!-- User item will be inserted here if logged in -->
-      <a href="challenges.html" class="challenge-item" data-challenge="challenges">
+      <a href="/challenges" class="challenge-item" data-challenge="challenges">
         <i class="fas fa-bullseye"></i> CHALLENGES
       </a>
-      <a href="academy.html" class="challenge-item" data-challenge="academy">
+      <a href="/academy" class="challenge-item" data-challenge="academy">
         <i class="fas fa-graduation-cap"></i> ACADEMY
       </a>
-      <a href="writeups.html" class="challenge-item" data-challenge="writeups">
+      <a href="/writeups" class="challenge-item" data-challenge="writeups">
         <i class="fas fa-pen-fancy"></i> WRITE UPS
       </a>
-      <a href="faq.html" class="challenge-item active" data-challenge="faq">
+      <a href="/faq" class="challenge-item active" data-challenge="faq">
         <i class="fas fa-question-circle"></i> FAQ
       </a>
-      <a href="contact.html" class="challenge-item" data-challenge="contact">
+      <a href="/contact" class="challenge-item" data-challenge="contact">
         <i class="fas fa-envelope"></i> CONTACT
       </a>
-      <a href="scoreboard.html" class="challenge-item" data-challenge="scoreboard">
+      <a href="/scoreboard" class="challenge-item" data-challenge="scoreboard">
         <i class="fas fa-trophy"></i> SCOREBOARD
       </a>
-      <a href="contributors.html" class="challenge-item" data-challenge="contributors">
+      <a href="/contributors" class="challenge-item" data-challenge="contributors">
         <i class="fas fa-users"></i> CONTRIBUTORS
       </a>
     </ul>
@@ -657,7 +657,7 @@
           <li>Focus on explaining concepts rather than giving answers</li>
           <li>Use spoiler tags if sharing in public forums</li>
           <li>Send us your write-up so it can be featured on our
-            <a href="write-ups.html">Write Up's</a> page
+            <a href="/write-ups">Write Up's</a> page
           </li>
         </ul>
 
@@ -686,7 +686,7 @@
         <p>For questions, bug reports, or collaboration:</p>
         <ul>
           <li>Email: <a href="mailto:contact@batamladen.com">contact@batamladen.com</a></li>
-          <li>Use the <a href="contact.html">contact form</a></li>
+          <li>Use the <a href="/contact">contact form</a></li>
         </ul>
 
         <h5 id="cert">How do I get the challenge certificates?</h5>
@@ -765,7 +765,7 @@
   const headerRight = document.getElementById("headerRight");
   const sidebarList = document.getElementById("sidebarList");
 
-  // Aura points update function (from jugsaw.html)
+  // Aura points update function (from jugsaw)
   async function updateAuraDisplay() {
     if (!token) return;
 
@@ -857,7 +857,7 @@
         e.preventDefault(); 
         localStorage.removeItem("token"); 
         localStorage.removeItem("username");
-        window.location.href = "/index.html";
+        window.location.href = "/index";
       });
 
     sidebarList.appendChild(logoutButton);
@@ -866,19 +866,19 @@
 
     // Reset header to default (login/register buttons)
     headerRight.innerHTML = `
-      <a href="/login.html" class="auth-button" id="loginBtn">Login</a>
-      <a href="register.html" class="auth-button" id="registerBtn">Register</a>
+      <a href="/login" class="auth-button" id="loginBtn">Login</a>
+      <a href="/register" class="auth-button" id="registerBtn">Register</a>
     `;
 
       // Reset sidebar to default items
       const defaultItems = [
-        { href: "challenges.html", text: "CHALLENGES", data: "challenges", icon: "bullseye" },
-        { href: "academy.html", text: "ACADEMY", data: "academy", icon: "graduation-cap" },
-        { href: "writeups.html", text: "WRITE UPS", data: "writeups", icon: "pen-fancy" },
-        { href: "faq.html", text: "FAQ", data: "faq", icon: "question-circle" },
-        { href: "contact.html", text: "CONTACT", data: "contact", icon: "envelope" },
-        { href: "scoreboard.html", text: "SCOREBOARD", data: "scoreboard", icon: "trophy" },
-        { href: "contributors.html", text: "CONTRIBUTORS", data: "contributors", icon: "users" }
+        { href: "/challenges", text: "CHALLENGES", data: "challenges", icon: "bullseye" },
+        { href: "/academy", text: "ACADEMY", data: "academy", icon: "graduation-cap" },
+        { href: "/writeups", text: "WRITE UPS", data: "writeups", icon: "pen-fancy" },
+        { href: "/faq", text: "FAQ", data: "faq", icon: "question-circle" },
+        { href: "/contact", text: "CONTACT", data: "contact", icon: "envelope" },
+        { href: "/scoreboard", text: "SCOREBOARD", data: "scoreboard", icon: "trophy" },
+        { href: "/contributors", text: "CONTRIBUTORS", data: "contributors", icon: "users" }
       ];
 
       // Clear any existing items (in case there was a logout)
