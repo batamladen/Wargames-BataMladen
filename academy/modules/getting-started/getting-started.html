@@ -899,7 +899,7 @@
       fetchLessonProgress();
       
       startButton.addEventListener('click', function() {
-        window.location.href = 'welcome.html';
+        window.location.href = 'welcome';
       });
     } else {
       // User is not logged in
@@ -985,7 +985,7 @@
         e.preventDefault(); 
         localStorage.removeItem("token"); 
         localStorage.removeItem("username");
-        window.location.href = "/index.html";
+        window.location.href = "/index";
       });
       sidebarList.appendChild(logoutButton);
 
