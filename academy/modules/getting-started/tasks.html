@@ -537,7 +537,6 @@
       text-align: center;
     }
 
-    /* Task Section Styles - UPDATED TO MATCH WELCOME.HTML */
     .task-section {
       background-color: var(--bg-container);
       border-radius: 8px;
@@ -832,12 +831,12 @@
 </head>
 <body>
 <header class="header">
-  <a href="home.html">
+  <a href="/home">
     <img src="../../../images/wargame header logo 3 banner.webp" alt="Wargames Logo" class="header-logo"/>
   </a>
   <div class="header-right" id="headerRight">
-    <a href="login.html" class="auth-button" id="loginBtn">Login</a>
-    <a href="register.html" class="auth-button" id="registerBtn">Register</a>
+    <a href="/login" class="auth-button" id="loginBtn">Login</a>
+    <a href="/register" class="auth-button" id="registerBtn">Register</a>
   </div>
 </header>
 
@@ -867,25 +866,25 @@
 
 <div class="sidebar">
   <ul class="challenge-list" id="sidebarList">
-    <a href="../../../challenges.html" class="challenge-item" data-challenge="challenges">
+    <a href="/challenges" class="challenge-item" data-challenge="challenges">
       <i class="fas fa-bullseye"></i> CHALLENGES
     </a>
-    <a href="../../../academy.html" class="challenge-item" data-challenge="academy">
+    <a href="/academy" class="challenge-item" data-challenge="academy">
       <i class="fas fa-graduation-cap"></i> ACADEMY
     </a>
-    <a href="../../../writeups.html" class="challenge-item" data-challenge="writeups">
+    <a href="/writeups" class="challenge-item" data-challenge="writeups">
       <i class="fas fa-pen-fancy"></i> WRITE UPS
     </a>
-    <a href="../../../faq.html" class="challenge-item" data-challenge="faq">
+    <a href="/faq" class="challenge-item" data-challenge="faq">
       <i class="fas fa-question-circle"></i> FAQ
     </a>
-    <a href="../../../contact.html" class="challenge-item" data-challenge="contact">
+    <a href="/contact" class="challenge-item" data-challenge="contact">
       <i class="fas fa-envelope"></i> CONTACT
     </a>
-    <a href="../../../scoreboard.html" class="challenge-item" data-challenge="scoreboard">
+    <a href="/scoreboard" class="challenge-item" data-challenge="scoreboard">
       <i class="fas fa-trophy"></i> SCOREBOARD
     </a>
-    <a href="../../../contributors.html" class="challenge-item" data-challenge="contributors">
+    <a href="/contributors" class="challenge-item" data-challenge="contributors">
       <i class="fas fa-trophy"></i> CONTRIBUTORS
     </a>
   </ul>
@@ -947,10 +946,10 @@
   <div class="lesson-nav">
     <div class="lesson-nav-title">Lessons</div>
     <div class="lesson-numbers">
-      <a href="welcome.html" class="lesson-number" id="lesson1">1</a>
-      <a href="navigation.html" class="lesson-number" id="lesson2">2</a>
-      <a href="tools.html" class="lesson-number" id="lesson3">3</a>
-      <a href="tasks.html" class="lesson-number active" id="lesson4">4</a>
+      <a href="welcome" class="lesson-number" id="lesson1">1</a>
+      <a href="navigation" class="lesson-number" id="lesson2">2</a>
+      <a href="tools" class="lesson-number" id="lesson3">3</a>
+      <a href="tasks" class="lesson-number active" id="lesson4">4</a>
     </div>
   </div>
 </div>
@@ -1550,10 +1549,10 @@ function showFeedback(questionId, message, type) {
 
 /* ---------------------- NAVIGATION ---------------------- */
 document.getElementById('prevLesson')?.addEventListener('click',()=>{
-  window.location.href = "tools.html";
+  window.location.href = "tools";
 });
 document.getElementById('nextLesson')?.addEventListener('click',()=>{
-  window.location.href = "../../../academy.html";
+  window.location.href = "/academy";
 });
 
 /* ---------------------- SIDEBAR / LOGIN STATE ---------------------- */
@@ -1605,24 +1604,24 @@ function setupSidebar(){
         e.preventDefault(); 
         localStorage.removeItem("token"); 
         localStorage.removeItem("username");
-        window.location.href = "/index.html";
+        window.location.href = "/index";
       });
     sidebarList.appendChild(logoutButton);
   } else {
       // USER IS LOGGED OUT - RESET TO DEFAULT STATE
       headerRight.innerHTML = `
-        <a href="../../../login.html" class="auth-button" id="loginBtn">Login</a>
-        <a href="../../../register.html" class="auth-button" id="registerBtn">Register</a>
+        <a href="/login" class="auth-button" id="loginBtn">Login</a>
+        <a href="/register" class="auth-button" id="registerBtn">Register</a>
       `;
 
       const defaultItems = [
-        { href: "../../../challenges.html", text: "CHALLENGES", data: "challenges", icon: "bullseye" },
-        { href: "../../../academy.html", text: "ACADEMY", data: "academy", active:true, icon: "graduation-cap" },
-        { href: "../../../writeups.html", text: "WRITE UPS", data: "writeups", icon: "pen-fancy" },
-        { href: "../../../faq.html", text: "FAQ", data: "faq", icon: "question-circle" },
-        { href: "../../../contact.html", text: "CONTACT", data: "contact", icon: "envelope" },
-        { href: "../../../scoreboard.html", text: "SCOREBOARD", data: "scoreboard", icon: "trophy" },
-        { href: "../../../contributors.html", text: "CONTRIBUTORS", data: "contributors", icon: "trophy" },
+        { href: "/challenges", text: "CHALLENGES", data: "challenges", icon: "bullseye" },
+        { href: "/academy", text: "ACADEMY", data: "academy", active:true, icon: "graduation-cap" },
+        { href: "/writeups", text: "WRITE UPS", data: "writeups", icon: "pen-fancy" },
+        { href: "/faq", text: "FAQ", data: "faq", icon: "question-circle" },
+        { href: "/contact", text: "CONTACT", data: "contact", icon: "envelope" },
+        { href: "/scoreboard", text: "SCOREBOARD", data: "scoreboard", icon: "trophy" },
+        { href: "/contributors", text: "CONTRIBUTORS", data: "contributors", icon: "trophy" },
       ];
 
       sidebarList.innerHTML = "";
