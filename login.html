@@ -280,7 +280,7 @@
       </div>
 
       <div class="bottom-link">
-        Don't have an account? <a href="register.html">Register</a>
+        Don't have an account? <a href="/register">Register</a>
       </div>
     </div>
   </div>
@@ -331,7 +331,7 @@
           localStorage.setItem('username', data.username);
           localStorage.setItem('token', result.token);
           setTimeout(() => {
-            window.location.href = 'home.html';
+            window.location.href = '/home';
           }, 1000);
         } else {
           messageDiv.textContent = result.message || 'Login failed.';

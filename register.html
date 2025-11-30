@@ -266,7 +266,7 @@
       </div>
 
       <div class="bottom-link">
-        Already have an account? <a href="login.html">Login</a>
+        Already have an account? <a href="/login">Login</a>
       </div>
     </div>
   </div>
@@ -324,7 +324,7 @@
           messageDiv.textContent = 'Registration successful! Redirecting to login...';
           messageDiv.classList.add('success');
           setTimeout(() => {
-            window.location.href = 'login.html';
+            window.location.href = '/login';
           }, 1500);
         } else {
           messageDiv.textContent = result.message || 'Registration failed.';
