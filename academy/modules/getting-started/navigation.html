@@ -829,12 +829,12 @@
 </head>
 <body>
 <header class="header">
-  <a href="home.html">
+  <a href="/home">
     <img src="../../../images/wargame header logo 3 banner.webp" alt="Wargames Logo" class="header-logo"/>
   </a>
   <div class="header-right" id="headerRight">
-    <a href="login.html" class="auth-button" id="loginBtn">Login</a>
-    <a href="register.html" class="auth-button" id="registerBtn">Register</a>
+    <a href="/login.html" class="auth-button" id="loginBtn">Login</a>
+    <a href="/register.html" class="auth-button" id="registerBtn">Register</a>
   </div>
 </header>
 
@@ -864,7 +864,7 @@
 
 <div class="sidebar">
   <ul class="challenge-list" id="sidebarList">
-    <a href="../../../challenges.html" class="challenge-item" data-challenge="challenges">
+    <a href="/challenges" class="challenge-item" data-challenge="challenges">
       <i class="fas fa-bullseye"></i> CHALLENGES
     </a>
     <a href="../../../academy.html" class="challenge-item" data-challenge="academy">
@@ -943,10 +943,10 @@
   <div class="lesson-nav">
     <div class="lesson-nav-title">Lessons</div>
     <div class="lesson-numbers">
-      <a href="welcome.html" class="lesson-number" id="lesson1">1</a>
-      <a href="navigation.html" class="lesson-number active" id="lesson2">2</a>
-      <a href="tools.html" class="lesson-number" id="lesson3">3</a>
-      <a href="tasks.html" class="lesson-number" id="lesson4">4</a>
+      <a href="welcome" class="lesson-number" id="lesson1">1</a>
+      <a href="navigation" class="lesson-number active" id="lesson2">2</a>
+      <a href="tools" class="lesson-number" id="lesson3">3</a>
+      <a href="tasks" class="lesson-number" id="lesson4">4</a>
     </div>
   </div>
 </div>
@@ -1578,10 +1578,10 @@ function showFeedback(questionId, message, type) {
 
 /* ---------------------- NAVIGATION ---------------------- */
 document.getElementById('prevLesson')?.addEventListener('click',()=>{
-  window.location.href = "welcome.html";
+  window.location.href = "welcome";
 });
 document.getElementById('nextLesson')?.addEventListener('click',()=>{
-  window.location.href = "tools.html";
+  window.location.href = "tools";
 });
 
 /* ---------------------- SIDEBAR / LOGIN STATE ---------------------- */
@@ -1644,7 +1644,7 @@ function setupSidebar(){
       `;
 
       const defaultItems = [
-        { href: "../../../challenges.html", text: "CHALLENGES", data: "challenges", icon: "bullseye" },
+        { href: "/challenges", text: "CHALLENGES", data: "challenges", icon: "bullseye" },
         { href: "../../../academy.html", text: "ACADEMY", data: "academy", active:true, icon: "graduation-cap" },
         { href: "../../../writeups.html", text: "WRITE UPS", data: "writeups", icon: "pen-fancy" },
         { href: "../../../faq.html", text: "FAQ", data: "faq", icon: "question-circle" },
