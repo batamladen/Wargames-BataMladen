@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: "Open Sans", sans-serif;
-      background: #111;
+      background: #514058;
       color: #eee;
       display: flex;
       flex-direction: column;
@@ -25,16 +25,34 @@
     }
     h1 {
       margin-bottom: 1rem;
-      color: #0f9;
+      color: #765e7f;
     }
     p {
       margin: 0.5rem 0;
     }
     .success {
-      color: #0f9;
+      color: rgb(110, 252, 195);
     }
     .error {
-      color: #f33;
+      color: rgb(214, 89, 89);
+    }
+    .login-link {
+      display: inline-block;
+      margin-top: 1.5rem;
+      color: #9d50bb;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border: 2px solid #9d50bb;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+    .login-link:hover {
+      background: #9d50bb;
+      color: #fff;
+    }
+    #loginSection {
+      display: none;
     }
   </style>
 </head>
@@ -42,6 +60,9 @@
   <div class="container">
     <h1>Email Verification</h1>
     <p id="message">Verifying your email, please wait...</p>
+    <div id="loginSection">
+      <p>Go <a href="/login" class="login-link">login now</a>...xoxo</p>
+    </div>
   </div>
 
   <script>
@@ -49,6 +70,7 @@
       const params = new URLSearchParams(window.location.search);
       const token = params.get("token");
       const messageEl = document.getElementById("message");
+      const loginSection = document.getElementById("loginSection");
 
       if (!token) {
         messageEl.textContent = "Invalid verification link.";
@@ -63,6 +85,7 @@
         if (data.success) {
           messageEl.textContent = data.message || "Email verified successfully!";
           messageEl.classList.add("success");
+          loginSection.style.display = "block";
         } else {
           messageEl.textContent = data.message || "Verification failed.";
           messageEl.classList.add("error");
