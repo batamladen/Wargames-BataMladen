@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Verification - WGM</title>
+  <style>
+    body {
+      font-family: "Open Sans", sans-serif;
+      background: #111;
+      color: #eee;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #1c1c1c;
+      padding: 2rem 3rem;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 1rem;
+      color: #0f9;
+    }
+    p {
+      margin: 0.5rem 0;
+    }
+    .success {
+      color: #0f9;
+    }
+    .error {
+      color: #f33;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Email Verification</h1>
+    <p id="message">Verifying your email, please wait...</p>
+  </div>
+
+  <script>
+    async function verifyEmail() {
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get("token");
+      const messageEl = document.getElementById("message");
+
+      if (!token) {
+        messageEl.textContent = "Invalid verification link.";
+        messageEl.classList.add("error");
+        return;
+      }
+
+      try {
+        const res = await fetch(`https://api.wargames.batamladen.com/api/auth/verify?token=${token}`);
+        const data = await res.json();
+
+        if (data.success) {
+          messageEl.textContent = data.message || "Email verified successfully!";
+          messageEl.classList.add("success");
+        } else {
+          messageEl.textContent = data.message || "Verification failed.";
+          messageEl.classList.add("error");
+        }
+      } catch (err) {
+        messageEl.textContent = "An error occurred. Please try again later.";
+        messageEl.classList.add("error");
+      }
+    }
+
+    window.onload = verifyEmail;
+  </script>
+</body>
+</html>

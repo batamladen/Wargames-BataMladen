@@ -321,15 +321,15 @@
         const result = await response.json();
 
         if (response.ok && result.success) {
-          messageDiv.textContent = 'Registration successful! Redirecting to login...';
+          messageDiv.textContent = 'Registration successful! Check your email to verify your account.';
           messageDiv.classList.add('success');
-          setTimeout(() => {
-            window.location.href = '/login';
-          }, 1500);
+          // Optionally, you can provide a link to login page
+          // setTimeout(() => { window.location.href = '/login'; }, 5000);
         } else {
           messageDiv.textContent = result.message || 'Registration failed.';
           messageDiv.classList.add('error');
         }
+
       } catch (err) {
         messageDiv.textContent = 'Server error. Please try again later.';
         messageDiv.classList.add('error');
