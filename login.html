@@ -326,13 +326,13 @@
         // Handle rate limiting (503) with countdown
         if (response.status === 503) {
           let seconds = 60;
-          messageDiv.textContent = `Too many attempts. Try again in ${seconds}s`;
+          messageDiv.textContent = `Bruteforcing??? Try again in ${seconds}s`;
           messageDiv.classList.add('error');
           
           const countdown = setInterval(() => {
             seconds--;
             if (seconds > 0) {
-              messageDiv.textContent = `Too many attempts. Try again in ${seconds}s`;
+              messageDiv.textContent = `Bruteforcing??? Try again in ${seconds}s`;
             } else {
               clearInterval(countdown);
               messageDiv.textContent = 'You can try logging in again now.';
@@ -367,7 +367,7 @@
         }
       } catch (err) {
         // Network error or complete server failure
-        messageDiv.textContent = 'Network error. Please check your connection.';
+        messageDiv.textContent = 'Hmm, you are suspicious...';
         messageDiv.classList.add('error');
       }
     });
