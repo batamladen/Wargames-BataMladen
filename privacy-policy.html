@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>WGM &ndash; Privacy Policy</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" type="image/png" href="images/wargames-logo.ico">
+  
+  <style>
+    :root {
+      --bg-dark: #121212;
+      --bg-darker: #0a0a0a;
+      --bg-container: #1e1e1e;
+      --accent-color: #6e48aa;
+      --accent-hover: #9d50bb;
+      --text-primary: #e0e0e0;
+      --text-secondary: #b0b0b0;
+      --border-color: #333;
+    }
+
+    /* Footer Styles (Cryptohack-inspired) */
+    .site-footer {
+      background-color: var(--bg-darker);
+      border-top: 1px solid var(--border-color);
+      padding: 40px 20px 30px;
+      margin-top: 60px;
+      margin-left: 220px;
+      font-family: 'Open Sans', sans-serif;
+      color: var(--text-secondary);
+    }
+
+    .footer-content {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .footer-logo-section {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 10px;
+    }
+
+    .footer-logo {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .footer-logo-text {
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+    }
+
+    .footer-tagline {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      max-width: 600px;
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    .footer-column h3 {
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 15px;
+      letter-spacing: -0.5px;
+    }
+
+    .footer-links-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-links-list li {
+      margin-bottom: 1px;
+    }
+
+    .footer-links-list a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links-list a:hover {
+      color: var(--accent-color);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      font-size: 0.85rem;
+    }
+
+    .footer-legal-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-legal-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-legal-links a:hover {
+      color: #e86152;
+    }
+
+    .footer-social-links {
+      display: flex;
+      gap: 15px;
+    }
+
+    .footer-social-links a:hover{
+      color: #e86152;
+    }
+
+    .social-link {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      transition: color 0.2s ease;
+    }
+
+    .social-link:hover {
+      color: var(--accent-color);
+    }
+
+    .footer-copyright {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    /* Privacy Policy Page Specific Styles */
+    .privacy-policy-container {
+      background-color: var(--bg-container);
+      border-radius: 8px;
+      padding: 40px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      margin-bottom: 40px;
+    }
+
+    .privacy-policy-header {
+      text-align: center;
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 20px;
+    }
+
+    .privacy-policy-header h1 {
+      color: var(--accent-color);
+      font-family: 'League Spartan', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+
+    .last-updated {
+      color: var(--text-secondary);
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+
+    .policy-section {
+      margin-bottom: 35px;
+    }
+
+    .policy-section h2 {
+      color: var(--accent-color);
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      border-bottom: 1px solid rgba(110, 72, 170, 0.3);
+      padding-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .policy-section h3 {
+      color: var(--text-primary);
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.2rem;
+      margin-top: 25px;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .policy-section p {
+      line-height: 1.7;
+      margin-bottom: 15px;
+      color: var(--text-secondary);
+    }
+
+    .policy-section ul {
+      margin-left: 25px;
+      margin-bottom: 20px;
+      color: var(--text-secondary);
+    }
+
+    .policy-section li {
+      margin-bottom: 10px;
+      line-height: 1.6;
+    }
+
+    .highlight-box {
+      background-color: rgba(174, 0, 0, 0.2);
+      border-left: 4px solid #ae0000;
+      padding: 20px;
+      border-radius: 0 5px 5px 0;
+      margin: 25px 0;
+    }
+
+    .highlight-box p {
+      margin: 0;
+      color: var(--text-primary);
+      font-weight: 500;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .back-to-top {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .back-to-top a {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+    }
+
+    .back-to-top a:hover {
+      color: var(--accent-hover);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .site-footer, .content-wrapper, .privacy-policy-container {
+        margin-left: 0;
+      }
+      
+      .footer-links {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+      }
+      
+      .footer-legal-links {
+        justify-content: center;
+      }
+      
+      .privacy-policy-container {
+        padding: 25px 20px;
+      }
+      
+      .privacy-policy-header h1 {
+        font-size: 2rem;
+      }
+    }
+
+    /* Discord Invite Sign Styles */
+    .discord-invite-sign {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 80px;
+      height: 80px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 998;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: translateY(100px) scale(0.9);
+      opacity: 0;
+      overflow: visible;
+    }
+
+    .discord-invite-sign.visible {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    .discord-invite-sign:hover {
+      transform: scale(1.10);
+    }
+
+    .discord-invite-sign:active {
+      transform: scale(1.1);
+      transition: transform 0.1s;
+    }
+
+    .discord-invite-image {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+      border-radius: 20%;
+    }
+
+    .discord-invite-sign:hover .discord-invite-image {
+      transform: rotate(0deg) scale(1.05);
+    }
+
+    .discord-tooltip {
+      position: absolute;
+      bottom: 100%;
+      right: 0;
+      background: var(--bg-container);
+      color: var(--text-primary);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-family: 'League Spartan', sans-serif;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      margin-bottom: 10px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .discord-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      right: 20px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: var(--bg-container) transparent transparent transparent;
+    }
+
+    .discord-invite-sign:hover .discord-tooltip {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Font Styles */
+    body {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* League Spartan for headings and buttons */
+    .title, h1, h2, h3, h4, h5, h6,
+    .auth-button, .donate-float,
+    .donation-popup h2, .donation-method-title {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 550;
+      letter-spacing: -0.5px;
+    }
+
+    /* Header Styles */
+    .header {
+      background-color: var(--bg-darker);
+      padding: 0 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .header.hide {
+      transform: translateY(-100%);
+    }
+
+    .header-logo {
+      padding-top: 7.5px;
+      height: 60px;
+      width: auto;
+      margin-left: 20px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-right: 110px;
+    }
+
+    .auth-button {
+      background: transparent;
+      border: 0px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .auth-button:hover {
+      color: #815bbe;
+      background-color: transparent;
+    }
+
+    .donate-float {
+      background-color: #f96854;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 1.0rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(249, 104, 84, 0.3);
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .donate-float:hover {
+      background-color: #e34b39;
+      box-shadow: 0 0px 0px rgba(249, 104, 84, 0.5);
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: 220px;
+      background-color: var(--bg-darker);
+      border-right: 1px solid var(--border-color);
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding-top: 0px;
+      box-sizing: border-box;
+    }
+
+    .header.hide + .sidebar {
+      padding-top: 0;
+    }
+
+    .challenge-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .challenge-item {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      font-size: 1.0rem;
+      display: block;
+      padding: 15px 20px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .challenge-item:hover,
+    .challenge-item.active {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-left: 3px solid var(--accent-color);
+    }
+
+    .challenge-item i {
+      margin-right: 12px;
+      width: 16px;
+      text-align: center;
+    }
+
+    .challenge-item.active i {
+      color: var(--accent-color);
+    }
+
+    /* Content Styles */
+    .content-wrapper {
+      margin-left: 220px;
+      margin-top: 60px;
+      display: flex;
+      justify-content: center;
+      min-height: calc(100vh - 60px);
+      transition: margin-top 0.3s ease-in-out;
+      flex: 1;
+    }
+
+    .header.hide + .sidebar + .content-wrapper {
+      margin-top: 0;
+    }
+
+    .main-content {
+      width: 100%;
+      max-width: 900px;
+      padding: 40px;
+      flex: 1;
+    }
+
+    /* Mobile Styles */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        top: 0;
+        padding-top: 60px;
+      }
+      .content-wrapper {
+        margin-left: 0;
+        margin-top: 60px;
+      }
+      .header-logo {
+        margin-left: 20px;
+      }
+      .header-right {
+        margin-right: 10px;
+      }
+      .donate-float {
+        top: 70px;
+      }
+    }
+
+    #mobile-warning {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #121212;
+      color: #9d50bb;
+      z-index: 9999;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      text-align: center;
+      font-size: 1.5rem;
+      line-height: 2rem;
+      font-family: 'League Spartan', sans-serif;
+    }
+
+    /* Donation Popup */
+    .donation-popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: var(--bg-container);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      z-index: 1001;
+      width: 280px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+    }
+
+    .donation-options {
+      margin: 0;
+      padding: 0;
+    }
+
+    .donation-method {
+      margin-bottom: 12px;
+    }
+
+    .donation-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 12px;
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
+      text-decoration: none;
+      color: white;
+      transition: all 0.2s;
+      border: 1px solid var(--border-color);
+      width: 80%;
+      margin: 0 auto;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .donation-link:hover {
+      background-color: rgba(110, 72, 170, 0.2);
+      border-color: var(--accent-color);
+    }
+
+    .donation-link i {
+      margin-right: 8px;
+      font-size: 1rem;
+    }
+
+    .donation-link.patreon i {
+      color: #FF424D;
+    }
+
+    .donation-link.tip i {
+      color: #ddd428;
+    }
+
+    .cancel-button {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all 0.2s;
+      margin-top: 10px;
+    }
+
+    .cancel-button:hover {
+      color: var(--text-primary);
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+    }
+
+    /* User-related styles */
+    .aura-container {
+      display: flex;
+      align-items: center;
+      padding-top: 2px;
+      gap: 0px;
+    }
+
+    .aura-points {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 550;
+      background: transparent;
+      border: 0px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 1.0rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .aura-icon {
+      width: 20px;
+      height: 20px;
+      object-fit: contain;
+      padding-bottom: 3px;
+    }
+
+    .user-block-container {
+      padding: 0;
+      margin-bottom: 0px;
+      border-radius: 4px;
+      min-height: 120px;
+      position: relative;
+    }
+
+    .user-block-bg {
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .username-display {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 700;
+      color: white;
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      bottom: 20px;
+      left: 0;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    .logout-button {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      font-size: 1.0rem;
+      display: block;
+      padding: 15px 20px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #ff6b6b;
+      text-decoration: none;
+      text-align: left;
+    }
+
+    .logout-button:hover {
+      background-color: rgba(255, 107, 107, 0.1);
+      border-left: 3px solid #ff6b6b;
+    }
+
+    .sidebar.logged-out {
+      padding-top: 60px !important;
+    }
+
+    .clean-link {
+      text-decoration: none;
+      color: #b7a31d;
+    }
+
+    .clean-link:hover {
+      color: #ffe11c;
+    }
+  </style>
+</head>
+<body>
+<header class="header">
+  <a href="/home">
+    <img
+      src="images/wargame header logo 3 banner.webp"
+      alt="Wargames Logo"
+      class="header-logo"
+    />
+  </a>
+  <div class="header-right" id="headerRight">
+    <a href="/login" class="auth-button" id="loginBtn">Login</a>
+    <a href="/register" class="auth-button" id="registerBtn">Register</a>
+  </div>
+</header>
+
+<button class="donate-float" id="donateButton">Donate!</button>
+
+<!-- Discord Invite Sign -->
+<div class="discord-invite-sign" id="discordInviteSign">
+  <div class="discord-tooltip">Join Our Discord!</div>
+  <img src="images/discord-invite-sign.webp" alt="Discord Invite" class="discord-invite-image">
+</div>
+
+<div class="overlay" id="overlay"></div>
+<div class="donation-popup" id="donationPopup">
+  <h2>SUPPORT US</h2>
+
+  <div class="donation-options">
+    <div class="donation-method">
+      <div class="donation-method-title">Donate via Patreon</div>
+      <a
+        href="https://www.patreon.com/WargamesBataMladen"
+        target="_blank"
+        class="donation-link patreon"
+      >
+        <i class="fab fa-patreon"></i>
+        <span>Patreon</span>
+      </a>
+    </div>
+
+    <div class="donation-method">
+      <div class="donation-method-title">Donate in cryptocurrency</div>
+      <a
+        href="https://www.tip.md/batamladen"
+        target="_blank"
+        class="donation-link tip"
+      >
+        <i class="fab fa-bitcoin"></i>
+        <span>Tip.md</span>
+      </a>
+    </div>
+  </div>
+
+  <button class="cancel-button" id="closePopup">CLOSE</button>
+</div>
+
+<div class="sidebar">
+  <ul class="challenge-list" id="sidebarList">
+    <!-- User item will be inserted here if logged in -->
+    <a href="/challenges" class="challenge-item" data-challenge="challenges">
+      <i class="fas fa-bullseye"></i> CHALLENGES
+    </a>
+    <a href="/academy" class="challenge-item" data-challenge="academy">
+      <i class="fas fa-graduation-cap"></i> ACADEMY
+    </a>
+    <a href="/writeups" class="challenge-item" data-challenge="writeups">
+      <i class="fas fa-pen-fancy"></i> WRITE UPS
+    </a>
+    <a href="/faq" class="challenge-item" data-challenge="faq">
+      <i class="fas fa-question-circle"></i> FAQ
+    </a>
+    <a href="/contact" class="challenge-item" data-challenge="contact">
+      <i class="fas fa-envelope"></i> CONTACT
+    </a>
+    <a href="/scoreboard" class="challenge-item" data-challenge="scoreboard">
+      <i class="fas fa-trophy"></i> SCOREBOARD
+    </a>
+    <a href="/contributors" class="challenge-item" data-challenge="contributors">
+      <i class="fas fa-users"></i> CONTRIBUTORS
+    </a>
+  </ul>
+</div>
+
+<div class="content-wrapper">
+  <div class="main-content">
+    <div class="privacy-policy-container">
+      <div class="privacy-policy-header">
+        <h1>Privacy Policy</h1>
+        <p class="last-updated">Last Updated: <span id="privacyLastUpdated">January 1, 2024</span></p>
+      </div>
+
+      <div class="policy-section">
+        <h2>Introduction</h2>
+        <p>This Privacy Policy explains how we handle your information on our wargames platform.</p>
+        
+        <div class="highlight-box">
+          <p>By accessing or using our platform, you agree to this Privacy Policy. If you do not agree, please do not use our platform.</p>
+        </div>
+      </div>
+
+      <div class="policy-section">
+        <h2>Information We Collect</h2>
+        <p>The information we collect is the bare minimum for platform operation:</p>
+        <ul>
+          <li>Account information (username, email, password)</li>
+          <li>Your challenge progress and scores</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <h2>Cookies</h2>
+        <p>We use only essential cookies necessary for platform functionality:</p>
+        <ul>
+          <li><strong>Session cookies:</strong> To keep you logged in</li>
+          <li><strong>Progress cookies:</strong> To save your challenge progress</li>
+        </ul>
+        <p>We do NOT use tracking cookies for advertising or analytics. You can disable cookies in your browser, but this may affect platform functionality.</p>
+      </div>
+
+      <div class="policy-section">
+        <h2>How We Use Your Information</h2>
+        <ul>
+          <li>To operate and maintain the wargames platform</li>
+          <li>To track your progress and display scores</li>
+          <li>To communicate</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <h2>What We Don't Do</h2>
+        <ul>
+          <li>We do NOT sell your personal information to anyone</li>
+          <li>We do NOT use your data for advertising</li>
+          <li>We do NOT share your information with third parties for marketing</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <h2>Security & Ethical Use</h2>
+        <p><strong>Important:</strong> Our platform is for fun & education only:</p>
+        <ul>
+          <li>The Docker instances and challenges are for legitimate purposes</li>
+          <li>They are NOT intended for illegal or malicious activities</li>
+        </ul>
+      </div>
+
+      <div class="policy-section">
+        <h2>Your Rights</h2>
+        <p>You have the right to:</p>
+        <ul>
+          <li>Remail silent (a bit humor in all this 'paperwork')</li>
+          <li>Access your personal information</li>
+          <li>Correct inaccurate data</li>
+          <li>Request account removal</li>
+        </ul>
+        <p>Contact us through our contact page.</p>
+      </div>
+
+      <div class="policy-section">
+        <h2>Changes to This Policy</h2>
+        <p>We may update this Privacy Policy.</p>
+      </div>
+
+      <div class="policy-section">
+        <h2>Contact Us</h2>
+        <p>If you have questions:</p>
+        <ul>
+          <li>Email: contact@wargames.batamladen.com</li>
+          <li>Use our Contact page on the platform</li>
+          <li>Join our Discord for community support</li>
+        </ul>
+      </div>
+
+      <div class="back-to-top">
+        <a href="#">
+          <i class="fas fa-arrow-up"></i> Back to Top
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-content">
+    <div>
+      <div class="footer-logo-section">
+        <img src="images/wargames-logo.ico" alt="Wargames Logo" class="footer-logo">
+        <div class="footer-logo-text">Wargames BataMladen</div>
+      </div>
+      <p class="footer-tagline">
+        A cybersecurity wargames platform created for your enjoyment by Mladen Nikolov.
+      </p>
+    </div>
+    
+    <div class="footer-links">
+      <div class="footer-column">
+        <h3>Platform</h3>
+        <ul class="footer-links-list">
+          <li><a href="/challenges">Challenges</a></li>
+          <li><a href="/academy">Academy</a></li>
+          <li><a href="/writeups">Writeups</a></li>
+          <li><a href="/scoreboard">Scoreboard</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Community</h3>
+        <ul class="footer-links-list">
+          <li><a href="/contributors">Contributors</a></li>
+          <li><a href="https://discord.gg/r7uN9vBqVC" target="_blank">Discord</a></li>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/faq">FAQ</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Support</h3>
+        <ul class="footer-links-list">
+          <li><a href="#" id="footerDonateButton">Donate</a></li>
+          <li><a href="https://discord.gg/r7uN9vBqVC">Report Bug</a></li>
+          <li><a href="https://discord.gg/r7uN9vBqVC">Suggest Feature</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-column">
+        <h3>Other</h3>
+        <ul class="footer-links-list">
+          <li><a href="/documentation">Documentation</a></li>
+          <li><a href="/Sponsors">Sponsors</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="footer-legal-links">
+        <a href="/privacy-policy">Privacy Policy</a>
+      </div>
+      
+      <div class="footer-social-links">
+        <a href="https://github.com/batamladen/Wargames-BataMladen" target="_blank" class="social-link" title="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="https://discord.gg/r7uN9vBqVC" target="_blank" class="social-link" title="Discord">
+          <i class="fab fa-discord"></i>
+        </a>
+        <a href="https://www.patreon.com/WargamesBataMladen" target="_blank" class="social-link" title="Patreon">
+          <i class="fab fa-patreon"></i>
+        </a>
+        <a href="https://www.tip.md/batamladen" target="_blank" class="social-link" title="Tip.md">
+          <i class="fab fa-bitcoin"></i>
+        </a>
+      </div>
+      
+      <div class="footer-copyright">
+        © <span id="current-year">2025</span> Wargames By BataMladen.
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div id="mobile-warning">
+  <p>THIS PLATFORM IS BEST EXPERIENCED ON A DESKTOP DEVICE.</p>
+  <p>PLEASE VISIT US USING A DESKTOP BROWSER.<br />⚠️</p>
+</div>
+
+<script>
+  // Mobile warning
+  if (window.innerWidth <= 768) {
+    document.getElementById("mobile-warning").style.display = "block";
+    [...document.body.children].forEach((child) => {
+      if (child.id !== "mobile-warning") {
+        child.style.display = "none";
+      }
+    });
+  }
+
+  // Donation popup handlers
+  const donateButton = document.getElementById("donateButton");
+  const footerDonateButton = document.getElementById("footerDonateButton");
+  const donationPopup = document.getElementById("donationPopup");
+  const overlay = document.getElementById("overlay");
+  const closePopup = document.getElementById("closePopup");
+
+  const showDonationPopup = () => {
+    donationPopup.style.display = "block";
+    overlay.style.display = "block";
+  };
+
+  const hideDonationPopup = () => {
+    donationPopup.style.display = "none";
+    overlay.style.display = "none";
+  };
+
+  donateButton.addEventListener("click", showDonationPopup);
+  if (footerDonateButton) {
+    footerDonateButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      showDonationPopup();
+    });
+  }
+
+  closePopup.addEventListener("click", hideDonationPopup);
+  overlay.addEventListener("click", hideDonationPopup);
+
+  // Scroll hide/show header functionality
+  let lastScroll = 0;
+  const header = document.querySelector(".header");
+  const discordSign = document.getElementById("discordInviteSign");
+
+  window.addEventListener("scroll", () => {
+    const currentScroll = window.pageYOffset;
+
+    if (currentScroll <= 0) {
+      header.classList.remove("hide");
+      discordSign.classList.remove("visible");
+      return;
+    }
+
+    if (currentScroll > lastScroll && !header.classList.contains("hide")) {
+      // Scroll down - hide header, show discord sign
+      header.classList.add("hide");
+      discordSign.classList.add("visible");
+    } else if (currentScroll < lastScroll && header.classList.contains("hide")) {
+      // Scroll up - show header, hide discord sign
+      header.classList.remove("hide");
+      discordSign.classList.remove("visible");
+    }
+
+    lastScroll = currentScroll;
+  });
+
+  // Discord invite sign click handler
+  discordSign.addEventListener("click", () => {
+    window.open('https://discord.gg/r7uN9vBqVC', '_blank');
+  });
+
+  // Show discord sign on initial load if already scrolled
+  window.addEventListener('load', () => {
+    if (window.pageYOffset > 50) {
+      discordSign.classList.add("visible");
+    }
+  });
+
+  // Update copyright year automatically
+  document.addEventListener('DOMContentLoaded', function() {
+    const yearSpan = document.getElementById('current-year');
+    if (yearSpan) {
+      yearSpan.textContent = new Date().getFullYear();
+    }
+    
+    // Update privacy policy last updated date (optional - uncomment if you want auto-update)
+    /*
+    const privacyDate = document.getElementById('privacyLastUpdated');
+    if (privacyDate) {
+      const today = new Date();
+      privacyDate.textContent = today.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+    }
+    */
+  });
+
+  // Back to top functionality
+  const backToTopLink = document.querySelector('.back-to-top a');
+  if (backToTopLink) {
+    backToTopLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // --- User login detection and UI adjustment ---
+  const token = localStorage.getItem("token");
+  const username = localStorage.getItem("username");
+  const headerRight = document.getElementById("headerRight");
+  const sidebarList = document.getElementById("sidebarList");
+
+  // Aura points update function 
+  async function updateAuraDisplay() {
+    if (!token) return;
+
+    try {
+      const response = await fetch(
+        "https://api.wargames.batamladen.com/api/auth/aura_points",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const data = await response.json();
+
+      if (data.success) {
+        const auraContainer = document.querySelector(".aura-container");
+        if (auraContainer) {
+          auraContainer.innerHTML = `
+            <img src="images/aura.webp" class="aura-icon" alt="Aura Icon">
+            <span class="aura-points">Aura Points: ${data.total_aura}</span>
+          `;
+        }
+      }
+    } catch (err) {
+      console.error("Error updating aura points:", err);
+    }
+  }
+
+  if (token && username) {
+    // USER IS LOGGED IN
+    
+    // Update header (remove login/register, add aura points)
+    headerRight.innerHTML = '';
+    
+    const auraContainer = document.createElement("div");
+    auraContainer.classList.add("aura-container");
+    auraContainer.innerHTML = `
+      <img src="images/aura.webp" class="aura-icon" alt="Aura Icon">
+      <span class="aura-points">Aura Points: ...</span>
+    `;
+
+    headerRight.appendChild(auraContainer);
+
+    // Fetch and update actual aura points now
+    updateAuraDisplay();
+
+    // Update sidebar (add user block and logout, preserve other items)
+    const existingItems = Array.from(sidebarList.children);
+    
+    // Clear sidebar but keep a reference to the original items
+    const originalItems = [];
+    existingItems.forEach(item => {
+      if (!item.classList.contains('logout-button')) {
+        originalItems.push(item.cloneNode(true));
+      }
+    });
+    
+    sidebarList.innerHTML = '';
+    
+    // Add user block
+    const userContainer = document.createElement("li");
+    userContainer.classList.add("user-block-container");
+    
+    const userBg = document.createElement("video");
+    userBg.classList.add("user-block-bg");
+    userBg.setAttribute("autoplay", "");
+    userBg.setAttribute("loop", "");
+    userBg.setAttribute("muted", "");
+    userBg.setAttribute("playsinline", "");
+    userBg.innerHTML = `<source src="images/profile2.webm" type="video/webm">`;
+    
+    const usernameDisplay = document.createElement("div");
+    usernameDisplay.classList.add("username-display");
+    usernameDisplay.textContent = username;
+    
+    userContainer.appendChild(userBg);
+    userContainer.appendChild(usernameDisplay);
+    sidebarList.appendChild(userContainer);
+    
+    // Re-add original items
+    originalItems.forEach(item => {
+      sidebarList.appendChild(item);
+    });
+    
+    // Add logout button
+    const logoutButton = document.createElement("a");
+    logoutButton.classList.add("logout-button"); 
+    logoutButton.href = "#"; 
+    logoutButton.innerHTML = '<i class="fas fa-sign-out-alt"></i> LOGOUT';
+    logoutButton.addEventListener("click", e => {
+      e.preventDefault(); 
+      localStorage.removeItem("token"); 
+      localStorage.removeItem("username");
+      window.location.href = "/index";
+    });
+    
+    sidebarList.appendChild(logoutButton);
+    
+    // Mark Privacy Policy as active in sidebar
+    document.querySelectorAll('.challenge-item').forEach(item => {
+      if (item.href.includes('/privacy-policy')) {
+        item.classList.add('active');
+      }
+    });
+  } else {
+    // USER IS LOGGED OUT - RESET TO DEFAULT STATE
+    
+    // Reset header to default (login/register buttons)
+    headerRight.innerHTML = `
+      <a href="/login" class="auth-button" id="loginBtn">Login</a>
+      <a href="/register" class="auth-button" id="registerBtn">Register</a>
+    `;
+    
+    // Reset sidebar to default items
+    const defaultItems = [
+      { href: "/challenges", text: "CHALLENGES", data: "challenges", icon: "bullseye" },
+      { href: "/academy", text: "ACADEMY", data: "academy", icon: "graduation-cap" },
+      { href: "/writeups", text: "WRITE UPS", data: "writeups", icon: "pen-fancy" },
+      { href: "/faq", text: "FAQ", data: "faq", icon: "question-circle" },
+      { href: "/contact", text: "CONTACT", data: "contact", icon: "envelope" },
+      { href: "/scoreboard", text: "SCOREBOARD", data: "scoreboard", icon: "trophy" },
+      { href: "/contributors", text: "CONTRIBUTORS", data: "contributors", icon: "users" },
+    ];
+
+    // Clear any existing items (in case there was a logout)
+    sidebarList.innerHTML = "";
+
+    defaultItems.forEach((item) => {
+      const link = document.createElement("a");
+      link.href = item.href;
+      link.className = "challenge-item" + (item.active ? " active" : "");
+      link.dataset.challenge = item.data;
+      link.innerHTML = `<i class="fas fa-${item.icon}"></i> ${item.text}`;
+      
+      // Also check current page URL to set active state
+      if (window.location.pathname.endsWith(item.href)) {
+        link.classList.add("active");
+      }
+      
+      sidebarList.appendChild(link);
+    });
+    
+    // Add Privacy Policy link to sidebar since we're on that page
+    const privacyLink = document.createElement("a");
+    privacyLink.href = "/privacy-policy";
+    privacyLink.className = "challenge-item active";
+    privacyLink.dataset.challenge = "privacy";
+    privacyLink.innerHTML = '<i class="fas fa-shield-alt"></i> PRIVACY POLICY';
+    sidebarList.appendChild(privacyLink);
+
+    document.querySelector('.sidebar').classList.add('logged-out');
+  }
+</script>
+</body>
+</html>
