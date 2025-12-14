@@ -586,7 +586,7 @@
                 </div>
             </a>
 
-            <a href="/challenges/hogwarts" style="text-decoration: none;">
+            <a href="harry" style="text-decoration: none;">
                 <div class="card">
                     <img src="images/hogwarts_logo.webp" alt="Hogwarts">
                     <h3>Hogwarts</h3>
@@ -705,6 +705,7 @@
         data.progress.forEach(entry => {
           if (entry.series === 'shadows' && entry.level === '9') completedChallenges.add('shadows');
           if (entry.series === 'jugsaw' && entry.level === '10') completedChallenges.add('jugsaw');
+          if (entry.series === 'hogwarts' && entry.level === '7') completedChallenges.add('hogwarts');
           // Add other challenges as needed
         });
 
@@ -842,5 +843,4 @@
 </script>
 
 </body>
-
 </html>
