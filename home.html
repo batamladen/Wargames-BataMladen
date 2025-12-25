@@ -21,7 +21,6 @@
       --border-color: #333;
     }
 
-    /* Footer Styles (Cryptohack-inspired) */
     .site-footer {
       background-color: var(--bg-darker);
       border-top: 1px solid var(--border-color);
@@ -178,6 +177,25 @@
         justify-content: center;
       }
     }
+
+    /* title image styling */
+    .title-image-container {
+      text-align: center;
+      margin: 0 0 30px;
+    }
+
+    .title-image {
+      max-width: 80%;
+      height: auto;
+      display: inline-block;
+    }
+
+    @media (max-width: 768px) {
+      .title-image {
+        max-width: 95%;
+      }
+    }
+
 
     /* Discord Invite Sign Styles */
     .discord-invite-sign {
@@ -837,15 +855,18 @@
         <img src="images/wargames logo.webp" alt="Wargames Logo" class="home-logo" />
       </div>
 
-      <h1 class="title">Wargames By BataMladen</h1>
+      <div class="title-image-container">
+        <img src="images/title_logo.webp" alt="title logo" class="title-image">
+      </div>
 
       <div class="welcome-container">
         <h2>Welcome</h2>
         <p>
           This platform hosts a series of cybersecurity challenges designed to
-          test your red and blue team skills as well as problem-solving
-          abilities. Each challenge consists of multiple levels that
-          progressively increase in difficulty.
+          test your red and blue team skills.<br>
+          Each challenge consists of multiple levels that
+          differ in difficulty and bring you different amount of aura points.<br><br>
+          Once you complete all levels in a challenge, you will recive a certificate of completion for that challenge on your mail whitin 7 days.
         </p>
         <br />
 
@@ -860,11 +881,11 @@
         <br />
 
         <h3>Example SSH</h3>
-        <code>ssh username@123.456.321.654 -p 1234</code>
+        <code>ssh username@123.456.654.321 -p 1234</code>
 
         <br /><br />
         <div class="disclaimer">
-          <strong>IMPORTANT:</strong> Take notes of all passwords/flags you find! The system won't remember them for you.
+          <strong>IMPORTANT:</strong> Take notes of all passwords/flags you find!
         </div>
 
         <p>Ready to test your skills? Click on a challenge you like and start conquering.</p>
