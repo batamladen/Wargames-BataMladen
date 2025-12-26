@@ -942,7 +942,7 @@
         <div class="stats-container">
           <h2>WBM Stats</h2>
           <ul class="stats-list">
-            <li>Players: 124</li>
+            <li>Players: <span id="playersCount">...</span></li>
             <li>Challenges: 3</li>
             <li>Levels: 26</li>
             <li>Modules: 2</li>
@@ -1173,6 +1173,23 @@
     const headerRight = document.getElementById("headerRight");
     const sidebarList = document.getElementById("sidebarList");
 
+
+    // Fetch player count from API
+    async function updatePlayersCount() {
+      try {
+        const res = await fetch("https://api.wargames.batamladen.com/api/stats/players");
+        const data = await res.json();
+        if (data.players !== undefined) {
+          document.getElementById("playersCount").textContent = data.players;
+        }
+      } catch (err) {
+        console.error("Error fetching players count:", err);
+        document.getElementById("playersCount").textContent = "N/A";
+      }
+    }
+
+    // Call the function on page load
+    updatePlayersCount();
 
     // Aura points update function 
     async function updateAuraDisplay() {
