@@ -588,6 +588,7 @@
       font-size: 0.85rem;
       padding: 6px 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      overflow: hidden;
       color: var(--text-primary);
       font-family: 'Open Sans', sans-serif;
     }
@@ -602,6 +603,27 @@
       font-style: italic;
       padding: 10px 0;
     }
+
+    /* Recent log formatting */
+    .log-user {
+      font-weight: 600;
+      color: var(--accent-color);
+    }
+
+    .log-level {
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(110, 72, 170, 0.15);
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 4px;
+    }
+
+    .log-points {
+      float: right;
+      font-family: 'JetBrains Mono', monospace;
+      color: #4caf50;
+    }
+
 
 
     /* Responsive - stack on mobile */
@@ -1244,7 +1266,12 @@
 
         data.logs.forEach(log => {
           const li = document.createElement("li");
-          li.textContent = `${log.username} solved ${log.game}/${log.level} (+${log.aura_points})`;
+          li.innerHTML = `
+            <span class="log-user">${log.username}</span>
+            <span class="log-text"> solved </span>
+            <span class="log-level">${log.game}/${log.level}</span>
+            <span class="log-points">+${log.aura_points}</span>
+          `;
           list.appendChild(li);
         });
       } catch (err) {
