@@ -571,6 +571,39 @@
       font-style: italic;
     }
 
+    /* Recent Logs Scroll Box */
+    .recent-logs-container {
+      max-height: 160px;
+      overflow-y: auto;
+      padding-right: 6px;
+    }
+
+    .recent-logs-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .recent-logs-list li {
+      font-size: 0.85rem;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--text-primary);
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .recent-logs-list li:last-child {
+      border-bottom: none;
+    }
+
+    .recent-logs-empty {
+      text-align: center;
+      color: var(--text-secondary);
+      font-style: italic;
+      padding: 10px 0;
+    }
+
+
     /* Responsive - stack on mobile */
     @media (max-width: 768px) {
       .stats-section {
@@ -953,10 +986,14 @@
         <!-- Right column: Recent Logs -->
         <div class="stats-container">
           <h2>Recent Logs</h2>
-          <div class="recent-logs-empty">
-            Working on it...
+
+          <div class="recent-logs-container">
+            <ul id="recentLogsList" class="recent-logs-list">
+              <li class="recent-logs-empty">Loading recent activity...</li>
+            </ul>
           </div>
         </div>
+
       </div>
 
 
@@ -1188,6 +1225,39 @@
         document.getElementById("playersCount").textContent = "N/A";
       }
     }
+
+
+    async function loadRecentLogs() {
+      try {
+        const res = await fetch(
+          "https://api.wargames.batamladen.com/api/stats/recent-logs"
+        );
+        const data = await res.json();
+
+        const list = document.getElementById("recentLogsList");
+        list.innerHTML = "";
+
+        if (!data.logs || data.logs.length === 0) {
+          list.innerHTML = `<li class="recent-logs-empty">No recent activity.</li>`;
+          return;
+        }
+
+        data.logs.forEach(log => {
+          const li = document.createElement("li");
+          li.textContent = `${log.username} solved ${log.game}/${log.level} (+${log.aura_points})`;
+          list.appendChild(li);
+        });
+      } catch (err) {
+        console.error("Error loading recent logs:", err);
+        document.getElementById("recentLogsList").innerHTML =
+          `<li class="recent-logs-empty">Failed to load logs.</li>`;
+      }
+    }
+
+    // Load logs on page load
+    loadRecentLogs();
+
+
 
     // Call the function on page load
     updatePlayersCount();
