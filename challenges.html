@@ -273,6 +273,57 @@
         font-family: 'League Spartan', sans-serif;
     }
 
+
+
+    /* Soon badge styles */
+    .card.soon::before {
+        content: "SOON";
+        position: absolute;
+        top: 15px;
+        left: -30px;
+        background: linear-gradient(45deg, #ff9800, #ff5722);
+        color: white;
+        padding: 2px 35px;
+        font-size: 0.8em;
+        font-weight: 600;
+        font-family: 'League Spartan', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transform: rotate(-45deg);
+        box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+        z-index: 10;
+    }
+
+    /* Optional: Add a subtle overlay to indicate it's not available */
+    .card.soon {
+        opacity: 0.9;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .card.soon::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .card.soon img {
+        filter: grayscale(20%);
+    }
+
+    /* Prevent hover effects on soon cards */
+    .card.soon:hover {
+        transform: none;
+        box-shadow: 0 0 10px rgba(0,0,0,0.4);
+        border-color: var(--border-color);
+        cursor: not-allowed;
+    }
+
     /* Donation Popup */
     .donation-popup {
         display: none;
@@ -600,12 +651,10 @@
                 </div>
             </a>
 
-            <a href="/challenges/planet_zyphera" style="text-decoration: none;">
-                <div class="card">
-                    <img src="images/zyphera_thumb.webp" alt="Zyphera">
-                    <h3>Zyphera</h3>
-                </div>
-            </a>
+            <div class="card soon" style="cursor: not-allowed;">
+                <img src="images/zyphera_thumb.webp" alt="Zyphera">
+                <h3>Zyphera</h3>
+            </div>
         </div>
     </div>
   </div>
