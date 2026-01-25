@@ -1060,7 +1060,7 @@ async function submitFlag(challenge, level) {
         } else {
             Swal.fire({
                 title: "❌ Flag rejected",
-                text: data.message || "Try again.",
+                html: data.message || "Try again.",
                 icon: "error",
             });
         }
