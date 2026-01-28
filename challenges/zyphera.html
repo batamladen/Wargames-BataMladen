@@ -942,9 +942,21 @@ async function startChallenge(challenge, level) {
     startBtn.innerText = "Starting...";
 
     try {
+        const token = localStorage.getItem("token");
+        
+        // Build headers object properly
+        const headers = {
+            "Content-Type": "application/json"
+        };
+        
+        // Add Authorization header if token exists
+        if (token) {
+            headers["Authorization"] = `Bearer ${token}`;
+        }
+
         const response = await fetch("https://api.wargames.batamladen.com/api/start", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: headers,
             body: JSON.stringify({ challenge, level }),
         });
 
@@ -976,9 +988,38 @@ ssh ${data.username}@${data.host} -p ${data.port}
             // Hide the start button (original behavior)
             startBtn.style.display = "none";
         } else {
-            outputDiv.innerHTML = `<b>Error:</b> ${data.error}`;
             startBtn.disabled = false;
             startBtn.innerText = "Start";
+
+            // 🔐 Not logged in
+            if (response.status === 401) {
+                Swal.fire({
+                    title: "🔐 Login required",
+                    text: "Please log in to start this challenge.",
+                    icon: "warning",
+                });
+                return;
+            }
+
+            // 🔒 Zyphera locked (paid)
+            if (response.status === 403) {
+                Swal.fire({
+                    title: "🔒 Zyphera Locked",
+                    html: data.error,   // IMPORTANT: html, not text
+                    icon: "error",
+                    customClass: {
+                        popup: "custom-error-popup",
+                    }
+                });
+                return;
+            }
+
+            // Generic error
+            Swal.fire({
+                title: "⚠️ Error",
+                text: data.error || "Failed to start challenge.",
+                icon: "error",
+            });
         }
     } catch (error) {
         outputDiv.innerHTML = `<b>Connection failed:</b> ${error}`;
