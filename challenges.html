@@ -818,6 +818,56 @@
     }
   }
 
+  // General function to check if user has access to a paid challenge
+  async function checkChallengeAccess(challengeName) {
+    const token = localStorage.getItem("token");
+    if (!token) return false;
+
+    try {
+      const response = await fetch("https://api.wargames.batamladen.com/api/start", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ challenge: challengeName, level: "0" })
+      });
+
+      // If we get a 200 response, user has access
+      return response.ok;
+    } catch (err) {
+      console.error(`Error checking ${challengeName} access:`, err);
+      return false;
+    }
+  }
+
+  // Update all paid challenge cards based on user access
+  async function updatePaidChallenges() {
+    // Define your paid challenges here
+    const paidChallenges = [
+      { name: 'zyphera', cardSelector: '.card.price img[alt="Zyphera"]' },
+      // Add more paid challenges like this:
+      // { name: 'anotherchallenge', cardSelector: '.card.price img[alt="AnotherChallenge"]' },
+    ];
+
+    for (const challenge of paidChallenges) {
+      const hasAccess = await checkChallengeAccess(challenge.name);
+      
+      if (hasAccess) {
+        const card = document.querySelector(challenge.cardSelector)?.parentElement;
+        if (card && card.classList.contains('price')) {
+          card.classList.remove('price');
+        }
+      }
+    }
+  }
+
+
+
+
+
+
+
   // --- User login detection and UI adjustment ---
   const token = localStorage.getItem("token");
   const username = localStorage.getItem("username");
@@ -843,6 +893,7 @@
 
     // Fetch and update actual aura points now
     updateAuraDisplay();
+    updatePaidChallenges(); 
 
     const existingItems = Array.from(sidebarList.children);
 
@@ -935,8 +986,11 @@
     document.querySelector(".sidebar").classList.add("logged-out");
   }
 
+  
+
   document.addEventListener("DOMContentLoaded", () => {
     checkChallengeCompletion();
+    updatePaidChallenges(); 
   });
 </script>
 
