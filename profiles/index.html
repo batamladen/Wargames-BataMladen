@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>WBM &ndash; Profile</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;550;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" type="image/png" href="images/wargames-logo.ico">
+
+  <style>
+    :root {
+      --bg-dark: #121212;
+      --bg-darker: #0a0a0a;
+      --bg-container: #1e1e1e;
+      --accent-color: #6e48aa;
+      --accent-hover: #9d50bb;
+      --text-primary: #e0e0e0;
+      --text-secondary: #b0b0b0;
+      --border-color: #333;
+      --solved-dim: #14532d;
+      --solved-mid: #166534;
+      --solved-bright: #16a34a;
+      --solved-latest: #4ade80;
+      --red: #ff6b6b;
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    p, ul, li { font-family: 'Open Sans', sans-serif; font-weight: 400; }
+
+    .title, h1, h2, h3, h4, h5, h6,
+    .auth-button, .donate-float {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 550;
+      letter-spacing: -0.5px;
+    }
+
+    h2 {
+      font-size: 2.0rem;
+      color: var(--accent-color);
+      margin-top: 0;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 5px;
+    }
+
+    /* ── Header ── */
+    .header {
+      background-color: var(--bg-darker);
+      padding: 0 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 999;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .header.hide { transform: translateY(-100%); }
+
+    .header-logo {
+      padding-top: 7.5px;
+      height: 60px;
+      width: auto;
+      margin-left: 20px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-right: 110px;
+    }
+
+    .auth-button {
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .auth-button:hover { color: #815bbe; }
+
+    .donate-float {
+      background-color: #f96854;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 1.0rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(249,104,84,0.3);
+      position: fixed;
+      top: 15px; right: 20px;
+      z-index: 1000;
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 550;
+    }
+
+    .donate-float:hover {
+      background-color: #e34b39;
+      box-shadow: none;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 220px;
+      background-color: var(--bg-darker);
+      border-right: 1px solid var(--border-color);
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
+      top: 0; left: 0;
+      padding-top: 0;
+      box-sizing: border-box;
+    }
+
+    .challenge-list { list-style: none; padding: 0; margin: 0; }
+
+    .challenge-item {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      font-size: 1.0rem;
+      display: block;
+      padding: 15px 20px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .challenge-item:hover,
+    .challenge-item.active {
+      background-color: rgba(255,255,255,0.05);
+      border-left: 3px solid var(--accent-color);
+    }
+
+    .challenge-item i { margin-right: 12px; width: 16px; text-align: center; }
+    .challenge-item.active i { color: var(--accent-color); }
+
+    .user-block-container {
+      padding: 0;
+      margin-bottom: 0;
+      border-radius: 4px;
+      min-height: 120px;
+      position: relative;
+    }
+
+    .user-block-bg {
+      width: 100%; height: 100%;
+      border-radius: 4px;
+      position: absolute; top: 0; left: 0;
+    }
+
+    .username-display {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 700;
+      color: white;
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      bottom: 20px; left: 0;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    .logout-button {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      font-size: 1.0rem;
+      display: block;
+      padding: 15px 20px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      color: var(--red);
+      text-decoration: none;
+      text-align: left;
+    }
+
+    .logout-button:hover {
+      background-color: rgba(255,107,107,0.1);
+      border-left: 3px solid var(--red);
+    }
+
+    .logout-button i { margin-right: 12px; width: 16px; text-align: center; }
+
+    /* ── Content wrapper ── */
+    .content-wrapper {
+      margin-left: 220px;
+      margin-top: 60px;
+      display: flex;
+      justify-content: center;
+      min-height: calc(100vh - 60px);
+    }
+
+    .main-content {
+      width: 100%;
+      max-width: 900px;
+      padding: 40px;
+    }
+
+    /* ── Profile header ── */
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      margin-bottom: 30px;
+      padding-bottom: 26px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .avatar-circle {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+      border: 2px solid var(--accent-color);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'League Spartan', sans-serif;
+      font-size: 28px; font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .profile-meta h1 {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 700;
+      font-size: 2rem;
+      letter-spacing: -0.5px;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .aura-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      background: rgba(110,72,170,0.15);
+      border: 1px solid rgba(110,72,170,0.35);
+      border-radius: 20px;
+      padding: 3px 12px;
+      font-family: 'League Spartan', sans-serif;
+      font-size: 13px;
+      color: #9d50bb;
+    }
+
+    .aura-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #9d50bb;
+    }
+
+    /* ── Stats row ── */
+    .stats-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 34px;
+    }
+
+    .stat-card {
+      flex: 1;
+      background: var(--bg-container);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px 18px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .stat-card:hover {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 12px rgba(110,72,170,0.15);
+    }
+
+    .s-label {
+      font-family: 'League Spartan', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .s-value {
+      font-family: 'League Spartan', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .s-value.accent { color: var(--accent-hover); }
+
+    /* ── Section title ── */
+    .section-title {
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 550;
+      color: var(--accent-color);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 6px;
+      margin-bottom: 18px;
+      letter-spacing: -0.3px;
+    }
+
+    /* ── Challenge row ── */
+    .challenges-section { margin-bottom: 40px; }
+
+    .challenge-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+      background: var(--bg-container);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px 18px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .challenge-row:hover {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 16px rgba(110,72,170,0.18);
+    }
+
+    .ch-thumb {
+      width: 52px; height: 52px;
+      border-radius: 8px;
+      object-fit: contain;
+      background: var(--bg-darker);
+      border: 1px solid var(--border-color);
+      padding: 5px;
+      flex-shrink: 0;
+    }
+
+    .ch-thumb-fallback {
+      width: 52px; height: 52px;
+      border-radius: 8px;
+      background: var(--bg-darker);
+      border: 1px solid var(--border-color);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'League Spartan', sans-serif;
+      font-size: 20px; font-weight: 700;
+      color: var(--accent-color);
+      flex-shrink: 0;
+    }
+
+    .ch-info {
+      flex: 0 0 130px;
+    }
+
+    .ch-name {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 550;
+      font-size: 1.0rem;
+      color: var(--text-primary);
+      letter-spacing: -0.3px;
+      margin-bottom: 3px;
+    }
+
+    .ch-progress-text {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .ch-progress-text .solved-count { color: #4ade80; font-weight: 600; }
+
+    /* ── Box grid ── */
+    .boxes-wrap {
+      display: grid;
+      grid-template-columns: repeat(4, 18px);
+      gap: 5px;
+      flex: 1;
+    }
+
+    .lvl-box {
+      width: 18px; height: 18px;
+      border-radius: 3px;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.04);
+      cursor: default;
+      transition: transform 0.1s;
+      position: relative;
+    }
+
+    .lvl-box:hover { transform: scale(1.35); z-index: 2; }
+
+    /* Solved shading — 4 tiers based on quartile */
+    .lvl-box.s1 { background: #14532d; border-color: #14532d; }
+    .lvl-box.s2 { background: #166534; border-color: #166534; }
+    .lvl-box.s3 { background: #16a34a; border-color: #16a34a; }
+    .lvl-box.s4 { background: #4ade80; border-color: #86efac; }
+
+    .completed-badge {
+      font-family: 'League Spartan', sans-serif;
+      font-size: 10px;
+      padding: 3px 9px;
+      border-radius: 12px;
+      background: var(--accent-color);
+      color: white;
+      white-space: nowrap;
+      flex-shrink: 0;
+      letter-spacing: 0.03em;
+    }
+
+    /* ── Not found / error state ── */
+    .not-found {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-secondary);
+    }
+
+    .not-found h2 {
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.5rem;
+      border: none;
+      color: var(--text-secondary);
+    }
+
+    /* ── Loading state ── */
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 20px;
+      gap: 14px;
+      color: var(--text-secondary);
+      font-family: 'League Spartan', sans-serif;
+    }
+
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid var(--border-color);
+      border-top-color: var(--accent-color);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Donation popup (copied from challenges.html) ── */
+    .donation-popup {
+      display: none;
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: var(--bg-container);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      z-index: 1001;
+      width: 280px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+    }
+
+    .donation-link {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 6px 12px;
+      background-color: rgba(0,0,0,0.3);
+      border-radius: 4px;
+      text-decoration: none;
+      color: white;
+      transition: all 0.2s;
+      border: 1px solid var(--border-color);
+      width: 80%; margin: 4px auto;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .donation-link:hover {
+      background-color: rgba(110,72,170,0.2);
+      border-color: var(--accent-color);
+    }
+
+    .donation-link i { margin-right: 8px; font-size: 1rem; }
+    .donation-link.patreon i { color: #FF424D; }
+    .donation-link.tip i { color: #ddd428; }
+
+    .cancel-button {
+      background: none; border: none;
+      color: var(--text-secondary);
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.1rem;
+      cursor: pointer; padding: 4px 8px;
+      border-radius: 4px; transition: all 0.2s; margin-top: 10px;
+    }
+
+    .cancel-button:hover {
+      color: var(--text-primary);
+      background-color: rgba(255,255,255,0.05);
+    }
+
+    .overlay {
+      display: none;
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      z-index: 1000;
+    }
+
+    .aura-container { display: flex; align-items: center; gap: 0; padding-top: 2px; }
+    .aura-points {
+      font-family: 'League Spartan', sans-serif; font-weight: 550;
+      background: transparent; border: none; color: var(--text-primary);
+      padding: 6px 12px; border-radius: 4px; font-size: 1.0rem; cursor: pointer;
+    }
+    .aura-icon { width: 20px; height: 20px; object-fit: contain; padding-bottom: 3px; }
+
+    .sidebar.logged-out { padding-top: 60px !important; }
+
+    @media (max-width: 768px) {
+      .sidebar { width: 100%; height: auto; position: relative; padding-top: 60px; }
+      .content-wrapper { margin-left: 0; margin-top: 60px; }
+      .stats-row { flex-wrap: wrap; }
+      .stat-card { flex: 1 1 40%; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <a href="/home">
+    <img src="images/wargame header logo 3 banner.webp" alt="Wargames Logo" class="header-logo" />
+  </a>
+  <div class="header-right" id="headerRight">
+    <a href="/login" class="auth-button">Login</a>
+    <a href="/register" class="auth-button">Register</a>
+  </div>
+</header>
+
+<button class="donate-float" id="donateButton">Donate!</button>
+
+<div class="overlay" id="overlay"></div>
+<div class="donation-popup" id="donationPopup">
+  <h2>SUPPORT US</h2>
+  <div class="donation-method" style="margin-bottom:12px;">
+    <a href="https://www.patreon.com/WargamesBataMladen" target="_blank" class="donation-link patreon">
+      <i class="fab fa-patreon"></i><span>Patreon</span>
+    </a>
+  </div>
+  <div class="donation-method">
+    <a href="https://www.tip.md/batamladen" target="_blank" class="donation-link tip">
+      <i class="fab fa-bitcoin"></i><span>Tip.md</span>
+    </a>
+  </div>
+  <button class="cancel-button" id="closePopup">CLOSE</button>
+</div>
+
+<div class="sidebar">
+  <ul class="challenge-list" id="sidebarList">
+    <a href="/challenges" class="challenge-item" data-challenge="challenges"><i class="fas fa-bullseye"></i> CHALLENGES</a>
+    <a href="/academy" class="challenge-item" data-challenge="academy"><i class="fas fa-graduation-cap"></i> ACADEMY</a>
+    <a href="/arena" class="challenge-item" data-challenge="arena"><i class="fas fa-landmark"></i> ARENA</a>
+    <a href="/faq" class="challenge-item" data-challenge="faq"><i class="fas fa-question-circle"></i> FAQ</a>
+    <a href="/contact" class="challenge-item" data-challenge="contact"><i class="fas fa-envelope"></i> CONTACT</a>
+    <a href="/scoreboard" class="challenge-item" data-challenge="scoreboard"><i class="fas fa-trophy"></i> SCOREBOARD</a>
+    <a href="/contributors" class="challenge-item" data-challenge="contributors"><i class="fas fa-users"></i> CONTRIBUTORS</a>
+  </ul>
+</div>
+
+<div class="content-wrapper">
+  <div class="main-content" id="mainContent">
+    <div class="loading" id="loadingState">
+      <div class="spinner"></div>
+      <span>Loading profile...</span>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Challenge metadata (total levels + display info) ─────────────────────────
+// Add/edit as you add more challenges. total is the max level in `levels` table.
+const CHALLENGE_META = [
+  { game: 'shadows',  name: 'The Shadows',    total: 9,  thumb: 'images/the_shadows_challange-removebg-preview.png' },
+  { game: 'jugsaw',   name: 'Jugsaw',          total: 10, thumb: 'images/jugsaw_challenge-removebg-preview.png' },
+  { game: 'hogwarts', name: 'Hogwarts',        total: 7,  thumb: 'images/hogwarts_logo.webp' },
+  { game: 'zyphera',  name: 'Zyphera',         total: 15, thumb: 'images/zyphera_thumb.webp' },
+  { game: 'detective-kusto', name: 'Detective Kusto', total: 8, thumb: 'images/detective_kusto_icon.webp' },
+];
+
+const API = 'https://api.wargames.batamladen.com';
+
+// ── Get target username from URL: /profiles/username ─────────────────────────
+function getTargetUsername() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('user');
+}
+
+// ── Solve shade based on quartile within solved range ───────────────────────
+function solveClass(levelNum, totalSolved) {
+  if (totalSolved === 0) return '';
+  const q = levelNum / totalSolved;
+  if (q <= 0.25) return 's1';
+  if (q <= 0.50) return 's2';
+  if (q <= 0.75) return 's3';
+  return 's4';
+}
+
+// ── Build heatmap row for one challenge ─────────────────────────────────────
+function buildChallengeRow(meta, solvedSet) {
+  const solvedCount = solvedSet.size;
+  const isComplete = solvedCount >= meta.total;
+
+  const row = document.createElement('div');
+  row.className = 'challenge-row';
+
+  // Thumbnail — try real image, fall back to initial letter
+  const fallback = document.createElement('div');
+  fallback.className = 'ch-thumb-fallback';
+  fallback.textContent = meta.name[0];
+  row.appendChild(fallback);
+
+  const img = new Image();
+  img.onload = () => {
+    const realImg = document.createElement('img');
+    realImg.className = 'ch-thumb';
+    realImg.src = meta.thumb;
+    realImg.alt = meta.name;
+    row.replaceChild(realImg, fallback);
+  };
+  img.src = meta.thumb;
+
+  // Info
+  const info = document.createElement('div');
+  info.className = 'ch-info';
+  info.innerHTML = `
+    <div class="ch-name">${meta.name}</div>
+    <div class="ch-progress-text">
+      <span class="solved-count">${solvedCount}</span> / ${meta.total} levels
+    </div>`;
+  row.appendChild(info);
+
+  // Box grid — 4 columns
+  const grid = document.createElement('div');
+  grid.className = 'boxes-wrap';
+
+  for (let i = 1; i <= meta.total; i++) {
+    const box = document.createElement('div');
+    box.className = 'lvl-box';
+    box.title = `Level ${i}${solvedSet.has(i) ? ' — solved' : ''}`;
+    if (solvedSet.has(i)) {
+      box.classList.add(solveClass(i, solvedCount));
+    }
+    grid.appendChild(box);
+  }
+  row.appendChild(grid);
+
+  if (isComplete) {
+    const badge = document.createElement('div');
+    badge.className = 'completed-badge';
+    badge.textContent = '✓ COMPLETED';
+    row.appendChild(badge);
+  }
+
+  return row;
+}
+
+// ── Render full profile ──────────────────────────────────────────────────────
+function renderProfile(username, progressData, auraPoints, rank) {
+  const main = document.getElementById('mainContent');
+
+  // Build solved sets per game
+  const solvedMap = {};
+  progressData.forEach(p => {
+    if (!solvedMap[p.game]) solvedMap[p.game] = new Set();
+    solvedMap[p.game].add(parseInt(p.level.replace('level', '')));
+  });
+
+  // Totals
+  let totalSolved = 0, totalLevels = 0;
+  CHALLENGE_META.forEach(m => {
+    totalSolved += (solvedMap[m.game] || new Set()).size;
+    totalLevels += m.total;
+  });
+  const pct = totalLevels > 0 ? Math.round((totalSolved / totalLevels) * 100) : 0;
+  const initials = username.slice(0, 2).toUpperCase();
+
+  main.innerHTML = `
+    <div class="profile-header">
+      <div class="avatar-circle">${initials}</div>
+      <div class="profile-meta">
+        <h1>${username}</h1>
+        <div class="aura-pill">
+          <div class="aura-dot"></div>
+          <span>${auraPoints.toLocaleString()} Aura Points</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="s-label">Levels Solved</div>
+        <div class="s-value accent">${totalSolved}</div>
+      </div>
+      <div class="stat-card">
+        <div class="s-label">Completion</div>
+        <div class="s-value">${pct}%</div>
+      </div>
+      <div class="stat-card">
+        <div class="s-label">Challenges</div>
+        <div class="s-value">${CHALLENGE_META.length}</div>
+      </div>
+      <div class="stat-card">
+        <div class="s-label">Scoreboard Rank</div>
+        <div class="s-value accent">${rank ? '#' + rank : '—'}</div>
+      </div>
+    </div>
+
+    <div class="challenges-section">
+      <div class="section-title">Challenge Progress</div>
+      <div id="heatmapContainer"></div>
+    </div>
+  `;
+
+  const container = document.getElementById('heatmapContainer');
+  CHALLENGE_META.forEach(meta => {
+    const solved = solvedMap[meta.game] || new Set();
+    container.appendChild(buildChallengeRow(meta, solved));
+  });
+}
+
+// ── API calls ────────────────────────────────────────────────────────────────
+async function fetchProgress(username) {
+  // Uses the existing /api/auth/myprogress endpoint.
+  // Since this is a public profile page, you'll need a public endpoint
+  // like GET /api/users/:username/progress on the backend.
+  // For now we use the auth endpoint if viewing own profile, else public endpoint.
+  const myUsername = localStorage.getItem('username');
+  const token = localStorage.getItem('token');
+
+  if (myUsername === username && token) {
+    const res = await fetch(`${API}/api/auth/myprogress`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    // myprogress returns { success, progress: [{series, level, ...}] }
+    // Normalize: your progress table uses 'game' column, endpoint may return 'series'
+    // Adjust the key below to match what your API actually returns:
+    return (data.progress || []).map(p => ({ game: p.game ?? p.series, level: p.level }));
+  } else {
+    // Public endpoint — add this to your backend:
+    // GET /api/users/:username/progress  →  { success, progress: [{game, level}] }
+    const res = await fetch(`${API}/api/users/${encodeURIComponent(username)}/progress`);
+    const data = await res.json();
+    return (data.progress || []).map(p => ({ game: p.game ?? p.series, level: p.level }));
+  }
+}
+
+async function fetchAura(username) {
+  // Add to backend: GET /api/users/:username/aura  →  { success, total_aura }
+  try {
+    const myUsername = localStorage.getItem('username');
+    const token = localStorage.getItem('token');
+    if (myUsername === username && token) {
+      const res = await fetch(`${API}/api/auth/aura_points`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await res.json();
+      return data.total_aura ?? 0;
+    } else {
+      const res = await fetch(`${API}/api/users/${encodeURIComponent(username)}/aura`);
+      const data = await res.json();
+      return data.total_aura ?? 0;
+    }
+  } catch { return 0; }
+}
+
+async function fetchRank(username) {
+  // Derive from scoreboard: GET /api/scoreboard  →  [{username, aura_points}] sorted desc
+  try {
+    const res = await fetch(`${API}/api/scoreboard`);
+    const data = await res.json();
+    const list = data.scoreboard ?? data ?? [];
+    const idx = list.findIndex(u => u.username === username);
+    return idx >= 0 ? idx + 1 : null;
+  } catch { return null; }
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+async function init() {
+  const username = getTargetUsername();
+  const main = document.getElementById('mainContent');
+
+  if (!username) {
+    main.innerHTML = `<div class="not-found"><h2>No user specified.</h2><p>Try visiting /profiles/?user=username</p></div>`;
+    return;
+  }
+
+  try {
+    const [progress, aura, rank] = await Promise.all([
+      fetchProgress(username),
+      fetchAura(username),
+      fetchRank(username)
+    ]);
+    renderProfile(username, progress, aura, rank);
+  } catch (err) {
+    console.error(err);
+    main.innerHTML = `<div class="not-found"><h2>Profile not found.</h2><p>User <strong>${username}</strong> doesn't exist or the server is unavailable.</p></div>`;
+  }
+}
+
+// ── Sidebar + header auth (same pattern as challenges.html) ──────────────────
+function setupAuth() {
+  const token = localStorage.getItem('token');
+  const username = localStorage.getItem('username');
+  const headerRight = document.getElementById('headerRight');
+  const sidebarList = document.getElementById('sidebarList');
+
+  if (token && username) {
+    headerRight.innerHTML = `
+      <div class="aura-container">
+        <img src="images/aura.webp" class="aura-icon" alt="Aura">
+        <span class="aura-points">Aura Points: ...</span>
+      </div>`;
+
+    // Fetch aura for header
+    fetch(`${API}/api/auth/aura_points`, { headers: { Authorization: `Bearer ${token}` } })
+      .then(r => r.json()).then(d => {
+        if (d.success) {
+          document.querySelector('.aura-points').textContent = `Aura Points: ${d.total_aura}`;
+        }
+      }).catch(() => {});
+
+    // User block in sidebar
+    const originalItems = Array.from(sidebarList.children).map(el => el.cloneNode(true));
+    sidebarList.innerHTML = '';
+
+    const userContainer = document.createElement('li');
+    userContainer.className = 'user-block-container';
+    const userBg = document.createElement('video');
+    userBg.className = 'user-block-bg';
+    userBg.setAttribute('autoplay', ''); userBg.setAttribute('loop', '');
+    userBg.setAttribute('muted', ''); userBg.setAttribute('playsinline', '');
+    userBg.innerHTML = `<source src="images/profile2.webm" type="video/webm">`;
+    const usernameDisplay = document.createElement('div');
+    usernameDisplay.className = 'username-display';
+    usernameDisplay.textContent = username;
+    userContainer.appendChild(userBg);
+    userContainer.appendChild(usernameDisplay);
+    sidebarList.appendChild(userContainer);
+
+    originalItems.forEach(item => sidebarList.appendChild(item));
+
+    const logoutBtn = document.createElement('a');
+    logoutBtn.className = 'logout-button';
+    logoutBtn.href = '#';
+    logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> LOGOUT';
+    logoutBtn.addEventListener('click', e => {
+      e.preventDefault();
+      localStorage.removeItem('token');
+      localStorage.removeItem('username');
+      window.location.href = '/index';
+    });
+    sidebarList.appendChild(logoutBtn);
+
+    // Mark profile link active if viewing own profile
+    const targetUser = getTargetUsername();
+    if (targetUser === username) {
+      sidebarList.querySelectorAll('.challenge-item').forEach(item => {
+        if (item.href && item.href.includes('/profiles/')) item.classList.add('active');
+      });
+    }
+  } else {
+    document.querySelector('.sidebar').classList.add('logged-out');
+  }
+}
+
+// ── Donation popup ───────────────────────────────────────────────────────────
+document.getElementById('donateButton').addEventListener('click', () => {
+  document.getElementById('donationPopup').style.display = 'block';
+  document.getElementById('overlay').style.display = 'block';
+});
+document.getElementById('closePopup').addEventListener('click', () => {
+  document.getElementById('donationPopup').style.display = 'none';
+  document.getElementById('overlay').style.display = 'none';
+});
+document.getElementById('overlay').addEventListener('click', () => {
+  document.getElementById('donationPopup').style.display = 'none';
+  document.getElementById('overlay').style.display = 'none';
+});
+
+// ── Scroll hide header ───────────────────────────────────────────────────────
+let lastScroll = 0;
+const header = document.querySelector('.header');
+window.addEventListener('scroll', () => {
+  const cur = window.pageYOffset;
+  if (cur <= 0) { header.classList.remove('hide'); return; }
+  if (cur > lastScroll) header.classList.add('hide');
+  else header.classList.remove('hide');
+  lastScroll = cur;
+});
+
+setupAuth();
+init();
+</script>
+</body>
+</html>
