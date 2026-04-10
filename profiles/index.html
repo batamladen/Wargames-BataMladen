@@ -86,7 +86,7 @@
 
     .auth-button {
       background: transparent;
-      border: none;
+      border: 0px solid var(--border-color);
       color: var(--text-primary);
       padding: 6px 12px;
       border-radius: 4px;
@@ -96,7 +96,10 @@
       text-decoration: none;
     }
 
-    .auth-button:hover { color: #815bbe; }
+    .auth-button:hover {
+      color: #815bbe;
+      background-color: transparent;
+    }
 
     .donate-float {
       background-color: #f96854;
@@ -521,11 +524,12 @@
       z-index: 1000;
     }
 
-    .aura-container { display: flex; align-items: center; gap: 0; padding-top: 2px; }
+    .aura-container { display: flex; align-items: center; padding-top: 2px; gap: 0px; }
     .aura-points {
       font-family: 'League Spartan', sans-serif; font-weight: 550;
-      background: transparent; border: none; color: var(--text-primary);
-      padding: 6px 12px; border-radius: 4px; font-size: 1.0rem; cursor: pointer;
+      background: transparent; border: 0px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 6px 12px; border-radius: 4px; font-size: 1.0rem; cursor: pointer; transition: all 0.2s;
     }
     .aura-icon { width: 20px; height: 20px; object-fit: contain; padding-bottom: 3px; }
 
@@ -884,6 +888,31 @@ function setupAuth() {
       });
     }
   } else {
+    headerRight.innerHTML = `
+      <a href="/login" class="auth-button" id="loginBtn">Login</a>
+      <a href="/register" class="auth-button" id="registerBtn">Register</a>
+    `;
+
+    const defaultItems = [
+      { href: '/challenges',  text: 'CHALLENGES',  data: 'challenges',  icon: 'bullseye' },
+      { href: '/academy',     text: 'ACADEMY',     data: 'academy',     icon: 'graduation-cap' },
+      { href: '/arena',       text: 'ARENA',       data: 'arena',       icon: 'landmark' },
+      { href: '/faq',         text: 'FAQ',         data: 'faq',         icon: 'question-circle' },
+      { href: '/contact',     text: 'CONTACT',     data: 'contact',     icon: 'envelope' },
+      { href: '/scoreboard',  text: 'SCOREBOARD',  data: 'scoreboard',  icon: 'trophy' },
+      { href: '/contributors',text: 'CONTRIBUTORS',data: 'contributors', icon: 'users' },
+    ];
+
+    sidebarList.innerHTML = '';
+    defaultItems.forEach(item => {
+      const link = document.createElement('a');
+      link.href = item.href;
+      link.className = 'challenge-item';
+      link.dataset.challenge = item.data;
+      link.innerHTML = `<i class="fas fa-${item.icon}"></i> ${item.text}`;
+      sidebarList.appendChild(link);
+    });
+
     document.querySelector('.sidebar').classList.add('logged-out');
   }
 }
