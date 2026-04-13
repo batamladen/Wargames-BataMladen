@@ -722,12 +722,7 @@
   // ════════════════════════════════════════════════════════════════════
   //  CHALLENGE CONFIG — game must exactly match the progress table value
   // ════════════════════════════════════════════════════════════════════
-  const CHALLENGES = [
-    { game: "The Shadows", label: "The Shadows", levels: 9,  icon: "../images/the shadows thumbnail.webp" },
-    { game: "Jugsaw",      label: "Jugsaw",      levels: 10, icon: "../images/jugsaw thumbnail2 cropped.webp" },
-    { game: "Hogwarts",    label: "Hogwarts",    levels: 7,  icon: "../images/hogwarts.webp" },
-    { game: "Zyphera",     label: "Zyphera",     levels: 15, icon: "../images/zyphera_thumb.webp" },
-  ];
+
 
   function getRankLabel(aura) {
     if (aura >= 5000) return "⚡ Elite";
@@ -738,15 +733,24 @@
   }
 
   // Strip non-digits from level string → 0-based integer index for the grid
-  function buildSolvedSet(progressEntries, game) {
-    const s = new Set();
-    progressEntries.forEach(entry => {
-      if (entry.game !== game) return;
-      const n = parseInt(String(entry.level).replace(/\D/g, ""), 10);
-      if (!isNaN(n)) s.add(n);
-    });
-    return s;
-  }
+function buildSolvedSet(progressEntries, game) {
+  const s = new Set();
+
+  progressEntries.forEach(entry => {
+    if (entry.game.toLowerCase() !== game.toLowerCase()) return;
+
+    const match = String(entry.level).match(/\d+/);
+    if (match) {
+      const num = parseInt(match[0], 10);
+      if (!isNaN(num)) {
+        // normalize so level0 -> 0, level1 -> 1, etc.
+        s.add(num);
+      }
+    }
+  });
+
+  return s;
+}
 
   // Always 4 columns; placeholder cells pad the last row
   function buildHeatGrid(totalLevels, solvedSet) {
@@ -760,7 +764,7 @@
         cell.className = "heat-cell placeholder";
       } else {
         cell.className = "heat-cell" + (solvedSet.has(i) ? " solved" : "");
-        cell.setAttribute("data-label", `Level ${i + 1}`);
+        cell.setAttribute("data-label", `Level ${i}`);
       }
       grid.appendChild(cell);
     }
@@ -788,11 +792,12 @@
     const enc = encodeURIComponent(profileUser);
 
     try {
-      const [progressRes, auraRes, rankRes, fullClearsRes] = await Promise.all([
+      const [progressRes, auraRes, rankRes, fullClearsRes, metaRes] = await Promise.all([
         fetch(`${API}/users/${enc}/progress`),
         fetch(`${API}/users/${enc}/aura`),
         fetch(`${API}/users/${enc}/rank`),
-        fetch(`${API}/users/${enc}/full-clears`)
+        fetch(`${API}/users/${enc}/full-clears`),
+        fetch(`${API}/challenges/meta`)
       ]);
 
       if (progressRes.status === 404 || auraRes.status === 404) {
@@ -802,6 +807,15 @@
 
       const progData       = await progressRes.json();
       const auraData       = await auraRes.json();
+      const metaData = await metaRes.json();
+      if (!metaData.success) throw new Error("Meta API failed");
+
+      const CHALLENGES = metaData.challenges.map(c => ({
+        game: c.game,
+        label: c.game,
+        levels: c.total_levels,
+        icon: null
+      }));
       const rankData       = rankRes.ok       ? await rankRes.json()       : { success: false };
       const fullClearsData = fullClearsRes.ok ? await fullClearsRes.json() : { success: false };
 
