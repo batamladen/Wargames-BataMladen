@@ -23,92 +23,152 @@
       --unsolved-bg: rgba(255,255,255,0.05);
     }
 
+    /* Font Styles */
     body {
       font-family: 'Open Sans', sans-serif;
       font-weight: 400;
       line-height: 1.6;
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 0;
       background-color: var(--bg-dark);
       color: var(--text-primary);
       min-height: 100vh;
-      display: flex; flex-direction: column;
+      display: flex;
+      flex-direction: column;
     }
 
-    p, ul, li { font-family: 'Open Sans', sans-serif; font-weight: 400; }
+    p, ul, li {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 400;
+    }
 
     .title, h1, h2, h3, h4, h5, h6,
     .auth-button, .donate-float,
     .donation-popup h2, .donation-method-title {
       font-family: 'League Spartan', sans-serif;
-      font-weight: 550; letter-spacing: -0.5px;
+      font-weight: 550;
+      letter-spacing: -0.5px;
     }
 
     h2 {
-      font-size: 2.0rem; color: var(--accent-color);
-      margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;
+      font-size: 2.0rem;
+      color: var(--accent-color);
+      margin-top: 0;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 5px;
     }
 
     /* Header */
     .header {
-      background-color: var(--bg-darker); padding: 0 20px;
+      background-color: var(--bg-darker);
+      padding: 0 20px;
       border-bottom: 1px solid var(--border-color);
-      display: flex; align-items: center; justify-content: space-between;
-      height: 60px; position: fixed; top: 0; left: 0; right: 0;
-      z-index: 999; transition: transform 0.3s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 999;
+      transition: transform 0.3s ease-in-out;
     }
     .header.hide { transform: translateY(-100%); }
-    .header-logo { padding-top: 7.5px; height: 60px; width: auto; margin-left: 20px; }
-    .header-right { display: flex; align-items: center; gap: 15px; margin-right: 110px; }
+    .header-logo {
+      padding-top: 7.5px;
+      height: 60px; width: auto;
+      margin-left: 20px;
+    }
+    .header-right {
+      display: flex; align-items: center; gap: 15px;
+      margin-right: 110px;
+    }
     .auth-button {
-      background: transparent; border: 0px solid var(--border-color);
-      color: var(--text-primary); padding: 6px 12px; border-radius: 4px;
-      font-size: 1.1rem; cursor: pointer; transition: all 0.2s; text-decoration: none;
+      background: transparent;
+      border: 0px solid var(--border-color);
+      color: var(--text-primary);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
     }
     .auth-button:hover { color: #815bbe; background-color: transparent; }
 
     .donate-float {
-      background-color: #f96854; color: white; padding: 8px 16px;
-      border-radius: 6px; font-size: 1.0rem; border: none; cursor: pointer;
-      transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(249,104,84,0.3);
-      position: fixed; top: 15px; right: 20px; z-index: 1000;
+      background-color: #f96854;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 1.0rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(249,104,84,0.3);
+      position: fixed;
+      top: 15px; right: 20px;
+      z-index: 1000;
     }
     .donate-float:hover { background-color: #e34b39; box-shadow: 0 0px 0px rgba(249,104,84,0.5); }
 
     /* Sidebar */
     .sidebar {
-      width: 220px; background-color: var(--bg-darker);
+      width: 220px;
+      background-color: var(--bg-darker);
       border-right: 1px solid var(--border-color);
-      height: 100vh; overflow-y: auto;
-      position: fixed; top: 0; left: 0;
-      padding-top: 0px; box-sizing: border-box;
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
+      top: 0; left: 0;
+      padding-top: 0px;
+      box-sizing: border-box;
     }
+    .header.hide + .sidebar { padding-top: 0; }
     .challenge-list { list-style: none; padding: 0; margin: 0; }
     .challenge-item {
-      font-family: 'League Spartan', sans-serif; font-weight: 300;
-      letter-spacing: -0.5px; font-size: 1.0rem; display: block;
-      padding: 15px 20px; cursor: pointer;
-      border-left: 3px solid transparent; transition: all 0.2s;
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      font-size: 1.0rem;
+      display: block;
+      padding: 15px 20px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
       border-bottom: 1px solid rgba(255,255,255,0.05);
-      color: inherit; text-decoration: none;
+      color: inherit;
+      text-decoration: none;
     }
     .challenge-item:hover, .challenge-item.active {
-      background-color: rgba(255,255,255,0.05); border-left: 3px solid var(--accent-color);
+      background-color: rgba(255,255,255,0.05);
+      border-left: 3px solid var(--accent-color);
     }
     .challenge-item i { margin-right: 12px; width: 16px; text-align: center; }
     .challenge-item.active i { color: var(--accent-color); }
 
-    .user-block-container { padding: 0; margin-bottom: 0px; border-radius: 4px; min-height: 120px; position: relative; }
-    .user-block-bg { width: 100%; height: 100%; border-radius: 4px; position: absolute; top: 0; left: 0; }
+    .user-block-container {
+      padding: 0; margin-bottom: 0px;
+      border-radius: 4px; min-height: 120px;
+      position: relative;
+    }
+    .user-block-bg {
+      width: 100%; height: 100%;
+      border-radius: 4px;
+      position: absolute; top: 0; left: 0;
+    }
     .username-display {
-      font-family: 'League Spartan', sans-serif; font-weight: 700; color: white;
-      position: absolute; width: 100%; text-align: center;
-      bottom: 20px; left: 0; padding: 0 20px; box-sizing: border-box;
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 700; color: white;
+      position: absolute; width: 100%;
+      text-align: center; bottom: 20px; left: 0;
+      padding: 0 20px; box-sizing: border-box;
     }
     .logout-button {
-      font-family: 'League Spartan', sans-serif; font-weight: 300;
-      letter-spacing: -0.5px; font-size: 1.0rem; display: block;
-      padding: 15px 20px; cursor: pointer; border-left: 3px solid transparent;
-      transition: all 0.2s; border-bottom: 1px solid rgba(255,255,255,0.05);
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 300; letter-spacing: -0.5px; font-size: 1.0rem;
+      display: block; padding: 15px 20px; cursor: pointer;
+      border-left: 3px solid transparent; transition: all 0.2s;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
       color: #ff6b6b; text-decoration: none; text-align: left;
     }
     .logout-button:hover { background-color: rgba(255,107,107,0.1); border-left: 3px solid #ff6b6b; }
@@ -116,12 +176,21 @@
 
     /* Content */
     .content-wrapper {
-      margin-left: 220px; margin-top: 60px;
-      display: flex; justify-content: center;
+      margin-left: 220px;
+      margin-top: 60px;
+      display: flex;
+      justify-content: center;
       min-height: calc(100vh - 60px);
-      transition: margin-top 0.3s ease-in-out; flex: 1;
+      transition: margin-top 0.3s ease-in-out;
+      flex: 1;
     }
-    .main-content { width: 100%; max-width: 1100px; padding: 40px; flex: 1; }
+    .header.hide + .sidebar + .content-wrapper { margin-top: 0; }
+    .main-content {
+      width: 100%;
+      max-width: 1100px;
+      padding: 40px;
+      flex: 1;
+    }
 
     /* Aura */
     .aura-container { display: flex; align-items: center; padding-top: 2px; gap: 0px; }
@@ -214,6 +283,7 @@
     .footer-legal-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s ease; }
     .footer-legal-links a:hover { color: #e86152; }
     .footer-social-links { display: flex; gap: 15px; }
+    .footer-social-links a:hover { color: #e86152; }
     .social-link { color: var(--text-secondary); font-size: 1.1rem; transition: color 0.2s ease; }
     .social-link:hover { color: var(--accent-color); }
     .footer-copyright { color: var(--text-secondary); font-size: 0.85rem; }
@@ -246,52 +316,20 @@
       .challenges-grid { grid-template-columns: repeat(2,1fr) !important; }
     }
 
-    /* ── PIXEL AVATAR ── */
-    .profile-avatar {
-      width: 90px; height: 90px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      box-shadow: 0 0 0 3px var(--accent-color), 0 0 25px rgba(110,72,170,0.5);
-      overflow: hidden;
-      background: #1a0a2e;
-      image-rendering: pixelated;
-      position: relative;
-    }
-
-    /* The pixel avatar SVG canvas */
-    .pixel-avatar-svg {
-      width: 90px; height: 90px;
-      image-rendering: pixelated;
-      image-rendering: crisp-edges;
-    }
-
-    /* Glowing pulse on avatar */
-    @keyframes avatarGlow {
-      0%, 100% { box-shadow: 0 0 0 3px var(--accent-color), 0 0 20px rgba(110,72,170,0.4); }
-      50%       { box-shadow: 0 0 0 3px var(--accent-hover), 0 0 35px rgba(157,80,187,0.7); }
-    }
-    .profile-avatar { animation: avatarGlow 3s ease-in-out infinite; }
-
-    /* Pixel eyes blink animation */
-    @keyframes pixelBlink {
-      0%, 90%, 100% { transform: scaleY(1); }
-      95%            { transform: scaleY(0.1); }
-    }
-    .pixel-eyes { animation: pixelBlink 4s ease-in-out infinite; transform-origin: center; }
-
-    /* Pixel body float */
-    @keyframes pixelFloat {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-3px); }
-    }
-    .pixel-body-group { animation: pixelFloat 2.5s ease-in-out infinite; }
-
     /* ── PROFILE CARD ── */
     .profile-card {
       background-color: var(--bg-container); border-radius: 8px;
       padding: 30px; margin-bottom: 25px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.3);
       display: flex; align-items: center; gap: 30px;
+    }
+    .profile-avatar {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'League Spartan', sans-serif; font-size: 2.5rem;
+      font-weight: 700; color: white; flex-shrink: 0;
+      box-shadow: 0 0 20px rgba(110,72,170,0.4);
     }
     .profile-info { flex: 1; }
     .profile-username {
@@ -344,56 +382,29 @@
       gap: 20px;
     }
 
-    /* ── CHALLENGE CARD with image header ── */
     .challenge-heatmap-card {
       background-color: var(--bg-container); border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      padding: 20px 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
       display: flex; flex-direction: column; align-items: center;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-      overflow: hidden;
     }
-    .challenge-heatmap-card:hover { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0,0,0,0.35); }
+    .challenge-heatmap-card:hover { transform: translateY(-3px); box-shadow: 0 8px 16px rgba(0,0,0,0.3); }
 
-    /* Challenge thumbnail banner at top of card */
-    .challenge-thumb-banner {
-      width: 100%; height: 110px; overflow: hidden;
-      position: relative; flex-shrink: 0;
-    }
-    .challenge-thumb-banner img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.35s ease;
-      display: block;
-    }
-    .challenge-heatmap-card:hover .challenge-thumb-banner img { transform: scale(1.06); }
-
-    /* Gradient overlay on thumbnail */
-    .challenge-thumb-banner::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(30,30,30,0.85) 100%);
-      pointer-events: none;
-    }
-
-    /* Fallback icon for cards without image */
-    .challenge-thumb-placeholder {
-      width: 100%; height: 110px;
-      background: linear-gradient(135deg, #1a0a2e 0%, #2d1a4e 100%);
+    .challenge-icon-wrap {
+      width: 60px; height: 60px; border-radius: 50%;
+      overflow: hidden; border: 2px solid var(--border-color);
+      background: var(--bg-darker);
       display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
+      margin-bottom: 12px; flex-shrink: 0;
     }
-    .challenge-thumb-placeholder i { font-size: 2.5rem; color: var(--accent-color); opacity: 0.6; }
+    .challenge-icon-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .challenge-icon-placeholder { font-size: 1.5rem; color: var(--accent-color); }
 
-    /* Card body */
-    .challenge-heatmap-body {
-      width: 100%; padding: 14px 16px 18px;
-      display: flex; flex-direction: column; align-items: center;
-    }
-
+    .challenge-heatmap-right { width: 100%; text-align: center; }
     .challenge-heatmap-name {
       font-family: 'League Spartan', sans-serif; font-size: 1.05rem; font-weight: 600;
       color: var(--text-primary); margin-bottom: 4px; letter-spacing: -0.3px;
       display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap;
-      text-align: center;
     }
     .challenge-full-clear-badge {
       font-size: 0.65rem; padding: 2px 7px; border-radius: 20px;
@@ -445,7 +456,7 @@
 
 <header class="header">
   <a href="/home">
-    <img src="../images/wargame header logo 3 banner.webp" alt="Wargames Logo" class="header-logo" />
+    <img src="/images/wargame header logo 3 banner.webp" alt="Wargames Logo" class="header-logo" />
   </a>
   <div class="header-right" id="headerRight">
     <a href="/login" class="auth-button" id="loginBtn">Login</a>
@@ -457,7 +468,7 @@
 
 <div class="discord-invite-sign" id="discordInviteSign">
   <div class="discord-tooltip">Join Our Discord!</div>
-  <img src="../images/discord-invite-sign.webp" alt="Discord Invite" class="discord-invite-image">
+  <img src="/images/discord-invite-sign.webp" alt="Discord Invite" class="discord-invite-image">
 </div>
 
 <div class="overlay" id="overlay"></div>
@@ -494,6 +505,7 @@
 
 <div class="content-wrapper">
   <div class="main-content">
+
     <div id="profileArea">
       <div class="loading-state">
         <i class="fas fa-circle-notch"></i>
@@ -501,6 +513,7 @@
       </div>
     </div>
     <div id="heatmapArea"></div>
+
   </div>
 </div>
 
@@ -508,7 +521,7 @@
   <div class="footer-content">
     <div>
       <div class="footer-logo-section">
-        <img src="../images/wargames-logo.ico" alt="Wargames Logo" class="footer-logo">
+        <img src="/images/wargames-logo.ico" alt="Wargames Logo" class="footer-logo">
         <div class="footer-logo-text">Wargames BataMladen</div>
       </div>
       <p class="footer-tagline">A cybersecurity wargames platform created for your enjoyment by Mladen Nikolov.</p>
@@ -567,120 +580,6 @@
 </div>
 
 <script>
-  // ═══════════════════════════════════════════════
-  //  CHALLENGE IMAGE MAP — maps game name → image
-  // ═══════════════════════════════════════════════
-  const CHALLENGE_IMAGES = {
-    "hogwarts":        "../images/hogwarts_finish.webp",
-    "the shadows":     "../images/the shadows thumbnail.webp",
-    "shadows":         "../images/the shadows thumbnail.webp",
-    "jugsaw":          "../images/jugsaw thumbnail2 cropped.webp",
-    "jigsaw":          "../images/jugsaw thumbnail2 cropped.webp",
-    "zyphera":         "../images/zyphera_thumb.webp",
-  };
-
-  /** Returns image path for a challenge game name, or null */
-  function getChallengeImage(gameName) {
-    if (!gameName) return null;
-    const key = gameName.toLowerCase().trim();
-    // Exact match first
-    if (CHALLENGE_IMAGES[key]) return CHALLENGE_IMAGES[key];
-    // Partial match
-    for (const [k, v] of Object.entries(CHALLENGE_IMAGES)) {
-      if (key.includes(k) || k.includes(key)) return v;
-    }
-    return null;
-  }
-
-  // ═══════════════════════════════════════════════
-  //  PIXEL AVATAR SVG — animated purple character
-  // ═══════════════════════════════════════════════
-  function buildPixelAvatarSVG() {
-    // 16x16 pixel art ghost/wizard character, rendered at 90x90
-    return `<svg class="pixel-avatar-svg" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
-      <!-- Background -->
-      <rect width="16" height="16" fill="#1a0a2e"/>
-
-      <g class="pixel-body-group">
-        <!-- Hat brim -->
-        <rect x="3" y="4" width="10" height="1" fill="#4a1f7a"/>
-        <!-- Hat top -->
-        <rect x="5" y="1" width="6" height="4" fill="#5e2b9e"/>
-        <!-- Hat star decoration -->
-        <rect x="7" y="2" width="2" height="1" fill="#c084fc"/>
-        <rect x="7" y="3" width="1" height="1" fill="#c084fc"/>
-
-        <!-- Head -->
-        <rect x="4" y="5" width="8" height="5" fill="#c084fc"/>
-        <!-- Head sides (rounder) -->
-        <rect x="3" y="6" width="1" height="3" fill="#c084fc"/>
-        <rect x="12" y="6" width="1" height="3" fill="#c084fc"/>
-
-        <!-- Eyes container -->
-        <g class="pixel-eyes">
-          <!-- Left eye white -->
-          <rect x="5" y="7" width="2" height="2" fill="#1a0a2e"/>
-          <!-- Right eye white -->
-          <rect x="9" y="7" width="2" height="2" fill="#1a0a2e"/>
-          <!-- Left pupil -->
-          <rect x="5" y="7" width="1" height="1" fill="#7c3aed"/>
-          <!-- Right pupil -->
-          <rect x="9" y="7" width="1" height="1" fill="#7c3aed"/>
-          <!-- Eye shine left -->
-          <rect x="6" y="7" width="1" height="1" fill="#e9d5ff"/>
-          <!-- Eye shine right -->
-          <rect x="10" y="7" width="1" height="1" fill="#e9d5ff"/>
-        </g>
-
-        <!-- Mouth (slight smile) -->
-        <rect x="6" y="9" width="1" height="1" fill="#7c3aed"/>
-        <rect x="9" y="9" width="1" height="1" fill="#7c3aed"/>
-
-        <!-- Body / robe -->
-        <rect x="4" y="10" width="8" height="4" fill="#5e2b9e"/>
-        <!-- Robe collar -->
-        <rect x="6" y="10" width="4" height="1" fill="#c084fc"/>
-        <!-- Robe center line -->
-        <rect x="7" y="11" width="2" height="3" fill="#4a1f7a"/>
-
-        <!-- Robe bottom wave -->
-        <rect x="3" y="13" width="2" height="1" fill="#5e2b9e"/>
-        <rect x="4" y="14" width="2" height="1" fill="#5e2b9e"/>
-        <rect x="6" y="13" width="4" height="2" fill="#5e2b9e"/>
-        <rect x="10" y="14" width="2" height="1" fill="#5e2b9e"/>
-        <rect x="11" y="13" width="2" height="1" fill="#5e2b9e"/>
-
-        <!-- Left arm -->
-        <rect x="2" y="10" width="2" height="3" fill="#5e2b9e"/>
-        <rect x="1" y="12" width="2" height="1" fill="#c084fc"/>
-        <!-- Right arm -->
-        <rect x="12" y="10" width="2" height="3" fill="#5e2b9e"/>
-        <rect x="13" y="12" width="2" height="1" fill="#c084fc"/>
-
-        <!-- Magic sparkles (left) -->
-        <rect x="0" y="11" width="1" height="1" fill="#f0abfc" opacity="0.8"/>
-        <rect x="0" y="13" width="1" height="1" fill="#e879f9" opacity="0.6"/>
-        <!-- Magic sparkles (right) -->
-        <rect x="15" y="11" width="1" height="1" fill="#f0abfc" opacity="0.8"/>
-        <rect x="15" y="13" width="1" height="1" fill="#e879f9" opacity="0.6"/>
-      </g>
-
-      <!-- Floating stars -->
-      <rect x="1" y="2" width="1" height="1" fill="#ddd4fe" opacity="0.7">
-        <animate attributeName="opacity" values="0.7;0.1;0.7" dur="2.1s" repeatCount="indefinite"/>
-      </rect>
-      <rect x="14" y="3" width="1" height="1" fill="#ddd4fe" opacity="0.5">
-        <animate attributeName="opacity" values="0.5;0.9;0.5" dur="1.7s" repeatCount="indefinite"/>
-      </rect>
-      <rect x="2" y="15" width="1" height="1" fill="#a78bfa" opacity="0.6">
-        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.8s" repeatCount="indefinite"/>
-      </rect>
-      <rect x="13" y="1" width="1" height="1" fill="#c084fc" opacity="0.4">
-        <animate attributeName="opacity" values="0.4;0.9;0.4" dur="1.9s" repeatCount="indefinite"/>
-      </rect>
-    </svg>`;
-  }
-
   // Mobile warning
   if (window.innerWidth <= 768) {
     document.getElementById("mobile-warning").style.display = "block";
@@ -722,7 +621,7 @@
   discordSign.addEventListener("click", () => window.open('https://discord.gg/r7uN9vBqVC', '_blank'));
   window.addEventListener('load', () => { if (window.pageYOffset > 50) discordSign.classList.add("visible"); });
 
-  // Auth state
+  // Auth state — sidebar + header (identical pattern to home.html)
   const token    = localStorage.getItem("token");
   const username = localStorage.getItem("username");
   const headerRight  = document.getElementById("headerRight");
@@ -739,7 +638,7 @@
         const auraContainer = document.querySelector(".aura-container");
         if (auraContainer) {
           auraContainer.innerHTML = `
-            <img src="../images/aura.webp" class="aura-icon" alt="Aura Icon">
+            <img src="/images/aura.webp" class="aura-icon" alt="Aura Icon">
             <span class="aura-points">Aura Points: ${data.total_aura}</span>`;
         }
       }
@@ -747,11 +646,12 @@
   }
 
   if (token && username) {
+    // Logged in
     headerRight.innerHTML = '';
     const auraContainer = document.createElement("div");
     auraContainer.classList.add("aura-container");
     auraContainer.innerHTML = `
-      <img src="../images/aura.webp" class="aura-icon" alt="Aura Icon">
+      <img src="/images/aura.webp" class="aura-icon" alt="Aura Icon">
       <span class="aura-points">Aura Points: ...</span>`;
     headerRight.appendChild(auraContainer);
     updateAuraDisplay();
@@ -792,6 +692,7 @@
     sidebarList.appendChild(logoutButton);
 
   } else {
+    // Logged out
     headerRight.innerHTML = `
       <button class="auth-button" id="loginBtn" onclick="window.location.href='/login'">Login</button>
       <button class="auth-button" id="registerBtn" onclick="window.location.href='/register'">Register</button>`;
@@ -818,6 +719,11 @@
     document.querySelector('.sidebar').classList.add('logged-out');
   }
 
+  // ════════════════════════════════════════════════════════════════════
+  //  CHALLENGE CONFIG — game must exactly match the progress table value
+  // ════════════════════════════════════════════════════════════════════
+
+
   function getRankLabel(aura) {
     if (aura >= 5000) return "⚡ Elite";
     if (aura >= 2000) return "🔥 Expert";
@@ -826,19 +732,27 @@
     return "👾 Newbie";
   }
 
-  function buildSolvedSet(progressEntries, game) {
-    const s = new Set();
-    progressEntries.forEach(entry => {
-      if (entry.game.toLowerCase() !== game.toLowerCase()) return;
-      const match = String(entry.level).match(/\d+/);
-      if (match) {
-        const num = parseInt(match[0], 10);
-        if (!isNaN(num)) s.add(num);
-      }
-    });
-    return s;
-  }
+  // Strip non-digits from level string → 0-based integer index for the grid
+function buildSolvedSet(progressEntries, game) {
+  const s = new Set();
 
+  progressEntries.forEach(entry => {
+    if (entry.game.toLowerCase() !== game.toLowerCase()) return;
+
+    const match = String(entry.level).match(/\d+/);
+    if (match) {
+      const num = parseInt(match[0], 10);
+      if (!isNaN(num)) {
+        // normalize so level0 -> 0, level1 -> 1, etc.
+        s.add(num);
+      }
+    }
+  });
+
+  return s;
+}
+
+  // Always 4 columns; placeholder cells pad the last row
   function buildHeatGrid(totalLevels, solvedSet) {
     const cols = 4;
     const totalCells = Math.ceil(totalLevels / cols) * cols;
@@ -891,18 +805,17 @@
         return;
       }
 
-      const progData   = await progressRes.json();
-      const auraData   = await auraRes.json();
-      const metaData   = await metaRes.json();
+      const progData       = await progressRes.json();
+      const auraData       = await auraRes.json();
+      const metaData = await metaRes.json();
       if (!metaData.success) throw new Error("Meta API failed");
 
       const CHALLENGES = metaData.challenges.map(c => ({
         game: c.game,
         label: c.game,
         levels: c.total_levels,
-        image: getChallengeImage(c.game)
+        icon: null
       }));
-
       const rankData       = rankRes.ok       ? await rankRes.json()       : { success: false };
       const fullClearsData = fullClearsRes.ok ? await fullClearsRes.json() : { success: false };
 
@@ -917,12 +830,13 @@
         ? serverClears.length
         : CHALLENGES.filter(c => buildSolvedSet(progressEntries, c.game).size >= c.levels).length;
 
-      const rankLabel = getRankLabel(totalAura);
-      const rankHtml  = globalRank ? `<span class="global-rank-badge">🏅 Rank #${globalRank}</span>` : "";
+      const rankLabel  = getRankLabel(totalAura);
+      const rankHtml   = globalRank ? `<span class="global-rank-badge">🏅 Rank #${globalRank}</span>` : "";
+      const initial    = profileUser.charAt(0).toUpperCase();
 
       profileArea.innerHTML = `
         <div class="profile-card">
-          <div class="profile-avatar">${buildPixelAvatarSVG()}</div>
+          <div class="profile-avatar">${initial}</div>
           <div class="profile-info">
             <div class="profile-username">${profileUser}</div>
             <div class="profile-stats-row">
@@ -957,45 +871,27 @@
         const solvedSet   = buildSolvedSet(progressEntries, chall.game);
         const isFullClear = serverClears ? serverClears.includes(chall.game) : solvedSet.size >= chall.levels;
 
-        const card = document.createElement("div");
-        card.className = "challenge-heatmap-card";
+        const card = document.createElement("div"); card.className = "challenge-heatmap-card";
 
-        // Thumbnail banner (image or placeholder)
-        if (chall.image) {
-          const banner = document.createElement("div");
-          banner.className = "challenge-thumb-banner";
-          const img = document.createElement("img");
-          img.src = chall.image;
-          img.alt = chall.label;
-          img.onerror = () => {
-            banner.outerHTML = `<div class="challenge-thumb-placeholder"><i class="fas fa-terminal"></i></div>`;
-          };
-          banner.appendChild(img);
-          card.appendChild(banner);
-        } else {
-          const placeholder = document.createElement("div");
-          placeholder.className = "challenge-thumb-placeholder";
-          placeholder.innerHTML = `<i class="fas fa-terminal"></i>`;
-          card.appendChild(placeholder);
-        }
+        const iconWrap = document.createElement("div"); iconWrap.className = "challenge-icon-wrap";
+        if (chall.icon) {
+          const img = document.createElement("img"); img.src = chall.icon; img.alt = chall.label;
+          img.onerror = () => { iconWrap.innerHTML = `<span class="challenge-icon-placeholder"><i class="fas fa-terminal"></i></span>`; };
+          iconWrap.appendChild(img);
+        } else { iconWrap.innerHTML = `<span class="challenge-icon-placeholder"><i class="fas fa-terminal"></i></span>`; }
 
-        // Card body
-        const body    = document.createElement("div"); body.className = "challenge-heatmap-body";
+        const right   = document.createElement("div"); right.className = "challenge-heatmap-right";
         const nameRow = document.createElement("div"); nameRow.className = "challenge-heatmap-name";
         nameRow.textContent = chall.label;
         if (isFullClear) {
-          const badge = document.createElement("span");
-          badge.className = "challenge-full-clear-badge";
-          badge.textContent = "FULL CLEAR";
+          const badge = document.createElement("span"); badge.className = "challenge-full-clear-badge"; badge.textContent = "FULL CLEAR";
           nameRow.appendChild(badge);
         }
         const meta = document.createElement("div"); meta.className = "challenge-heatmap-meta";
         meta.textContent = `${solvedSet.size} / ${chall.levels} levels solved`;
 
-        body.appendChild(nameRow);
-        body.appendChild(meta);
-        body.appendChild(buildHeatGrid(chall.levels, solvedSet));
-        card.appendChild(body);
+        right.appendChild(nameRow); right.appendChild(meta); right.appendChild(buildHeatGrid(chall.levels, solvedSet));
+        card.appendChild(iconWrap); card.appendChild(right);
         gridContainer.appendChild(card);
       });
 
