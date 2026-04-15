@@ -810,11 +810,20 @@ function buildSolvedSet(progressEntries, game) {
       const metaData = await metaRes.json();
       if (!metaData.success) throw new Error("Meta API failed");
 
+
+
+      const iconMap = {
+        hogwarts: "../images/hogwarts_finish.webp",
+        jugsaw:   "../images/jugsaw thumbnail2 cropped.webp",
+        shadows:  "../images/the shadows thumbnail.webp",
+        zyphera:  "../images/zyphera-icon.webp",
+      };
+
       const CHALLENGES = metaData.challenges.map(c => ({
         game: c.game,
         label: c.game,
         levels: c.total_levels,
-        icon: null
+        icon: iconMap[c.game.toLowerCase()] || null
       }));
       const rankData       = rankRes.ok       ? await rankRes.json()       : { success: false };
       const fullClearsData = fullClearsRes.ok ? await fullClearsRes.json() : { success: false };
