@@ -456,7 +456,7 @@
 
 <header class="header">
   <a href="/home">
-    <img src="/images/wargame header logo 3 banner.webp" alt="Wargames Logo" class="header-logo" />
+    <img src="../images/wargame header logo 3 banner.webp" alt="Wargames Logo" class="header-logo" />
   </a>
   <div class="header-right" id="headerRight">
     <a href="/login" class="auth-button" id="loginBtn">Login</a>
@@ -468,7 +468,7 @@
 
 <div class="discord-invite-sign" id="discordInviteSign">
   <div class="discord-tooltip">Join Our Discord!</div>
-  <img src="/images/discord-invite-sign.webp" alt="Discord Invite" class="discord-invite-image">
+  <img src="../images/discord-invite-sign.webp" alt="Discord Invite" class="discord-invite-image">
 </div>
 
 <div class="overlay" id="overlay"></div>
@@ -521,7 +521,7 @@
   <div class="footer-content">
     <div>
       <div class="footer-logo-section">
-        <img src="/images/wargames-logo.ico" alt="Wargames Logo" class="footer-logo">
+        <img src="../images/wargames-logo.ico" alt="Wargames Logo" class="footer-logo">
         <div class="footer-logo-text">Wargames BataMladen</div>
       </div>
       <p class="footer-tagline">A cybersecurity wargames platform created for your enjoyment by Mladen Nikolov.</p>
@@ -638,7 +638,7 @@
         const auraContainer = document.querySelector(".aura-container");
         if (auraContainer) {
           auraContainer.innerHTML = `
-            <img src="/images/aura.webp" class="aura-icon" alt="Aura Icon">
+            <img src="../images/aura.webp" class="aura-icon" alt="Aura Icon">
             <span class="aura-points">Aura Points: ${data.total_aura}</span>`;
         }
       }
@@ -651,7 +651,7 @@
     const auraContainer = document.createElement("div");
     auraContainer.classList.add("aura-container");
     auraContainer.innerHTML = `
-      <img src="/images/aura.webp" class="aura-icon" alt="Aura Icon">
+      <img src="../images/aura.webp" class="aura-icon" alt="Aura Icon">
       <span class="aura-points">Aura Points: ...</span>`;
     headerRight.appendChild(auraContainer);
     updateAuraDisplay();
