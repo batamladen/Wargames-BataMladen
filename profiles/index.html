@@ -426,6 +426,11 @@
       background: rgba(76,175,80,0.2); border: 1px solid var(--green-solved);
       color: var(--green-solved); font-family: 'Open Sans', sans-serif; font-weight: 600;
     }
+    .academy-completed-badge {
+      font-size: 0.65rem; padding: 2px 7px; border-radius: 20px;
+      background: rgba(91,163,201,0.2); border: 1px solid #5ba3c9;
+      color: #5ba3c9; font-family: 'Open Sans', sans-serif; font-weight: 600;
+    }
     .challenge-heatmap-meta {
       font-family: 'Open Sans', sans-serif; font-size: 0.75rem;
       color: var(--text-secondary); margin-bottom: 14px;
@@ -859,8 +864,8 @@
     nameRow.textContent = mod.name;
     if (isFullClear) {
       const badge = document.createElement("span");
-      badge.className = "challenge-full-clear-badge";
-      badge.textContent = "FULL CLEAR";
+      badge.className = "academy-completed-badge";
+      badge.textContent = "COMPLETED";
       nameRow.appendChild(badge);
     }
     const meta = document.createElement("div"); meta.className = "challenge-heatmap-meta";
