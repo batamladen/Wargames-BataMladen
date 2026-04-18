@@ -369,12 +369,17 @@
     .not-found-box h2 { font-family: 'League Spartan', sans-serif; color: var(--text-primary); font-size: 1.5rem; margin: 0 0 10px; border: none; }
     .not-found-box p { color: var(--text-secondary); }
 
-    /* ── HEATMAP ── */
-    .heatmap-section-title {
+    /* ── SECTION TITLES (shared by challenges + academy) ── */
+    .section-title {
       font-family: 'League Spartan', sans-serif; font-size: 2.0rem;
       color: var(--accent-color); margin: 10px 0 20px;
       padding-bottom: 5px; border-bottom: 1px solid var(--border-color); letter-spacing: -0.5px;
     }
+
+    /* kept for backward compat */
+    .heatmap-section-title { font-family: 'League Spartan', sans-serif; font-size: 2.0rem;
+      color: var(--accent-color); margin: 10px 0 20px;
+      padding-bottom: 5px; border-bottom: 1px solid var(--border-color); letter-spacing: -0.5px; }
 
     .challenges-grid {
       display: grid;
@@ -399,6 +404,16 @@
     }
     .challenge-icon-wrap img { width: 100%; height: 100%; object-fit: cover; }
     .challenge-icon-placeholder { font-size: 1.5rem; color: var(--accent-color); }
+
+    /* Academy icon uses a different accent colour */
+    .academy-icon-wrap {
+      width: 60px; height: 60px; border-radius: 50%;
+      overflow: hidden; border: 2px solid #4e8098;
+      background: var(--bg-darker);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 12px; flex-shrink: 0;
+    }
+    .academy-icon-placeholder { font-size: 1.5rem; color: #5ba3c9; }
 
     .challenge-heatmap-right { width: 100%; text-align: center; }
     .challenge-heatmap-name {
@@ -434,9 +449,16 @@
       border-color: var(--green-solved);
       box-shadow: 0 0 5px rgba(76,175,80,0.35);
     }
+    /* Academy cells use a blue tint when solved */
+    .heat-cell.academy-solved {
+      background-color: rgba(91,163,201,0.25);
+      border-color: #5ba3c9;
+      box-shadow: 0 0 5px rgba(91,163,201,0.35);
+    }
     .heat-cell.placeholder { visibility: hidden; pointer-events: none; }
     .heat-cell:not(.placeholder):hover { transform: scale(1.35); z-index: 10; }
     .heat-cell.solved:hover { box-shadow: 0 0 9px rgba(76,175,80,0.65); }
+    .heat-cell.academy-solved:hover { box-shadow: 0 0 9px rgba(91,163,201,0.65); }
     .heat-cell[data-label]:not(.placeholder):hover::after {
       content: attr(data-label);
       position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%);
@@ -450,6 +472,9 @@
     .loading-state { text-align: center; padding: 60px 20px; color: var(--text-secondary); font-family: 'Open Sans', sans-serif; }
     .loading-state i { font-size: 2rem; margin-bottom: 12px; display: block; animation: spin 1s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Academy section spacing */
+    #academyArea { margin-top: 40px; }
   </style>
 </head>
 <body>
@@ -513,6 +538,7 @@
       </div>
     </div>
     <div id="heatmapArea"></div>
+    <div id="academyArea"></div>
 
   </div>
 </div>
@@ -621,7 +647,7 @@
   discordSign.addEventListener("click", () => window.open('https://discord.gg/r7uN9vBqVC', '_blank'));
   window.addEventListener('load', () => { if (window.pageYOffset > 50) discordSign.classList.add("visible"); });
 
-  // Auth state — sidebar + header (identical pattern to home.html)
+  // Auth state — sidebar + header
   const token    = localStorage.getItem("token");
   const username = localStorage.getItem("username");
   const headerRight  = document.getElementById("headerRight");
@@ -646,7 +672,6 @@
   }
 
   if (token && username) {
-    // Logged in
     headerRight.innerHTML = '';
     const auraContainer = document.createElement("div");
     auraContainer.classList.add("aura-container");
@@ -692,7 +717,6 @@
     sidebarList.appendChild(logoutButton);
 
   } else {
-    // Logged out
     headerRight.innerHTML = `
       <button class="auth-button" id="loginBtn" onclick="window.location.href='/login'">Login</button>
       <button class="auth-button" id="registerBtn" onclick="window.location.href='/register'">Register</button>`;
@@ -720,9 +744,8 @@
   }
 
   // ════════════════════════════════════════════════════════════════════
-  //  CHALLENGE CONFIG — game must exactly match the progress table value
+  //  HELPERS
   // ════════════════════════════════════════════════════════════════════
-
 
   function getRankLabel(aura) {
     if (aura >= 5000) return "⚡ Elite";
@@ -732,44 +755,129 @@
     return "👾 Newbie";
   }
 
-  // Strip non-digits from level string → 0-based integer index for the grid
-function buildSolvedSet(progressEntries, game) {
-  const s = new Set();
-
-  progressEntries.forEach(entry => {
-    if (entry.game.toLowerCase() !== game.toLowerCase()) return;
-
-    const match = String(entry.level).match(/\d+/);
-    if (match) {
-      const num = parseInt(match[0], 10);
-      if (!isNaN(num)) {
-        // normalize so level0 -> 0, level1 -> 1, etc.
-        s.add(num);
+  function buildSolvedSet(progressEntries, game) {
+    const s = new Set();
+    progressEntries.forEach(entry => {
+      if (entry.game.toLowerCase() !== game.toLowerCase()) return;
+      const match = String(entry.level).match(/\d+/);
+      if (match) {
+        const num = parseInt(match[0], 10);
+        if (!isNaN(num)) s.add(num);
       }
-    }
-  });
-
-  return s;
-}
+    });
+    return s;
+  }
 
   // Always 4 columns; placeholder cells pad the last row
-  function buildHeatGrid(totalLevels, solvedSet) {
+  function buildHeatGrid(totalCells, solvedIndexes, labelPrefix, solvedClass) {
     const cols = 4;
-    const totalCells = Math.ceil(totalLevels / cols) * cols;
+    const gridTotal = Math.ceil(totalCells / cols) * cols;
     const grid = document.createElement("div");
     grid.className = "heat-grid";
-    for (let i = 0; i < totalCells; i++) {
+    for (let i = 0; i < gridTotal; i++) {
       const cell = document.createElement("div");
-      if (i >= totalLevels) {
+      if (i >= totalCells) {
         cell.className = "heat-cell placeholder";
       } else {
-        cell.className = "heat-cell" + (solvedSet.has(i) ? " solved" : "");
-        cell.setAttribute("data-label", `Level ${i}`);
+        const isSolved = solvedIndexes.has(i);
+        cell.className = "heat-cell" + (isSolved ? ` ${solvedClass}` : "");
+        cell.setAttribute("data-label", `${labelPrefix} ${i}`);
       }
       grid.appendChild(cell);
     }
     return grid;
   }
+
+  // ════════════════════════════════════════════════════════════════════
+  //  CHALLENGE HEATMAP — build one card
+  // ════════════════════════════════════════════════════════════════════
+
+  function buildChallengeCard(chall, progressEntries, serverClears) {
+    const solvedSet   = buildSolvedSet(progressEntries, chall.game);
+    const isFullClear = serverClears ? serverClears.includes(chall.game) : solvedSet.size >= chall.levels;
+
+    const card = document.createElement("div");
+    card.className = "challenge-heatmap-card";
+
+    const iconWrap = document.createElement("div");
+    iconWrap.className = "challenge-icon-wrap";
+    if (chall.icon) {
+      const img = document.createElement("img");
+      img.src = chall.icon; img.alt = chall.label;
+      img.onerror = () => { iconWrap.innerHTML = `<span class="challenge-icon-placeholder"><i class="fas fa-terminal"></i></span>`; };
+      iconWrap.appendChild(img);
+    } else {
+      iconWrap.innerHTML = `<span class="challenge-icon-placeholder"><i class="fas fa-terminal"></i></span>`;
+    }
+
+    const right   = document.createElement("div"); right.className = "challenge-heatmap-right";
+    const nameRow = document.createElement("div"); nameRow.className = "challenge-heatmap-name";
+    nameRow.textContent = chall.label;
+    if (isFullClear) {
+      const badge = document.createElement("span");
+      badge.className = "challenge-full-clear-badge";
+      badge.textContent = "FULL CLEAR";
+      nameRow.appendChild(badge);
+    }
+    const meta = document.createElement("div"); meta.className = "challenge-heatmap-meta";
+    meta.textContent = `${solvedSet.size} / ${chall.levels} levels solved`;
+
+    right.appendChild(nameRow);
+    right.appendChild(meta);
+    right.appendChild(buildHeatGrid(chall.levels, solvedSet, "Level", "solved"));
+
+    card.appendChild(iconWrap);
+    card.appendChild(right);
+    return card;
+  }
+
+  // ════════════════════════════════════════════════════════════════════
+  //  ACADEMY HEATMAP — build one card per module
+  // ════════════════════════════════════════════════════════════════════
+
+  function buildAcademyCard(mod) {
+    // mod = { id, name, total_questions, question_ids: [...], solved_question_ids: [...] }
+    const solvedSet = new Set();
+    // Map solved question IDs to their 0-based index within this module's question list
+    const idToIndex = {};
+    mod.question_ids.forEach((qid, idx) => { idToIndex[qid] = idx; });
+    mod.solved_question_ids.forEach(qid => {
+      if (idToIndex[qid] !== undefined) solvedSet.add(idToIndex[qid]);
+    });
+
+    const isFullClear = solvedSet.size >= mod.total_questions && mod.total_questions > 0;
+
+    const card = document.createElement("div");
+    card.className = "challenge-heatmap-card";
+
+    const iconWrap = document.createElement("div");
+    iconWrap.className = "academy-icon-wrap";
+    iconWrap.innerHTML = `<span class="academy-icon-placeholder"><i class="fas fa-graduation-cap"></i></span>`;
+
+    const right   = document.createElement("div"); right.className = "challenge-heatmap-right";
+    const nameRow = document.createElement("div"); nameRow.className = "challenge-heatmap-name";
+    nameRow.textContent = mod.name;
+    if (isFullClear) {
+      const badge = document.createElement("span");
+      badge.className = "challenge-full-clear-badge";
+      badge.textContent = "FULL CLEAR";
+      nameRow.appendChild(badge);
+    }
+    const meta = document.createElement("div"); meta.className = "challenge-heatmap-meta";
+    meta.textContent = `${solvedSet.size} / ${mod.total_questions} questions solved`;
+
+    right.appendChild(nameRow);
+    right.appendChild(meta);
+    right.appendChild(buildHeatGrid(mod.total_questions, solvedSet, "Q", "academy-solved"));
+
+    card.appendChild(iconWrap);
+    card.appendChild(right);
+    return card;
+  }
+
+  // ════════════════════════════════════════════════════════════════════
+  //  MAIN LOAD
+  // ════════════════════════════════════════════════════════════════════
 
   async function loadProfile() {
     const params = new URLSearchParams(window.location.search);
@@ -782,6 +890,7 @@ function buildSolvedSet(progressEntries, game) {
 
     const profileArea = document.getElementById("profileArea");
     const heatmapArea = document.getElementById("heatmapArea");
+    const academyArea = document.getElementById("academyArea");
 
     if (!profileUser) {
       profileArea.innerHTML = `<div class="not-found-box"><i class="fas fa-user-slash"></i><h2>No user specified</h2><p>Add <code>?u=username</code> to the URL to view a profile.</p></div>`;
@@ -792,12 +901,13 @@ function buildSolvedSet(progressEntries, game) {
     const enc = encodeURIComponent(profileUser);
 
     try {
-      const [progressRes, auraRes, rankRes, fullClearsRes, metaRes] = await Promise.all([
+      const [progressRes, auraRes, rankRes, fullClearsRes, metaRes, academyRes] = await Promise.all([
         fetch(`${API}/users/${enc}/progress`),
         fetch(`${API}/users/${enc}/aura`),
         fetch(`${API}/users/${enc}/rank`),
         fetch(`${API}/users/${enc}/full-clears`),
-        fetch(`${API}/challenges/meta`)
+        fetch(`${API}/challenges/meta`),
+        fetch(`${API}/users/${enc}/academy-progress`)
       ]);
 
       if (progressRes.status === 404 || auraRes.status === 404) {
@@ -807,10 +917,10 @@ function buildSolvedSet(progressEntries, game) {
 
       const progData       = await progressRes.json();
       const auraData       = await auraRes.json();
-      const metaData = await metaRes.json();
+      const metaData       = await metaRes.json();
+      const academyData    = academyRes.ok ? await academyRes.json() : { success: false };
+
       if (!metaData.success) throw new Error("Meta API failed");
-
-
 
       const iconMap = {
         hogwarts: "../images/hogwarts_finish.webp",
@@ -825,6 +935,7 @@ function buildSolvedSet(progressEntries, game) {
         levels: c.total_levels,
         icon: iconMap[c.game.toLowerCase()] || null
       }));
+
       const rankData       = rankRes.ok       ? await rankRes.json()       : { success: false };
       const fullClearsData = fullClearsRes.ok ? await fullClearsRes.json() : { success: false };
 
@@ -834,7 +945,13 @@ function buildSolvedSet(progressEntries, game) {
       const totalAura       = auraData.total_aura;
       const globalRank      = rankData.success      ? rankData.rank              : null;
       const serverClears    = fullClearsData.success ? fullClearsData.full_clears : null;
-      const totalSolved     = progressEntries.length;
+
+      // Count only challenge solves (exclude academy entries) for "Levels Solved"
+      const challengeSolves = progressEntries.filter(e => e.game !== 'academy').length;
+      // Academy solved count
+      const academySolves   = progressEntries.filter(e => e.game === 'academy').length;
+      const totalSolved     = challengeSolves; // card shows challenge levels
+
       const fullClearCount  = serverClears
         ? serverClears.length
         : CHALLENGES.filter(c => buildSolvedSet(progressEntries, c.game).size >= c.levels).length;
@@ -855,8 +972,13 @@ function buildSolvedSet(progressEntries, game) {
               </div>
               <div class="profile-stat-divider"></div>
               <div class="profile-stat">
-                <span class="profile-stat-value">${totalSolved}</span>
+                <span class="profile-stat-value">${challengeSolves}</span>
                 <span class="profile-stat-label">Levels Solved</span>
+              </div>
+              <div class="profile-stat-divider"></div>
+              <div class="profile-stat">
+                <span class="profile-stat-value">${academySolves}</span>
+                <span class="profile-stat-label">Academy Tasks</span>
               </div>
               <div class="profile-stat-divider"></div>
               <div class="profile-stat">
@@ -870,39 +992,27 @@ function buildSolvedSet(progressEntries, game) {
           </div>
         </div>`;
 
+      // ── Challenge Progress ──
       heatmapArea.innerHTML = `
-        <div class="heatmap-section-title">Challenge Progress</div>
+        <div class="section-title">Challenge Progress</div>
         <div class="challenges-grid" id="challengesGrid"></div>`;
 
-      const gridContainer = document.getElementById("challengesGrid");
-
+      const challengeGrid = document.getElementById("challengesGrid");
       CHALLENGES.forEach(chall => {
-        const solvedSet   = buildSolvedSet(progressEntries, chall.game);
-        const isFullClear = serverClears ? serverClears.includes(chall.game) : solvedSet.size >= chall.levels;
-
-        const card = document.createElement("div"); card.className = "challenge-heatmap-card";
-
-        const iconWrap = document.createElement("div"); iconWrap.className = "challenge-icon-wrap";
-        if (chall.icon) {
-          const img = document.createElement("img"); img.src = chall.icon; img.alt = chall.label;
-          img.onerror = () => { iconWrap.innerHTML = `<span class="challenge-icon-placeholder"><i class="fas fa-terminal"></i></span>`; };
-          iconWrap.appendChild(img);
-        } else { iconWrap.innerHTML = `<span class="challenge-icon-placeholder"><i class="fas fa-terminal"></i></span>`; }
-
-        const right   = document.createElement("div"); right.className = "challenge-heatmap-right";
-        const nameRow = document.createElement("div"); nameRow.className = "challenge-heatmap-name";
-        nameRow.textContent = chall.label;
-        if (isFullClear) {
-          const badge = document.createElement("span"); badge.className = "challenge-full-clear-badge"; badge.textContent = "FULL CLEAR";
-          nameRow.appendChild(badge);
-        }
-        const meta = document.createElement("div"); meta.className = "challenge-heatmap-meta";
-        meta.textContent = `${solvedSet.size} / ${chall.levels} levels solved`;
-
-        right.appendChild(nameRow); right.appendChild(meta); right.appendChild(buildHeatGrid(chall.levels, solvedSet));
-        card.appendChild(iconWrap); card.appendChild(right);
-        gridContainer.appendChild(card);
+        challengeGrid.appendChild(buildChallengeCard(chall, progressEntries, serverClears));
       });
+
+      // ── Academy Progress ──
+      if (academyData.success && academyData.modules && academyData.modules.length > 0) {
+        academyArea.innerHTML = `
+          <div class="section-title">Academy Progress</div>
+          <div class="challenges-grid" id="academyGrid"></div>`;
+
+        const academyGrid = document.getElementById("academyGrid");
+        academyData.modules.forEach(mod => {
+          academyGrid.appendChild(buildAcademyCard(mod));
+        });
+      }
 
     } catch (err) {
       console.error(err);
