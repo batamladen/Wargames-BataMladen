@@ -20,7 +20,6 @@
         --border-color: #333;
     }
 
-    /* Font Styles */
     body {
         font-family: 'Open Sans', sans-serif;
         font-weight: 400;
@@ -37,7 +36,6 @@
         font-weight: 400;
     }
 
-    /* League Spartan for headings and buttons */
     .title, h1, h2, h3, h4, h5, h6,
     .auth-button, .donate-float,
     .donation-popup h2, .donation-method-title {
@@ -67,7 +65,6 @@
         margin-top: 30px;
     }
 
-    /* Header Styles */
     .header {
         background-color: var(--bg-darker);
         padding: 0 20px;
@@ -111,7 +108,7 @@
         font-size: 1.1rem;
         cursor: pointer;
         transition: all 0.2s;
-        text-decoration: none; /* Added to remove underline */
+        text-decoration: none;
     }
 
     .auth-button:hover {
@@ -140,7 +137,6 @@
         box-shadow: 0 0px 0px rgba(249, 104, 84, 0.5);
     }
 
-    /* Sidebar Styles */
     .sidebar {
         width: 220px;
         background-color: var(--bg-darker);
@@ -195,8 +191,6 @@
       color: var(--accent-color);
     }
 
-
-    /* Content Styles */
     .content-wrapper {
         margin-left: 220px;
         margin-top: 60px;
@@ -216,7 +210,6 @@
         padding: 40px;
     }
 
-    /* Scoreboard Styles */
     .scoreboard-container {
         background-color: var(--bg-container);
         border-radius: 8px;
@@ -248,7 +241,6 @@
         border-bottom: none;
     }
 
-
     .position {
         text-align: center;
         width: 50px;
@@ -272,7 +264,19 @@
         color: var(--text-secondary);
     }
 
-    /* Mobile Styles */
+    /* Player link styles */
+    .player-link {
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .player-link:hover {
+        color: var(--accent-hover);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
     @media (max-width: 768px) {
         .sidebar {
             width: 100%;
@@ -317,7 +321,6 @@
         font-family: 'League Spartan', sans-serif;
     }
 
-    /* Donation Popup */
     .donation-popup {
         display: none;
         position: fixed;
@@ -406,7 +409,6 @@
         z-index: 1000;
     }
 
-    /* Replace the existing .aura-points with this: */
     .aura-container {
         display: flex;
         align-items: center;
@@ -458,8 +460,7 @@
         position: absolute;
         width: 100%;
         text-align: center;
-        /* Adjust these to position the text exactly where you want */
-        bottom: 20px; /* Example: 20px from bottom */
+        bottom: 20px;
         left: 0;
         padding: 0 20px;
         box-sizing: border-box;
@@ -550,7 +551,6 @@
 
   <div class="sidebar">
     <ul class="challenge-list" id="sidebarList">
-      <!-- User item will be inserted here if logged in -->
       <a href="/challenges" class="challenge-item" data-challenge="challenges">
         <i class="fas fa-bullseye"></i> CHALLENGES
       </a>
@@ -594,7 +594,6 @@
 </div>
 
 <script>
-  // Mobile warning
   if (window.innerWidth <= 768) {
     document.getElementById("mobile-warning").style.display = "block";
     [...document.body.children].forEach((child) => {
@@ -604,7 +603,6 @@
     });
   }
 
-  // Donation popup handlers
   const donateButton = document.getElementById("donateButton");
   const donationPopup = document.getElementById("donationPopup");
   const overlay = document.getElementById("overlay");
@@ -625,7 +623,6 @@
     overlay.style.display = "none";
   });
 
-  // Scroll hide/show header functionality
   let lastScroll = 0;
   const header = document.querySelector(".header");
 
@@ -638,23 +635,19 @@
     }
 
     if (currentScroll > lastScroll && !header.classList.contains("hide")) {
-      // Scroll down
       header.classList.add("hide");
     } else if (currentScroll < lastScroll && header.classList.contains("hide")) {
-      // Scroll up
       header.classList.remove("hide");
     }
 
     lastScroll = currentScroll;
   });
 
-  // --- User login detection and UI adjustment ---
   const token = localStorage.getItem("token");
   const username = localStorage.getItem("username");
   const headerRight = document.getElementById("headerRight");
   const sidebarList = document.getElementById("sidebarList");
 
-  // Aura points update function
   async function updateAuraDisplay() {
     if (!token) return;
 
@@ -682,9 +675,6 @@
   }
 
   if (token && username) {
-    // USER IS LOGGED IN
-
-    // Update header (remove login/register, add aura points container)
     headerRight.innerHTML = "";
 
     const auraContainer = document.createElement("div");
@@ -695,14 +685,9 @@
     `;
 
     headerRight.appendChild(auraContainer);
-
-    // Fetch and update actual aura points now
     updateAuraDisplay();
 
-    // Update sidebar (add user block and logout, preserve other items)
     const existingItems = Array.from(sidebarList.children);
-
-    // Clear sidebar but keep a reference to the original items
     const originalItems = [];
     existingItems.forEach((item) => {
       if (!item.classList.contains("logout-button")) {
@@ -712,7 +697,6 @@
 
     sidebarList.innerHTML = "";
 
-    // Add user block
     const userContainer = document.createElement("li");
     userContainer.classList.add("user-block-container");
 
@@ -732,12 +716,10 @@
     userContainer.appendChild(usernameDisplay);
     sidebarList.appendChild(userContainer);
 
-    // Re-add original items
     originalItems.forEach((item) => {
       sidebarList.appendChild(item);
     });
 
-    // Add logout button
     const logoutButton = document.createElement("a");
       logoutButton.classList.add("logout-button"); 
       logoutButton.href = "#"; 
@@ -751,15 +733,11 @@
 
     sidebarList.appendChild(logoutButton);
   } else {
-    // USER IS LOGGED OUT - RESET TO DEFAULT STATE
-
-    // Reset header to default (login/register buttons)
     headerRight.innerHTML = `
       <a href="/login" class="auth-button" id="loginBtn">Login</a>
       <a href="/register" class="auth-button" id="registerBtn">Register</a>
     `;
 
-      // Reset sidebar to default items
       const defaultItems = [
         { href: "/challenges", text: "CHALLENGES", data: "challenges", icon: "bullseye" },
         { href: "/academy", text: "ACADEMY", data: "academy", icon: "graduation-cap" },
@@ -770,7 +748,6 @@
         { href: "/contributors", text: "CONTRIBUTORS", data: "contributors", icon: "users" }
       ];
 
-      // Clear any existing items (in case there was a logout)
       sidebarList.innerHTML = "";
 
       defaultItems.forEach((item) => {
@@ -778,9 +755,8 @@
         link.href = item.href;
         link.className = "challenge-item" + (item.active ? " active" : "");
         link.dataset.challenge = item.data;
-        link.innerHTML = `<i class="fas fa-${item.icon}"></i> ${item.text}`; // ← This includes icons
+        link.innerHTML = `<i class="fas fa-${item.icon}"></i> ${item.text}`;
         
-        // Also check current page URL to set active state
         if (window.location.pathname.endsWith(item.href)) {
           link.classList.add("active");
         }
@@ -801,7 +777,6 @@
         throw new Error("Invalid data format from server");
       }
 
-      // Get current user data if logged in
       let currentUser = null;
       if (token && username) {
         try {
@@ -840,11 +815,8 @@
       return;
     }
     
-    // Sort players by aura_points in descending order
     players.sort((a, b) => b.aura_points - a.aura_points);
-    
-    // Get top 10 players
-    const topPlayers = players.slice(0, 10);
+    const topPlayers = players.slice(0, 100);
     
     let html = `
       <table class="scoreboard-table">
@@ -858,12 +830,12 @@
         <tbody>
     `;
     
-    // Add top 10 players
+    // Add top 10 players — usernames are clickable links to their profiles
     topPlayers.forEach((player, index) => {
       html += `
         <tr${currentUser && player.username === currentUser.username ? ' class="user-row"' : ''}>
           <td class="position">${index + 1}</td>
-          <td>${player.username}</td>
+          <td><a href="https://wargames.batamladen.com/profiles/index?u=${encodeURIComponent(player.username)}" class="player-link">${player.username}</a></td>
           <td class="points">${player.aura_points}</td>
         </tr>
       `;
@@ -882,12 +854,11 @@
           </tr>
           <tr class="user-row" style="background-color: rgba(110,72,170,0.1); font-weight: bold;">
             <td class="position">${userPosition > 0 ? userPosition : 'N/A'}</td>
-            <td>${currentUser.username}</td>
+            <td><a href="https://wargames.batamladen.com/profiles/index?u=${encodeURIComponent(currentUser.username)}" class="player-link">${currentUser.username}</a></td>
             <td class="points">${currentUser.aura_points}</td>
           </tr>
         `;
       }
-
     }
     
     html += `
@@ -898,7 +869,6 @@
     scoreboardContent.innerHTML = html;
   }
 
-  // Load scoreboard when page loads
   document.addEventListener("DOMContentLoaded", loadScoreboard);
 </script>
 
