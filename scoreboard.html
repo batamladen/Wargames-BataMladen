@@ -708,9 +708,11 @@
     userBg.setAttribute("playsinline", "");
     userBg.innerHTML = `<source src="images/profile2.webm" type="video/webm">`;
 
-    const usernameDisplay = document.createElement("div");
+    const usernameDisplay = document.createElement("a");
     usernameDisplay.classList.add("username-display");
     usernameDisplay.textContent = username;
+    usernameDisplay.href = `https://wargames.batamladen.com/profiles/index?u=${encodeURIComponent(username)}`;
+
 
     userContainer.appendChild(userBg);
     userContainer.appendChild(usernameDisplay);
@@ -816,7 +818,7 @@
     }
     
     players.sort((a, b) => b.aura_points - a.aura_points);
-    const topPlayers = players.slice(0, 100);
+    const topPlayers = players.slice(0, 50);
     
     let html = `
       <table class="scoreboard-table">
