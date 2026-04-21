@@ -710,9 +710,8 @@
 
     sidebarList.innerHTML = "";
 
-    const userContainer = document.createElement("a");
+    const userContainer = document.createElement("li");
     userContainer.classList.add("user-block-container");
-    userContainer.href = `https://wargames.batamladen.com/profiles/index?u=${encodeURIComponent(username)}`;
 
     const userBg = document.createElement("video");
     userBg.classList.add("user-block-bg");
@@ -722,9 +721,10 @@
     userBg.setAttribute("playsinline", "");
     userBg.innerHTML = `<source src="images/profile2.webm" type="video/webm">`;
 
-    const usernameDisplay = document.createElement("span");
+    const usernameDisplay = document.createElement("a");
     usernameDisplay.classList.add("username-display");
     usernameDisplay.textContent = username;
+    usernameDisplay.href = `https://wargames.batamladen.com/profiles/index?u=${encodeURIComponent(username)}`;
 
 
     userContainer.appendChild(userBg);
