@@ -241,6 +241,19 @@
         border-bottom: none;
     }
 
+    .scoreboard-table tr.user-row td {
+    background-color: rgba(110, 72, 170, 0.15);
+    }
+
+    .scoreboard-table tbody tr {
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .scoreboard-table tbody tr:hover {
+        background-color: rgba(255,255,255,0.04);
+    }
+
     .position {
         text-align: center;
         width: 50px;
@@ -697,8 +710,9 @@
 
     sidebarList.innerHTML = "";
 
-    const userContainer = document.createElement("li");
+    const userContainer = document.createElement("a");
     userContainer.classList.add("user-block-container");
+    userContainer.href = `https://wargames.batamladen.com/profiles/index?u=${encodeURIComponent(username)}`;
 
     const userBg = document.createElement("video");
     userBg.classList.add("user-block-bg");
@@ -708,10 +722,9 @@
     userBg.setAttribute("playsinline", "");
     userBg.innerHTML = `<source src="images/profile2.webm" type="video/webm">`;
 
-    const usernameDisplay = document.createElement("a");
+    const usernameDisplay = document.createElement("span");
     usernameDisplay.classList.add("username-display");
     usernameDisplay.textContent = username;
-    usernameDisplay.href = `https://wargames.batamladen.com/profiles/index?u=${encodeURIComponent(username)}`;
 
 
     userContainer.appendChild(userBg);
@@ -835,9 +848,12 @@
     // Add top 10 players — usernames are clickable links to their profiles
     topPlayers.forEach((player, index) => {
       html += `
-        <tr${currentUser && player.username === currentUser.username ? ' class="user-row"' : ''}>
+        <tr
+          ${currentUser && player.username === currentUser.username ? ' class="user-row"' : ''}
+          onclick="window.location.href='https://wargames.batamladen.com/profiles/index?u=${encodeURIComponent(player.username)}'"
+        >
           <td class="position">${index + 1}</td>
-          <td><a href="https://wargames.batamladen.com/profiles/index?u=${encodeURIComponent(player.username)}" class="player-link">${player.username}</a></td>
+          <td>${player.username}</td>
           <td class="points">${player.aura_points}</td>
         </tr>
       `;
