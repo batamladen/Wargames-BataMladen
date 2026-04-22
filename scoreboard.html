@@ -479,6 +479,10 @@
         box-sizing: border-box;
     }
 
+    .username-display:hover {
+      color: #cccccc;
+    }
+
     .logout-button {
         font-family: 'League Spartan', sans-serif;
         font-weight: 300;
@@ -725,6 +729,7 @@
     usernameDisplay.classList.add("username-display");
     usernameDisplay.textContent = username;
     usernameDisplay.href = `https://wargames.batamladen.com/profiles/index?u=${encodeURIComponent(username)}`;
+    usernameDisplay.style.textDecoration = "none";
 
 
     userContainer.appendChild(userBg);

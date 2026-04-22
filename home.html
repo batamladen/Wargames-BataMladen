@@ -898,6 +898,10 @@ Mladen    .'"""""`.
       box-sizing: border-box;
     }
 
+    .username-display:hover {
+      color: #cccccc;
+    }
+
     .logout-button {
       font-family: 'League Spartan', sans-serif;
       font-weight: 300;
@@ -1416,9 +1420,11 @@ Mladen    .'"""""`.
         userBg.setAttribute("playsinline", "");
         userBg.innerHTML = `<source src="images/profile2.webm" type="video/webm">`;
         
-        const usernameDisplay = document.createElement("div");
-        usernameDisplay.classList.add("username-display");
-        usernameDisplay.textContent = username;
+    const usernameDisplay = document.createElement("a");
+    usernameDisplay.classList.add("username-display");
+    usernameDisplay.textContent = username;
+    usernameDisplay.href = `https://wargames.batamladen.com/profiles/index?u=${encodeURIComponent(username)}`;
+    usernameDisplay.style.textDecoration = "none";
         
         userContainer.appendChild(userBg);
         userContainer.appendChild(usernameDisplay);
