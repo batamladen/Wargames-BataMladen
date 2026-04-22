@@ -163,6 +163,11 @@
       text-align: center; bottom: 20px; left: 0;
       padding: 0 20px; box-sizing: border-box;
     }
+
+    .username-display:hover {
+      color: #cccccc;
+    }
+
     .logout-button {
       font-family: 'League Spartan', sans-serif;
       font-weight: 300; letter-spacing: -0.5px; font-size: 1.0rem;
@@ -698,9 +703,13 @@
     userBg.setAttribute("autoplay", ""); userBg.setAttribute("loop", "");
     userBg.setAttribute("muted", ""); userBg.setAttribute("playsinline", "");
     userBg.innerHTML = `<source src="../images/profile2.webm" type="video/webm">`;
-    const usernameDisplay = document.createElement("div");
+
+    const usernameDisplay = document.createElement("a");
     usernameDisplay.classList.add("username-display");
     usernameDisplay.textContent = username;
+    usernameDisplay.href = `https://wargames.batamladen.com/profiles/index?u=${encodeURIComponent(username)}`;
+    usernameDisplay.style.textDecoration = "none";
+
     userContainer.appendChild(userBg);
     userContainer.appendChild(usernameDisplay);
     sidebarList.appendChild(userContainer);
