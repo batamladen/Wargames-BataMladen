@@ -870,7 +870,7 @@ async function startChallenge(challenge, level) {
         const response = await fetch("https://api.wargames.batamladen.com/api/start", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ challenge, level }),
+            body: JSON.stringify({ series: challenge, level })
         });
 
         const data = await response.json();
