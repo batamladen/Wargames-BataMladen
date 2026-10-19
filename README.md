@@ -1,10 +1,10 @@
 # Wargames BataMladen 🚩
 
-**Wargames BataMladen** is an interactive, challenge-based platform for learning and practicing Linux fundamentals and ethical hacking skills through a game-like environment.
+**Wargames BataMladen** is an interactive, challenge-based platform for learning and practicing Linux fundamentals, ethical hacking, as well as blue team skills through a game-like environment.
 
-Each **challenge** focuses on a specific topic — such as file permissions, network services, reverse engineering, or privilege escalation — and is divided into multiple **progressive levels** that increase in difficulty.
+Each **challenge** focuses on a specific category — such as pwn, forensics, reverse engineering, crypto, etc. — and is divided into multiple **progressive levels** that can vary in difficulty.
 
-Players connect via SSH to isolated container environments hosted on a private server. To advance, they must solve each level and retrieve a hidden **flag**, which contains the **SSH password for the next challenge**. This chained structure reinforces practical skill development and simulates real-world attack paths.
+Players connect via SSH to isolated environments. To advance, they must solve each level and retrieve a hidden **flag**, which contains the **SSH password for the next challenge**. This chained structure reinforces practical skill development and simulates real-world attack paths.
 
 
 
@@ -17,10 +17,7 @@ For questions, write to [contact@batamladen.com](mailto:contact@batamladen.com)
 
 The platform is Open-Source-ish. The Frontend is fully available here on GitHub while the Backend is hosted on a private server, 
 because if we make the backend available at GitHub as well, people can just look at how the challenges are structured in the DockerImages and finish them easier.
-Also we are a little paranoid that people will abuse the information we share from the backend.
 
 But... Everyone loves Pull Requests. And we accept contibutions to the "Academy" section.
-We need help with writing lessons for the academy modules.
-Look at the Issue "[Help Needed](https://github.com/batamladen/Wargames-BataMladen/issues/2)" to see where help is needed in the academy.
-
+Or if interested in creating challenges, we can discuss it on Discord.
 For more substantial changes, open an issue to ensure we're on the same page. Together, we make this project better for all! ✨
