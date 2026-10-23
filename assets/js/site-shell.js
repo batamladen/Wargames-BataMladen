@@ -30,7 +30,7 @@
       </div>
     </header>
     <button class="donate-float" id="donateButton">Donate!</button>
-    ${["/home", "/home.html", "/privacy-policy", "/privacy-policy.html", "/profiles", "/profiles/index.html"].includes(window.location.pathname.toLowerCase()) ? `
+    ${["/home", "/home.html", "/privacy-policy", "/privacy-policy.html"].includes(window.location.pathname.toLowerCase()) || window.location.pathname.toLowerCase() === "/profiles" || window.location.pathname.toLowerCase().startsWith("/profiles/") ? `
       <div class="discord-invite-sign" id="discordInviteSign">
         <div class="discord-tooltip">Join Our Discord!</div>
         <img src="/images/discord-invite-sign.webp" alt="Discord Invite" class="discord-invite-image">
