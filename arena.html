@@ -71,7 +71,7 @@
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
     .card { position: relative; display: block; background-color: var(--bg-container); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; text-decoration: none; color: inherit; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4); transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
     .card:hover { transform: translateY(-5px); box-shadow: 0 0 20px rgba(110, 72, 170, 0.3); border-color: var(--accent-color); }
-    .card h3 { margin: 0 0 8px; font-size: 1.3em; color: var(--text-primary); }
+    .card h3 { margin: 0 0 14px; font-size: 1.3em; color: var(--text-primary); }
     .card p { margin: 0 0 16px; font-size: 0.88rem; color: var(--text-secondary); min-height: 2.6em; }
     .card-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
     .chip { font-family: 'League Spartan', sans-serif; font-size: 0.8rem; padding: 2px 10px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -354,7 +354,7 @@
   function renderChallenges() {
     const q = fSearch.value.trim().toLowerCase();
     const list = CHALLENGES.filter(c =>
-      (!q || c.title.toLowerCase().includes(q) || c.description.toLowerCase().includes(q)) &&
+      (!q || c.title.toLowerCase().includes(q) || c.category.toLowerCase().includes(q)) &&
       (!fCategory.value || c.category === fCategory.value) &&
       (!fDifficulty.value || c.difficulty === fDifficulty.value) &&
       (!fStatus.value || (fStatus.value === "solved") === solved.has(c.id))
@@ -370,7 +370,6 @@
     grid.innerHTML = list.map(c => `
       <a class="card${solved.has(c.id) ? " solved" : ""}" href="#${encodeURIComponent(c.id)}">
         <h3>${esc(c.title)}</h3>
-        <p>${esc(c.description)}</p>
         <div class="card-meta">
           <span class="chip cat">${esc(c.category)}</span>
           <span class="chip ${esc(c.difficulty)}">${esc(c.difficulty)}</span>
