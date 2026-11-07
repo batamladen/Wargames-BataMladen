@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>WBM &ndash; Arena</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" type="image/png" href="images/wargames-logo.ico">
+
+  <style>
+    :root {
+      --bg-dark: #121212; --bg-darker: #0a0a0a; --bg-container: #1e1e1e;
+      --accent-color: #6e48aa; --accent-hover: #9d50bb;
+      --text-primary: #e0e0e0; --text-secondary: #b0b0b0; --border-color: #333;
+    }
+
+    /* ---------- Base ---------- */
+    body { font-family: 'Open Sans', sans-serif; font-weight: 400; line-height: 1.6; margin: 0; padding: 0; background-color: var(--bg-dark); color: var(--text-primary); min-height: 100vh; display: flex; flex-direction: column; }
+    h1, h2, h3, h4, h5, h6, .auth-button, .donate-float, .donation-popup h2, .donation-method-title { font-family: 'League Spartan', sans-serif; font-weight: 550; letter-spacing: -0.5px; }
+
+    /* ---------- Header ---------- */
+    .header { background-color: var(--bg-darker); padding: 0 20px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; height: 60px; position: fixed; top: 0; left: 0; right: 0; z-index: 999; transition: transform 0.3s ease-in-out; }
+    .header.hide { transform: translateY(-100%); }
+    .header-logo { padding-top: 7.5px; height: 60px; width: auto; margin-left: 20px; }
+    .header-right { display: flex; align-items: center; gap: 15px; margin-right: 110px; }
+    .auth-button { background: transparent; border: none; color: var(--text-primary); padding: 6px 12px; border-radius: 4px; font-size: 1.1rem; cursor: pointer; transition: all 0.2s; text-decoration: none; }
+    .auth-button:hover { color: #815bbe; }
+    .donate-float { background-color: #f96854; color: white; padding: 8px 16px; border-radius: 6px; font-size: 1.0rem; border: none; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(249, 104, 84, 0.3); position: fixed; top: 15px; right: 20px; z-index: 1000; }
+    .donate-float:hover { background-color: #e34b39; box-shadow: 0 0 0 rgba(249, 104, 84, 0.5); }
+
+    /* ---------- Sidebar ---------- */
+    .sidebar { width: 220px; background-color: var(--bg-darker); border-right: 1px solid var(--border-color); height: 100vh; overflow-y: auto; position: fixed; top: 0; left: 0; padding-top: 0; box-sizing: border-box; }
+    .sidebar.logged-out { padding-top: 60px !important; }
+    .challenge-list { list-style: none; padding: 0; margin: 0; }
+    .challenge-item { font-family: 'League Spartan', sans-serif; font-weight: 300; letter-spacing: -0.5px; font-size: 1.0rem; display: block; padding: 15px 20px; cursor: pointer; border-left: 3px solid transparent; transition: all 0.2s; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: inherit; text-decoration: none; }
+    .challenge-item:hover, .challenge-item.active { background-color: rgba(255, 255, 255, 0.05); border-left: 3px solid var(--accent-color); }
+    .challenge-item i { margin-right: 12px; width: 16px; text-align: center; }
+    .challenge-item.active i { color: var(--accent-color); }
+
+    /* ---------- Content ---------- */
+    .content-wrapper { margin-left: 220px; margin-top: 60px; display: flex; justify-content: center; flex: 1; }
+    .main-content { width: 100%; max-width: 1200px; padding: 40px; box-sizing: border-box; }
+
+    /* ---------- Battle stage ---------- */
+    .stage { position: relative; width: 100%; aspect-ratio: 384 / 132; background: url("/images/arena/arena-bg.png") center / 100% 100% no-repeat; background-color: var(--bg-darker); image-rendering: pixelated; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); }
+    .spr { position: absolute; bottom: 17%; image-rendering: pixelated; }
+    .spr.hero { left: 12%; width: 13%; }
+    .spr.foe { right: 12%; width: 13%; }
+    .plate, .duel-label { font-family: 'Press Start 2P', monospace; color: #fff; text-shadow: 2px 2px 0 #120a1a; font-size: clamp(6px, 0.75vw, 11px); }
+    .plate { position: absolute; top: 6%; width: 21%; text-align: center; padding: 6px 4px; background: rgba(10, 10, 10, 0.65); border: 2px solid var(--accent-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-sizing: border-box; }
+    .plate-l { left: 11%; }
+    .plate-r { right: 11%; }
+
+    /* Monster HP bar: sits right under the monster (same width/position as .spr.foe) */
+    .duel-bar { position: absolute; right: 12%; bottom: 4%; width: 15%; text-align: center; }
+    .duel-label { margin-bottom: 6px; white-space: nowrap; }
+    .bar { height: clamp(8px, 1.1vw, 16px); background: #2a0f0f; border: 2px solid #120a1a; box-shadow: 0 0 0 2px #fff; box-sizing: border-box; }
+    .bar-fill { height: 100%; width: 100%; background: repeating-linear-gradient(90deg, #ff5a5a 0 6px, #c62828 6px 8px); transition: width 0.8s steps(12); }
+
+    /* ---------- Filters ---------- */
+    .filters { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 25px; }
+    .filters input, .filters select { background: var(--bg-container); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px; padding: 9px 12px; font-family: 'Open Sans', sans-serif; font-size: 0.95rem; }
+    .filters input { flex: 1; min-width: 200px; }
+    .filters input:focus, .filters select:focus { outline: none; border-color: var(--accent-color); }
+    .reset-btn { background: transparent; color: var(--text-secondary); border: 1px solid var(--border-color); border-radius: 6px; padding: 9px 14px; font-family: 'League Spartan', sans-serif; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
+    .reset-btn:hover { color: var(--text-primary); border-color: var(--accent-color); }
+    .count { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--text-secondary); margin-left: auto; }
+
+    /* ---------- Challenge cards ---------- */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .card { position: relative; display: block; background-color: var(--bg-container); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; text-decoration: none; color: inherit; box-shadow: 0 0 10px rgba(0, 0, 0, 0.4); transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 0 20px rgba(110, 72, 170, 0.3); border-color: var(--accent-color); }
+    .card h3 { margin: 0 0 8px; font-size: 1.3em; color: var(--text-primary); }
+    .card p { margin: 0 0 16px; font-size: 0.88rem; color: var(--text-secondary); min-height: 2.6em; }
+    .card-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .chip { font-family: 'League Spartan', sans-serif; font-size: 0.8rem; padding: 2px 10px; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .chip.cat { background: rgba(110, 72, 170, 0.2); color: var(--accent-hover); }
+    .chip.easy { background: rgba(76, 175, 80, 0.15); color: #4caf50; }
+    .chip.medium { background: rgba(255, 179, 0, 0.15); color: #ffb300; }
+    .chip.hard { background: rgba(229, 57, 53, 0.15); color: #e57373; }
+    .card-ap { margin-left: auto; font-family: 'JetBrains Mono', monospace; color: #ff5a5a; font-size: 0.9rem; }
+    .card.solved { border-color: rgba(76, 175, 80, 0.5); }
+    .card.solved::after { content: "\2713 SOLVED"; position: absolute; top: 10px; right: 10px; background: var(--accent-color); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.8em; font-family: 'League Spartan', sans-serif; }
+    .empty { grid-column: 1 / -1; text-align: center; color: var(--text-secondary); font-style: italic; padding: 40px 0; }
+
+    /* ---------- Challenge popup ---------- */
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.75); z-index: 1002; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .modal-backdrop[hidden] { display: none; }
+    .modal { position: relative; width: 100%; max-width: 560px; max-height: 85vh; overflow-y: auto; background: var(--bg-container); border: 1px solid var(--accent-color); border-radius: 10px; padding: 28px; box-shadow: 0 0 30px rgba(110,72,170,.35); }
+    .modal h2 { margin: 12px 0 4px; font-size: 1.8rem; }
+    .modal-x { position: absolute; top: 10px; right: 14px; background: none; border: none; color: var(--text-secondary); font-size: 1.8rem; cursor: pointer; }
+    .modal-x:hover { color: var(--text-primary); }
+    .m-author { color: var(--text-secondary); font-size: .85rem; margin-bottom: 14px; }
+    .m-desc { white-space: pre-wrap; word-break: break-word; margin-bottom: 16px; }
+    .m-attach { display: flex; flex-wrap: wrap; gap: 10px; }
+    .m-attach:not(:empty) { margin-bottom: 18px; }
+    .m-attach a { color: var(--text-primary); text-decoration: none; border: 1px solid var(--accent-color); border-radius: 6px; padding: 8px 14px; font-size: .9rem; }
+    .m-attach a:hover { background: rgba(110,72,170,.25); }
+    .m-flag { display: flex; gap: 10px; }
+    .m-flag input { flex: 1; min-width: 0; background: var(--bg-dark); color: var(--text-primary); border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 12px; font-family: 'JetBrains Mono', monospace; }
+    .m-flag input:focus { outline: none; border-color: var(--accent-color); }
+    .m-flag button { background: var(--accent-color); color: #fff; border: none; border-radius: 6px; padding: 10px 18px; font-family: 'League Spartan', sans-serif; font-size: 1rem; cursor: pointer; }
+    .m-flag button:hover:not(:disabled) { background: var(--accent-hover); }
+    .m-flag button:disabled, .m-flag input:disabled { opacity: .5; cursor: not-allowed; }
+    .m-msg { min-height: 1.4em; margin-top: 12px; font-size: .9rem; }
+    .m-msg.ok { color: #4caf50; }
+    .m-msg.err { color: #ff6b6b; }
+    .spr.foe.hit { animation: hit .5s steps(4); }
+    @keyframes hit { 0%, 100% { transform: none; filter: none; } 25% { transform: translateX(8px); filter: brightness(2.2); } 50% { transform: translateX(-8px); } 75% { transform: translateX(5px); filter: brightness(2.2); } }
+
+    /* ---------- Footer ---------- */
+    .site-footer { background-color: var(--bg-darker); border-top: 1px solid var(--border-color); padding: 40px 20px 30px; margin-top: 60px; margin-left: 220px; font-family: 'Open Sans', sans-serif; color: var(--text-secondary); }
+    .footer-content { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 30px; }
+    .footer-logo-section { display: flex; align-items: center; gap: 20px; margin-bottom: 10px; }
+    .footer-logo { width: 40px; height: 40px; object-fit: contain; }
+    .footer-logo-text { font-family: 'League Spartan', sans-serif; font-size: 1.5rem; font-weight: 600; color: var(--text-primary); letter-spacing: -0.5px; }
+    .footer-tagline { font-size: 0.95rem; line-height: 1.5; max-width: 600px; margin-bottom: 20px; }
+    .footer-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-bottom: 20px; }
+    .footer-column h3 { font-family: 'League Spartan', sans-serif; font-size: 1.1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 15px; letter-spacing: -0.5px; }
+    .footer-links-list { list-style: none; padding: 0; margin: 0; }
+    .footer-links-list li { margin-bottom: 1px; }
+    .footer-links-list a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.2s ease; }
+    .footer-links-list a:hover { color: var(--accent-color); }
+    .footer-bottom { border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; font-size: 0.85rem; }
+    .footer-legal-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-legal-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.2s ease; }
+    .footer-legal-links a:hover, .footer-social-links a:hover { color: #e86152; }
+    .footer-social-links { display: flex; gap: 15px; }
+    .social-link { color: var(--text-secondary); font-size: 1.1rem; transition: color 0.2s ease; }
+    .footer-copyright { color: var(--text-secondary); font-size: 0.85rem; }
+
+    /* ---------- Donation popup ---------- */
+    .donation-popup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: var(--bg-container); padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); z-index: 1001; width: 280px; text-align: center; border: 1px solid var(--border-color); }
+    .donation-options { margin: 0; padding: 0; }
+    .donation-method { margin-bottom: 12px; }
+    .donation-link { display: inline-flex; align-items: center; justify-content: center; padding: 6px 12px; background-color: rgba(0, 0, 0, 0.3); border-radius: 4px; text-decoration: none; color: white; transition: all 0.2s; border: 1px solid var(--border-color); width: 80%; margin: 0 auto; font-family: 'Open Sans', sans-serif; }
+    .donation-link:hover { background-color: rgba(110, 72, 170, 0.2); border-color: var(--accent-color); }
+    .donation-link i { margin-right: 8px; font-size: 1rem; }
+    .donation-link.patreon i { color: #FF424D; }
+    .donation-link.tip i { color: #ddd428; }
+    .cancel-button { background: none; border: none; color: var(--text-secondary); font-family: 'League Spartan', sans-serif; font-size: 1.1rem; cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: all 0.2s; margin-top: 10px; }
+    .cancel-button:hover { color: var(--text-primary); background-color: rgba(255, 255, 255, 0.05); }
+    .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 1000; }
+
+    /* ---------- Aura + user block ---------- */
+    .aura-container { display: flex; align-items: center; padding-top: 2px; }
+    .aura-points { font-family: 'League Spartan', sans-serif; font-weight: 550; background: transparent; border: none; color: var(--text-primary); padding: 6px 12px; border-radius: 4px; font-size: 1.0rem; cursor: pointer; transition: all 0.2s; }
+    .aura-icon { width: 20px; height: 20px; object-fit: contain; padding-bottom: 3px; }
+    .user-block-container { padding: 0; border-radius: 4px; min-height: 120px; position: relative; }
+    .user-block-bg { width: 100%; height: 100%; border-radius: 4px; position: absolute; top: 0; left: 0; }
+    .username-display { font-family: 'League Spartan', sans-serif; font-weight: 700; color: white; position: absolute; width: 100%; text-align: center; bottom: 20px; left: 0; padding: 0 20px; box-sizing: border-box; }
+    .username-display:hover { color: #cccccc; }
+    .logout-button { font-family: 'League Spartan', sans-serif; font-weight: 300; letter-spacing: -0.5px; font-size: 1.0rem; display: block; padding: 15px 20px; cursor: pointer; border-left: 3px solid transparent; transition: all 0.2s; border-bottom: 1px solid rgba(255, 255, 255, 0.05); color: #ff6b6b; text-decoration: none; text-align: left; }
+    .logout-button:hover { background-color: rgba(255, 107, 107, 0.1); border-left: 3px solid #ff6b6b; }
+    .logout-button i { margin-right: 12px; width: 16px; text-align: center; }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 768px) {
+      .sidebar { width: 100%; height: auto; position: relative; top: 0; padding-top: 60px; }
+      .content-wrapper { margin-left: 0; }
+      .site-footer { margin-left: 0; padding: 30px 15px; }
+      .footer-links { grid-template-columns: 1fr; gap: 20px; }
+      .footer-bottom { flex-direction: column; text-align: center; gap: 15px; }
+      .footer-legal-links { justify-content: center; }
+      .header-logo { margin-left: 20px; }
+      .header-right { margin-right: 10px; }
+      .donate-float { top: 70px; }
+    }
+    #mobile-warning { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #121212; color: #9d50bb; z-index: 9999; padding: 40px 20px; box-sizing: border-box; text-align: center; font-size: 1.5rem; line-height: 2rem; font-family: 'League Spartan', sans-serif; }
+  </style>
+</head>
+<body>
+<script src="/assets/js/site-shell.js" data-component="shell"></script>
+
+  <div class="content-wrapper">
+    <div class="main-content">
+
+      <!-- Battle stage -->
+      <section class="stage" aria-label="Arena battle">
+        <div class="plate plate-l" id="heroName">PLAYER NAME</div>
+        <div class="plate plate-r" id="monsterName">...</div>
+        <img class="spr hero" id="heroImg" src="/images/arena/warrior-idle.gif" alt="Pixel art Spartan warrior">
+        <img class="spr foe" id="monsterImg" src="/images/arena/monster1-shroom.gif" alt="Pixel art of Monster">
+        <!-- Monster HP (sits under the monster) -->
+        <div class="duel-bar">
+          <div class="duel-label" id="duelLabel">10 / 10 HP</div>
+          <div class="bar"><div class="bar-fill" id="barFill"></div></div>
+        </div>
+      </section>
+
+      <!-- Filters -->
+      <div class="filters">
+        <input type="search" id="fSearch" placeholder="Search challenges...">
+        <select id="fCategory"><option value="">All categories</option></select>
+        <select id="fDifficulty">
+          <option value="">All difficulties</option>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+        <select id="fStatus">
+          <option value="">All</option>
+          <option value="unsolved">Unsolved</option>
+          <option value="solved">Solved</option>
+        </select>
+        <button class="reset-btn" id="fReset" type="button">Reset</button>
+        <span class="count" id="count"></span>
+      </div>
+
+      <!-- Challenges -->
+      <div class="grid" id="grid"></div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <script src="/assets/js/site-shell.js" data-component="footer"></script>
+
+  <!-- Challenge popup -->
+  <div class="modal-backdrop" id="modal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <button class="modal-x" id="mClose" type="button" aria-label="Close">&times;</button>
+      <div id="mChips"></div>
+      <h2 id="mTitle"></h2>
+      <div class="m-author" id="mAuthor"></div>
+      <div class="m-desc" id="mDesc"></div>
+      <div class="m-attach" id="mAttach"></div>
+      <div class="m-flag">
+        <input id="mFlag" type="text" placeholder="WBM{...}" autocomplete="off" spellcheck="false" maxlength="200">
+        <button id="mSubmit" type="button">Submit</button>
+      </div>
+      <div class="m-msg" id="mMsg"></div>
+    </div>
+  </div>
+
+  <div id="mobile-warning">
+    <p>THIS PLATFORM IS BEST EXPERIENCED ON A DESKTOP DEVICE.</p>
+    <p>PLEASE VISIT US USING A DESKTOP BROWSER.<br />⚠️</p>
+  </div>
+
+<script>
+  // Mobile warning
+  if (window.innerWidth <= 768) {
+    document.getElementById("mobile-warning").style.display = "block";
+    [...document.body.children].forEach((child) => {
+      if (child.id !== "mobile-warning") child.style.display = "none";
+    });
+  }
+
+  // =====================================================
+  //  ARENA CONFIG
+  // =====================================================
+
+  // Monsters, in order. The Spartan fights the one whose range contains his ARENA aura points.
+  // `hp` = how many arena AP it takes to kill it (each challenge is worth 5 AP = 5 HP).
+  // Ranges are built automatically from the HP values, so there are no gaps or overlaps:
+  //   Ooze 0-10, Nightwing 10-20, Bone Hoplite 20-35, Cyclops 35-50, Minotaur 50-65, Hydra 65-85
+  // HP left = range end - arena aura (e.g. 30 AP on Bone Hoplite -> 35 - 30 = 5 HP left).
+  // Keep each hp a multiple of 5 so a monster can always be killed exactly.
+  // Last entry is the final boss.
+  const MONSTER_DEFS = [
+    { name: "Gelatinous Ooze", hp: 10, img: "/images/arena/monster1-shroom.gif" },
+    { name: "Nightwing",       hp: 10, img: "/images/arena/monster-2-nightwing.gif" },
+    { name: "Bone Hoplite",    hp: 15, img: "/images/arena/monster-3-bone-hoplite.gif" },
+    { name: "Cyclops",         hp: 15, img: "/images/arena/monster-4-cyclops.gif" },
+    { name: "Minotaur",        hp: 15, img: "/images/arena/monster-5-minotaur.gif" },
+    { name: "Lernaean Hydra",  hp: 20, img: "/images/arena/monster-6-hydra.gif" },
+  ];
+  let _start = 0;
+  const MONSTERS = MONSTER_DEFS.map(m => {
+    const r = { ...m, min: _start, max: _start + m.hp };
+    _start = r.max;
+    return r;
+  });
+
+  // Warrior look by arena aura: he uses the last tier whose `from` is <= his arena AP.
+  // Tiers: 0-20, 20-40, 40-60, 60-80. At 80+ AP he keeps the last look.
+  // Rename the gif files to whatever you actually have in /images/arena/.
+  const WARRIORS = [
+    { from: 0,  img: "/images/arena/warrior-idle.gif" },
+    { from: 20, img: "/images/arena/warrior-2.gif" },
+    { from: 40, img: "/images/arena/warrior-3.gif" },
+    { from: 60, img: "/images/arena/warrior-4.gif" },
+  ];
+
+  // Challenges are loaded from the API (see loadChallenges below)
+  let CHALLENGES = [];
+
+  const API = "https://api.wargames.batamladen.com";
+  let solved = new Set();
+  let arenaPoints = 0;   // hidden score from the API: drives monster, warrior and HP
+  function arenaAura() { return arenaPoints; }
+
+  // =====================================================
+  //  BATTLE STAGE
+  // =====================================================
+
+  // Draws the monster's HP bar. Call this directly if the backend ever sends HP itself:
+  //   setMonsterHp(7, 10)  -> "7 / 10 HP", bar at 70%
+  function setMonsterHp(current, max, label) {
+    const pct = max > 0 ? (current / max) * 100 : 0;
+    document.getElementById("duelLabel").textContent = label || `${current} / ${max} HP`;
+    document.getElementById("barFill").style.width = Math.max(0, Math.min(100, pct)) + "%";
+  }
+
+  function renderStage(aura) {
+    const last = MONSTERS[MONSTERS.length - 1];
+    const cleared = aura >= last.max;
+    const m = cleared ? last : (MONSTERS.find(x => aura >= x.min && aura < x.max) || MONSTERS[0]);
+    const maxHp = m.max - m.min;
+    const hp = cleared ? 0 : Math.max(0, Math.min(maxHp, m.max - aura));
+
+    const img = document.getElementById("monsterImg");
+    if (img) {
+      if (!img.src.endsWith(m.img)) img.src = m.img;
+      img.alt = m.name;
+    }
+    // Warrior look follows the same arena aura (falls back to the first look if a gif is missing)
+    const w = [...WARRIORS].reverse().find(t => aura >= t.from) || WARRIORS[0];
+    const hero = document.getElementById("heroImg");
+    if (hero && !hero.src.endsWith(w.img)) {
+      hero.onerror = () => { hero.onerror = null; hero.src = WARRIORS[0].img; };
+      hero.src = w.img;
+    }
+
+    document.getElementById("monsterName").textContent = m.name.toUpperCase();
+    setMonsterHp(hp, maxHp, cleared ? "ARENA CLEARED" : null);
+  }
+
+  // =====================================================
+  //  CHALLENGE LIST + FILTERS
+  // =====================================================
+  const grid = document.getElementById("grid");
+  const fSearch = document.getElementById("fSearch");
+  const fCategory = document.getElementById("fCategory");
+  const fDifficulty = document.getElementById("fDifficulty");
+  const fStatus = document.getElementById("fStatus");
+
+  function fillCategories() {
+    fCategory.length = 1;
+    [...new Set(CHALLENGES.map(c => c.category))].sort().forEach(cat => {
+      const o = document.createElement("option");
+      o.value = cat;
+      o.textContent = cat.toUpperCase();
+      fCategory.appendChild(o);
+    });
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+  }
+
+  function renderChallenges() {
+    const q = fSearch.value.trim().toLowerCase();
+    const list = CHALLENGES.filter(c =>
+      (!q || c.title.toLowerCase().includes(q) || c.description.toLowerCase().includes(q)) &&
+      (!fCategory.value || c.category === fCategory.value) &&
+      (!fDifficulty.value || c.difficulty === fDifficulty.value) &&
+      (!fStatus.value || (fStatus.value === "solved") === solved.has(c.id))
+    );
+
+    document.getElementById("count").textContent = `${list.length} / ${CHALLENGES.length} challenges`;
+
+    if (!list.length) {
+      grid.innerHTML = `<div class="empty">No challenges match your filters.</div>`;
+      return;
+    }
+
+    grid.innerHTML = list.map(c => `
+      <a class="card${solved.has(c.id) ? " solved" : ""}" href="#${encodeURIComponent(c.id)}">
+        <h3>${esc(c.title)}</h3>
+        <p>${esc(c.description)}</p>
+        <div class="card-meta">
+          <span class="chip cat">${esc(c.category)}</span>
+          <span class="chip ${esc(c.difficulty)}">${esc(c.difficulty)}</span>
+          <span class="card-ap">-${c.damage} HP</span>
+        </div>
+      </a>
+    `).join("");
+  }
+
+  [fSearch, fCategory, fDifficulty, fStatus].forEach(el => el.addEventListener("input", renderChallenges));
+  document.getElementById("fReset").addEventListener("click", () => {
+    fSearch.value = fCategory.value = fDifficulty.value = fStatus.value = "";
+    renderChallenges();
+  });
+
+  // =====================================================
+  //  LOAD CHALLENGES + PROGRESS FROM THE API
+  // =====================================================
+  async function loadChallenges() {
+    try {
+      const res = await fetch(`${API}/api/arena/challenges`);
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message || "bad response");
+      CHALLENGES = data.challenges;
+      fillCategories();
+      renderChallenges();
+      openFromHash();
+    } catch (err) {
+      console.error("Error loading challenges:", err);
+      grid.innerHTML = '<div class="empty">Could not load challenges. Try again later.</div>';
+    }
+  }
+
+  async function loadSolved() {
+    const t = localStorage.getItem("token");
+    if (!t) return;
+    try {
+      const res = await fetch(`${API}/api/arena/status`, { headers: { Authorization: `Bearer ${t}` } });
+      const data = await res.json();
+      if (data.success) {
+        solved = new Set(data.solved);
+        arenaPoints = Number(data.arena_points) || 0;
+        if (CHALLENGES.length) renderChallenges();
+        renderStage(arenaPoints);
+      }
+    } catch (err) {
+      console.error("Error loading arena status:", err);
+    }
+  }
+
+  // =====================================================
+  //  CHALLENGE POPUP (opens from a card click or from /arena#challenge-id)
+  // =====================================================
+  const modal = document.getElementById("modal");
+  const mFlag = document.getElementById("mFlag");
+  const mSubmit = document.getElementById("mSubmit");
+  const mMsg = document.getElementById("mMsg");
+  let current = null;
+
+  function setMsg(text, kind) {
+    mMsg.textContent = text;
+    mMsg.className = "m-msg" + (kind ? " " + kind : "");
+  }
+
+  function openModal(id) {
+    const c = CHALLENGES.find(x => x.id === id);
+    if (!c) return;
+    current = c;
+    document.getElementById("mChips").innerHTML =
+      `<span class="chip cat">${esc(c.category)}</span> <span class="chip ${esc(c.difficulty)}">${esc(c.difficulty)}</span> <span class="card-ap">-${c.damage} HP</span>`;
+    document.getElementById("mTitle").textContent = c.title;
+    document.getElementById("mAuthor").textContent = c.author ? "by " + c.author : "";
+    document.getElementById("mDesc").textContent = c.description;
+    document.getElementById("mAttach").innerHTML = (c.attachments || []).map(a =>
+      `<a href="${esc(a.url)}" target="_blank" rel="noopener"${a.type === "file" ? " download" : ""}><i class="fas ${a.type === "file" ? "fa-download" : "fa-link"}"></i> ${esc(a.label)}</a>`
+    ).join("");
+
+    const loggedIn = !!localStorage.getItem("token");
+    const done = solved.has(c.id);
+    mFlag.value = "";
+    mFlag.disabled = mSubmit.disabled = done || !loggedIn;
+    setMsg(done ? "Solved \u2713" : (loggedIn ? "" : "Log in to submit flags."), done ? "ok" : "err");
+    modal.hidden = false;
+    document.body.style.overflow = "hidden";
+    if (!mFlag.disabled) mFlag.focus();
+  }
+
+  function closeModal() {
+    modal.hidden = true;
+    document.body.style.overflow = "";
+    current = null;
+    if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+  }
+
+  function openFromHash() {
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (id) openModal(id);
+    else if (!modal.hidden) closeModal();
+  }
+
+  function hitMonster() {
+    const foe = document.getElementById("monsterImg");
+    foe.classList.remove("hit");
+    void foe.offsetWidth;
+    foe.classList.add("hit");
+  }
+
+  async function submitFlag() {
+    const t = localStorage.getItem("token");
+    const flag = mFlag.value.trim();
+    if (!current || !flag) return;
+    if (!t) { setMsg("Log in to submit flags.", "err"); return; }
+
+    mSubmit.disabled = true;
+    setMsg("Checking...", "");
+    let correct = false;
+    try {
+      const res = await fetch(`${API}/api/arena/submit`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${t}` },
+        body: JSON.stringify({ id: current.id, flag })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (data.success && data.correct) {
+        correct = true;
+        solved.add(current.id);
+        arenaPoints = Number(data.arena_points) || arenaPoints;
+        setMsg(data.already_solved ? "Already solved \u2713" : `Correct! -${data.damage} HP`, "ok");
+        mFlag.disabled = true;
+        renderChallenges();
+        updateAuraDisplay();
+        setTimeout(() => {
+          closeModal();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          renderStage(arenaPoints);   // monster, warrior and HP bar update
+          if (data.damage > 0) hitMonster();
+        }, 900);
+      } else {
+        setMsg(data.message || (res.status === 503 ? "Too many requests, slow down." : "Something went wrong."), "err");
+      }
+    } catch (err) {
+      setMsg("Network error, try again.", "err");
+    } finally {
+      mSubmit.disabled = correct;
+    }
+  }
+
+  document.getElementById("mClose").addEventListener("click", closeModal);
+  modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !modal.hidden) closeModal(); });
+  mSubmit.addEventListener("click", submitFlag);
+  mFlag.addEventListener("keydown", e => { if (e.key === "Enter") submitFlag(); });
+  window.addEventListener("hashchange", openFromHash);
+
+  // =====================================================
+  //  SHARED SITE LOGIC (donate popup, header, login UI)
+  // =====================================================
+  const donateButton = document.getElementById("donateButton");
+  const footerDonateButton = document.getElementById("footerDonateButton");
+  const donationPopup = document.getElementById("donationPopup");
+  const overlay = document.getElementById("overlay");
+  const closePopup = document.getElementById("closePopup");
+
+  const showDonationPopup = () => { donationPopup.style.display = "block"; overlay.style.display = "block"; };
+  const hideDonationPopup = () => { donationPopup.style.display = "none"; overlay.style.display = "none"; };
+
+  donateButton.addEventListener("click", showDonationPopup);
+  if (footerDonateButton) {
+    footerDonateButton.addEventListener("click", (e) => { e.preventDefault(); showDonationPopup(); });
+  }
+  closePopup.addEventListener("click", hideDonationPopup);
+  overlay.addEventListener("click", hideDonationPopup);
+
+  // Scroll hide/show header
+  let lastScroll = 0;
+  const header = document.querySelector(".header");
+  window.addEventListener("scroll", () => {
+    const currentScroll = window.pageYOffset;
+    if (currentScroll <= 0) { header.classList.remove("hide"); return; }
+    if (currentScroll > lastScroll && !header.classList.contains("hide")) header.classList.add("hide");
+    else if (currentScroll < lastScroll && header.classList.contains("hide")) header.classList.remove("hide");
+    lastScroll = currentScroll;
+  });
+
+  // Login detection
+  const token = localStorage.getItem("token");
+  const username = localStorage.getItem("username");
+  const headerRight = document.getElementById("headerRight");
+  const sidebarList = document.getElementById("sidebarList");
+
+  async function updateAuraDisplay() {
+    if (!token) return;
+    try {
+      const response = await fetch(`${API}/api/auth/aura_points`, { headers: { Authorization: `Bearer ${token}` } });
+      const data = await response.json();
+      if (data.success) {
+        const auraContainer = document.querySelector(".aura-container");
+        if (auraContainer) {
+          auraContainer.innerHTML = `
+            <img src="images/aura.webp" class="aura-icon" alt="Aura Icon">
+            <span class="aura-points">Aura Points: ${data.total_aura}</span>
+          `;
+        }
+      }
+    } catch (err) {
+      console.error("Error updating aura points:", err);
+    }
+  }
+
+  if (token && username) {
+    // USER IS LOGGED IN
+    document.getElementById("heroName").textContent = username.toUpperCase();
+    headerRight.innerHTML = "";
+
+    const auraContainer = document.createElement("div");
+    auraContainer.classList.add("aura-container");
+    auraContainer.innerHTML = `
+      <img src="images/aura.webp" class="aura-icon" alt="Aura Icon">
+      <span class="aura-points">Aura Points: ...</span>
+    `;
+    headerRight.appendChild(auraContainer);
+
+    const originalItems = Array.from(sidebarList.children)
+      .filter((item) => !item.classList.contains("logout-button"))
+      .map((item) => item.cloneNode(true));
+
+    sidebarList.innerHTML = "";
+
+    const userContainer = document.createElement("li");
+    userContainer.classList.add("user-block-container");
+
+    const userBg = document.createElement("video");
+    userBg.classList.add("user-block-bg");
+    userBg.setAttribute("autoplay", "");
+    userBg.setAttribute("loop", "");
+    userBg.setAttribute("muted", "");
+    userBg.setAttribute("playsinline", "");
+    userBg.muted = true;
+    userBg.innerHTML = `<source src="images/profile2.webm" type="video/webm">`;
+
+    const usernameDisplay = document.createElement("a");
+    usernameDisplay.classList.add("username-display");
+    usernameDisplay.textContent = username;
+    usernameDisplay.href = `https://wargames.batamladen.com/profiles/index?u=${encodeURIComponent(username)}`;
+    usernameDisplay.style.textDecoration = "none";
+
+    userContainer.appendChild(userBg);
+    userContainer.appendChild(usernameDisplay);
+    sidebarList.appendChild(userContainer);
+    originalItems.forEach((item) => sidebarList.appendChild(item));
+
+    const logoutButton = document.createElement("a");
+    logoutButton.classList.add("logout-button");
+    logoutButton.href = "#";
+    logoutButton.innerHTML = '<i class="fas fa-sign-out-alt"></i> LOGOUT';
+    logoutButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      window.location.href = "/index";
+    });
+    sidebarList.appendChild(logoutButton);
+
+    updateAuraDisplay();
+    loadSolved();
+  } else {
+    // LOGGED OUT: shell already renders login/register + nav
+    document.querySelector(".sidebar").classList.add("logged-out");
+  }
+
+  // Initial render (0 arena aura = first monster at full HP until progress loads)
+  renderStage(arenaAura());
+  grid.innerHTML = '<div class="empty">Loading challenges...</div>';
+  loadChallenges();
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const yearSpan = document.getElementById("current-year");
+    if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+  });
+</script>
+</body>
+</html>

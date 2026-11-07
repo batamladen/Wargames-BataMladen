@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>WBM &ndash; Arena</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;600;700&family=Open+Sans:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" type="image/png" href="images/wargames-logo.ico">
+
+  <style>
+    :root {
+      --bg-dark: #121212;
+      --bg-darker: #0a0a0a;
+      --bg-container: #1e1e1e;
+      --accent-color: #6e48aa;
+      --accent-hover: #9d50bb;
+      --text-primary: #e0e0e0;
+      --text-secondary: #b0b0b0;
+      --border-color: #333;
+    }
+
+    /* ---------- Base ---------- */
+    body {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1, h2, h3, h4, h5, h6,
+    .auth-button, .donate-float,
+    .donation-popup h2, .donation-method-title {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 550;
+      letter-spacing: -0.5px;
+    }
+
+    /* ---------- Header ---------- */
+    .header {
+      background-color: var(--bg-darker);
+      padding: 0 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .header.hide { transform: translateY(-100%); }
+
+    .header-logo {
+      padding-top: 7.5px;
+      height: 60px;
+      width: auto;
+      margin-left: 20px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-right: 110px;
+    }
+
+    .auth-button {
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .auth-button:hover { color: #815bbe; background-color: transparent; }
+
+    .donate-float {
+      background-color: #f96854;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 1.0rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(249, 104, 84, 0.3);
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .donate-float:hover {
+      background-color: #e34b39;
+      box-shadow: 0 0 0 rgba(249, 104, 84, 0.5);
+    }
+
+    /* ---------- Sidebar ---------- */
+    .sidebar {
+      width: 220px;
+      background-color: var(--bg-darker);
+      border-right: 1px solid var(--border-color);
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding-top: 0;
+      box-sizing: border-box;
+    }
+
+    .sidebar.logged-out { padding-top: 60px !important; }
+
+    .challenge-list { list-style: none; padding: 0; margin: 0; }
+
+    .challenge-item {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      font-size: 1.0rem;
+      display: block;
+      padding: 15px 20px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .challenge-item:hover,
+    .challenge-item.active {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-left: 3px solid var(--accent-color);
+    }
+
+    .challenge-item i { margin-right: 12px; width: 16px; text-align: center; }
+    .challenge-item.active i { color: var(--accent-color); }
+
+    /* ---------- Arena hero (the whole-screen image) ---------- */
+    .arena-hero {
+      position: relative;
+      margin-left: 220px;
+      margin-top: 60px;
+      height: calc(100vh - 60px);
+      min-height: 420px;
+      background-color: var(--bg-darker);
+      background-image: url("/images/prearena.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 12vh;
+      box-sizing: border-box;
+      overflow: hidden;
+      animation: arenaFade 1.2s ease-out both;
+    }
+
+    /* Vignette keeps the button readable on any image */
+    .arena-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center,
+                  rgba(0, 0, 0, 0.10) 0%,
+                  rgba(0, 0, 0, 0.65) 100%);
+      pointer-events: none;
+    }
+
+    .enter-arena-btn {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 9px 28px;
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #fff;
+      background: rgba(10, 10, 10, 0.6);
+      border: 2px solid var(--accent-color);
+      border-radius: 8px;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 0 18px rgba(110, 72, 170, 0.45);
+      transition: background 0.25s ease, border-color 0.25s ease,
+                  box-shadow 0.25s ease, transform 0.25s ease;
+      animation: arenaRise 1s ease-out 0.6s both, arenaPulse 2.8s ease-in-out 1.8s infinite;
+    }
+
+    .enter-arena-btn:hover,
+    .enter-arena-btn:focus-visible {
+      background: var(--accent-color);
+      border-color: var(--accent-hover);
+      box-shadow: 0 0 32px rgba(157, 80, 187, 0.8);
+      transform: translateY(-3px);
+      outline: none;
+    }
+
+    .enter-arena-btn:active { transform: translateY(0) scale(0.98); }
+
+    @keyframes arenaFade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes arenaRise {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes arenaPulse {
+      0%, 100% { box-shadow: 0 0 18px rgba(110, 72, 170, 0.35); }
+      50%      { box-shadow: 0 0 34px rgba(157, 80, 187, 0.75); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .arena-hero, .enter-arena-btn { animation: none; }
+    }
+
+    /* ---------- Footer ---------- */
+    .site-footer {
+      background-color: var(--bg-darker);
+      border-top: 1px solid var(--border-color);
+      padding: 40px 20px 30px;
+      margin-top: 0;
+      margin-left: 220px;
+      font-family: 'Open Sans', sans-serif;
+      color: var(--text-secondary);
+    }
+
+    .footer-content {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .footer-logo-section { display: flex; align-items: center; gap: 20px; margin-bottom: 10px; }
+    .footer-logo { width: 40px; height: 40px; object-fit: contain; }
+
+    .footer-logo-text {
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+    }
+
+    .footer-tagline { font-size: 0.95rem; line-height: 1.5; max-width: 600px; margin-bottom: 20px; }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    .footer-column h3 {
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 15px;
+      letter-spacing: -0.5px;
+    }
+
+    .footer-links-list { list-style: none; padding: 0; margin: 0; }
+    .footer-links-list li { margin-bottom: 1px; }
+
+    .footer-links-list a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links-list a:hover { color: var(--accent-color); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      font-size: 0.85rem;
+    }
+
+    .footer-legal-links { display: flex; gap: 20px; flex-wrap: wrap; }
+
+    .footer-legal-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-legal-links a:hover { color: #e86152; }
+
+    .footer-social-links { display: flex; gap: 15px; }
+    .footer-social-links a:hover { color: #e86152; }
+
+    .social-link { color: var(--text-secondary); font-size: 1.1rem; transition: color 0.2s ease; }
+    .social-link:hover { color: var(--accent-color); }
+
+    .footer-copyright { color: var(--text-secondary); font-size: 0.85rem; }
+
+    /* ---------- Donation popup ---------- */
+    .donation-popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: var(--bg-container);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      z-index: 1001;
+      width: 280px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+    }
+
+    .donation-options { margin: 0; padding: 0; }
+    .donation-method { margin-bottom: 12px; }
+
+    .donation-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 12px;
+      background-color: rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
+      text-decoration: none;
+      color: white;
+      transition: all 0.2s;
+      border: 1px solid var(--border-color);
+      width: 80%;
+      margin: 0 auto;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .donation-link:hover { background-color: rgba(110, 72, 170, 0.2); border-color: var(--accent-color); }
+    .donation-link i { margin-right: 8px; font-size: 1rem; }
+    .donation-link.patreon i { color: #FF424D; }
+    .donation-link.tip i { color: #ddd428; }
+
+    .cancel-button {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-family: 'League Spartan', sans-serif;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all 0.2s;
+      margin-top: 10px;
+    }
+
+    .cancel-button:hover { color: var(--text-primary); background-color: rgba(255, 255, 255, 0.05); }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+    }
+
+    /* ---------- Aura + user block ---------- */
+    .aura-container { display: flex; align-items: center; padding-top: 2px; gap: 0; }
+
+    .aura-points {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 550;
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 1.0rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .aura-icon { width: 20px; height: 20px; object-fit: contain; padding-bottom: 3px; }
+
+    .user-block-container { padding: 0; margin-bottom: 0; border-radius: 4px; min-height: 120px; position: relative; }
+    .user-block-bg { width: 100%; height: 100%; border-radius: 4px; position: absolute; top: 0; left: 0; }
+
+    .username-display {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 700;
+      color: white;
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      bottom: 20px;
+      left: 0;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    .username-display:hover { color: #cccccc; }
+
+    .logout-button {
+      font-family: 'League Spartan', sans-serif;
+      font-weight: 300;
+      letter-spacing: -0.5px;
+      font-size: 1.0rem;
+      display: block;
+      padding: 15px 20px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: all 0.2s;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #ff6b6b;
+      text-decoration: none;
+      text-align: left;
+    }
+
+    .logout-button:hover { background-color: rgba(255, 107, 107, 0.1); border-left: 3px solid #ff6b6b; }
+    .logout-button i { margin-right: 12px; width: 16px; text-align: center; }
+
+    /* ---------- Mobile ---------- */
+    @media (max-width: 768px) {
+      .sidebar { width: 100%; height: auto; position: relative; top: 0; padding-top: 60px; }
+      .arena-hero { margin-left: 0; }
+      .site-footer { margin-left: 0; padding: 30px 15px; }
+      .footer-links { grid-template-columns: 1fr; gap: 20px; }
+      .footer-bottom { flex-direction: column; text-align: center; gap: 15px; }
+      .footer-legal-links { justify-content: center; }
+      .header-logo { margin-left: 20px; }
+      .header-right { margin-right: 10px; }
+      .donate-float { top: 70px; }
+    }
+
+    #mobile-warning {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #121212;
+      color: #9d50bb;
+      z-index: 9999;
+      padding: 40px 20px;
+      box-sizing: border-box;
+      text-align: center;
+      font-size: 1.5rem;
+      line-height: 2rem;
+      font-family: 'League Spartan', sans-serif;
+    }
+  </style>
+</head>
+<body>
+<script src="/assets/js/site-shell.js" data-component="shell"></script>
+
+  <!-- Whole-screen arena image + button -->
+  <section class="arena-hero" aria-label="Arena entrance">
+    <a href="/arena.html" class="enter-arena-btn">
+      Enter the Arena</i>
+    </a>
+  </section>
+
+  <!-- Footer -->
+  <script src="/assets/js/site-shell.js" data-component="footer"></script>
+
+  <div id="mobile-warning">
+    <p>THIS PLATFORM IS BEST EXPERIENCED ON A DESKTOP DEVICE.</p>
+    <p>PLEASE VISIT US USING A DESKTOP BROWSER.<br />⚠️</p>
+  </div>
+
+<script>
+  // Mobile warning
+  if (window.innerWidth <= 768) {
+    document.getElementById("mobile-warning").style.display = "block";
+    [...document.body.children].forEach((child) => {
+      if (child.id !== "mobile-warning") child.style.display = "none";
+    });
+  }
+
+  // Donation popup handlers
+  const donateButton = document.getElementById("donateButton");
+  const footerDonateButton = document.getElementById("footerDonateButton");
+  const donationPopup = document.getElementById("donationPopup");
+  const overlay = document.getElementById("overlay");
+  const closePopup = document.getElementById("closePopup");
+
+  const showDonationPopup = () => {
+    donationPopup.style.display = "block";
+    overlay.style.display = "block";
+  };
+  const hideDonationPopup = () => {
+    donationPopup.style.display = "none";
+    overlay.style.display = "none";
+  };
+
+  donateButton.addEventListener("click", showDonationPopup);
+  if (footerDonateButton) {
+    footerDonateButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      showDonationPopup();
+    });
+  }
+  closePopup.addEventListener("click", hideDonationPopup);
+  overlay.addEventListener("click", hideDonationPopup);
+
+  // Scroll hide/show header
+  let lastScroll = 0;
+  const header = document.querySelector(".header");
+
+  window.addEventListener("scroll", () => {
+    const currentScroll = window.pageYOffset;
+
+    if (currentScroll <= 0) {
+      header.classList.remove("hide");
+      return;
+    }
+    if (currentScroll > lastScroll && !header.classList.contains("hide")) {
+      header.classList.add("hide");
+    } else if (currentScroll < lastScroll && header.classList.contains("hide")) {
+      header.classList.remove("hide");
+    }
+    lastScroll = currentScroll;
+  });
+
+  // Highlight ARENA in the sidebar (this page is /pre-arena, so the shell doesn't match it)
+  const arenaNavItem = document.querySelector('.challenge-item[data-challenge="arena"]');
+  if (arenaNavItem) arenaNavItem.classList.add("active");
+
+  // --- Login detection and UI adjustment ---
+  const token = localStorage.getItem("token");
+  const username = localStorage.getItem("username");
+  const headerRight = document.getElementById("headerRight");
+  const sidebarList = document.getElementById("sidebarList");
+
+  async function updateAuraDisplay() {
+    if (!token) return;
+    try {
+      const response = await fetch("https://api.wargames.batamladen.com/api/auth/aura_points", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json();
+      if (data.success) {
+        const auraContainer = document.querySelector(".aura-container");
+        if (auraContainer) {
+          auraContainer.innerHTML = `
+            <img src="images/aura.webp" class="aura-icon" alt="Aura Icon">
+            <span class="aura-points">Aura Points: ${data.total_aura}</span>
+          `;
+        }
+      }
+    } catch (err) {
+      console.error("Error updating aura points:", err);
+    }
+  }
+
+  if (token && username) {
+    // USER IS LOGGED IN
+    headerRight.innerHTML = "";
+
+    const auraContainer = document.createElement("div");
+    auraContainer.classList.add("aura-container");
+    auraContainer.innerHTML = `
+      <img src="images/aura.webp" class="aura-icon" alt="Aura Icon">
+      <span class="aura-points">Aura Points: ...</span>
+    `;
+    headerRight.appendChild(auraContainer);
+    updateAuraDisplay();
+
+    // Keep the existing nav items, add user block on top and logout at the bottom
+    const originalItems = Array.from(sidebarList.children)
+      .filter((item) => !item.classList.contains("logout-button"))
+      .map((item) => item.cloneNode(true));
+
+    sidebarList.innerHTML = "";
+
+    const userContainer = document.createElement("li");
+    userContainer.classList.add("user-block-container");
+
+    const userBg = document.createElement("video");
+    userBg.classList.add("user-block-bg");
+    userBg.setAttribute("autoplay", "");
+    userBg.setAttribute("loop", "");
+    userBg.setAttribute("muted", "");
+    userBg.setAttribute("playsinline", "");
+    userBg.muted = true;
+    userBg.innerHTML = `<source src="images/profile2.webm" type="video/webm">`;
+
+    const usernameDisplay = document.createElement("a");
+    usernameDisplay.classList.add("username-display");
+    usernameDisplay.textContent = username;
+    usernameDisplay.href = `https://wargames.batamladen.com/profiles/index?u=${encodeURIComponent(username)}`;
+    usernameDisplay.style.textDecoration = "none";
+
+    userContainer.appendChild(userBg);
+    userContainer.appendChild(usernameDisplay);
+    sidebarList.appendChild(userContainer);
+
+    originalItems.forEach((item) => sidebarList.appendChild(item));
+
+    const logoutButton = document.createElement("a");
+    logoutButton.classList.add("logout-button");
+    logoutButton.href = "#";
+    logoutButton.innerHTML = '<i class="fas fa-sign-out-alt"></i> LOGOUT';
+    logoutButton.addEventListener("click", (e) => {
+      e.preventDefault();
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      window.location.href = "/index";
+    });
+    sidebarList.appendChild(logoutButton);
+  } else {
+    // USER IS LOGGED OUT - shell already renders login/register + default nav
+    document.querySelector(".sidebar").classList.add("logged-out");
+  }
+
+  // Update copyright year automatically
+  document.addEventListener("DOMContentLoaded", () => {
+    const yearSpan = document.getElementById("current-year");
+    if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+  });
+</script>
+</body>
+</html>
