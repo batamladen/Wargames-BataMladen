@@ -7,16 +7,23 @@
   const navigation = [
     ["challenges", "/challenges.html", "fa-bullseye", "CHALLENGES"],
     ["academy", "/academy.html", "fa-graduation-cap", "ACADEMY"],
-    ["arena", "/arena", "fa-landmark", "ARENA"],
+    ["arena", "/pre-arena", "fa-landmark", "ARENA"],
     ["faq", "/faq.html", "fa-question-circle", "FAQ"],
     ["contact", "/contact.html", "fa-envelope", "CONTACT"],
     ["scoreboard", "/scoreboard.html", "fa-trophy", "SCOREBOARD"],
     ["contributors", "/contributors.html", "fa-users", "CONTRIBUTORS"],
   ];
 
+  // Extra pages that belong to a nav section, so its sidebar item stays highlighted on them
+  const sectionPages = {
+    arena: ["/pre-arena", "/arena-task"],
+  };
+
   const pagePath = window.location.pathname.toLowerCase().replace(/\.html$/, "");
   const activePage = navigation.find(([key]) =>
-    pagePath === `/${key}` || pagePath.startsWith(`/${key}/`),
+    pagePath === `/${key}` ||
+    pagePath.startsWith(`/${key}/`) ||
+    (sectionPages[key] || []).includes(pagePath),
   )?.[0];
 
   const shell = `
@@ -84,7 +91,7 @@
             <ul class="footer-links-list">
               <li><a href="/challenges">Challenges</a></li>
               <li><a href="/academy">Academy</a></li>
-              <li><a href="/arena">Arena</a></li>
+              <li><a href="/pre-arena">Arena</a></li>
               <li><a href="/scoreboard">Scoreboard</a></li>
             </ul>
           </div>
