@@ -46,14 +46,12 @@
     .stage { position: relative; width: 100%; aspect-ratio: 384 / 132; background: url("/images/arena/arena-bg.png") center / 100% 100% no-repeat; background-color: var(--bg-darker); image-rendering: pixelated; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin-bottom: 30px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); }
     .spr { position: absolute; bottom: 17%; image-rendering: pixelated; }
     .spr.hero { left: 12%; width: 13%; }
-    .spr.foe { right: 12%; width: 13%; }
+    .spr.foe { right: 12%; width: 13%; }   /* JS sets width/right per monster ("w" and "dx" in MONSTER_DEFS) */
     .plate, .duel-label { font-family: 'Press Start 2P', monospace; color: #fff; text-shadow: 2px 2px 0 #120a1a; font-size: clamp(6px, 0.75vw, 11px); }
     .plate { position: absolute; top: 6%; width: 21%; text-align: center; padding: 6px 4px; background: rgba(10, 10, 10, 0.65); border: 2px solid var(--accent-color); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; box-sizing: border-box; }
     .plate-l { left: 11%; }
     .plate-r { right: 11%; }
-
-    /* Monster HP bar: sits right under the monster (same width/position as .spr.foe) */
-    .duel-bar { position: absolute; right: 12%; bottom: 4%; width: 15%; text-align: center; }
+    .duel-bar { position: absolute; right: 12%; bottom: 4%; width: 15%; text-align: center; }   /* monster HP, under the monster */
     .duel-label { margin-bottom: 6px; white-space: nowrap; }
     .bar { height: clamp(8px, 1.1vw, 16px); background: #2a0f0f; border: 2px solid #120a1a; box-shadow: 0 0 0 2px #fff; box-sizing: border-box; }
     .bar-fill { height: 100%; width: 100%; background: repeating-linear-gradient(90deg, #ff5a5a 0 6px, #c62828 6px 8px); transition: width 0.8s steps(12); }
@@ -106,7 +104,7 @@
     .m-msg { min-height: 1.4em; margin-top: 12px; font-size: .9rem; }
     .m-msg.ok { color: #4caf50; }
     .m-msg.err { color: #ff6b6b; }
-    .spr.foe.hit { animation: hit .5s steps(4); }
+    .spr.foe.hit { animation: hit .5s steps(4); }   /* fallback shake for monsters without a hit gif */
     @keyframes hit { 0%, 100% { transform: none; filter: none; } 25% { transform: translateX(8px); filter: brightness(2.2); } 50% { transform: translateX(-8px); } 75% { transform: translateX(5px); filter: brightness(2.2); } }
 
     /* ---------- Footer ---------- */
@@ -255,14 +253,21 @@
   // Monsters, in order. The Spartan fights the one whose range contains his ARENA aura points.
   // `hp` = how many arena AP it takes to kill it (each challenge is worth 5 AP = 5 HP).
   // Ranges are built automatically from the HP values, so there are no gaps or overlaps:
-  //   Ooze 0-10, Nightwing 10-20, Bone Hoplite 20-35, Cyclops 35-50, Minotaur 50-65, Hydra 65-85
+  //   Ooze 0-10, Goblin 10-20, Skeleton 20-35, Cyclops 35-50, Minotaur 50-65, Hydra 65-85
   // HP left = range end - arena aura (e.g. 30 AP on Bone Hoplite -> 35 - 30 = 5 HP left).
   // Keep each hp a multiple of 5 so a monster can always be killed exactly.
   // Last entry is the final boss.
+  // Optional per monster:
+  //   hit   = gif played once when it takes damage      death = gif played once when it dies
+  //   w     = sprite width in % of the stage (default 13). Bigger gif canvas -> bigger w
+  //   dx    = nudge the sprite left (-) / right (+) in % of the stage, to line it up with the HP bar
   const MONSTER_DEFS = [
-    { name: "Gelatinous Ooze", hp: 10, img: "/images/arena/monster1-shroom.gif" },
-    { name: "Nightwing",       hp: 10, img: "/images/arena/monster-2-nightwing.gif" },
-    { name: "Bone Hoplite",    hp: 15, img: "/images/arena/monster-3-bone-hoplite.gif" },
+    { name: "Gelatinous Ooze", hp: 10, img: "/images/arena/monster1-shroom.gif",
+      hit: "/images/arena/monster1-shroom-hit.gif", death: "/images/arena/monster1-shroom-death.gif", w: 25, dx: 3.6 },
+    { name: "Goblin",          hp: 10, img: "/images/arena/monster2-goblin.gif",
+      hit: "/images/arena/monster2-goblin-hit.gif", death: "/images/arena/monster2-goblin-death.gif", w: 28.4, dx: -3.6 },
+    { name: "Rattlebone Legionnaire", hp: 15, img: "/images/arena/monster3-skeleton.gif",
+      hit: "/images/arena/monster3-skeleton-hit.gif", death: "/images/arena/monster3-skeleton-death.gif", w: 29.9, dx: 1.7 },
     { name: "Cyclops",         hp: 15, img: "/images/arena/monster-4-cyclops.gif" },
     { name: "Minotaur",        hp: 15, img: "/images/arena/monster-5-minotaur.gif" },
     { name: "Lernaean Hydra",  hp: 20, img: "/images/arena/monster-6-hydra.gif" },
@@ -273,6 +278,9 @@
     _start = r.max;
     return r;
   });
+
+  const FOE_W = 13;                      // default monster sprite width (% of stage)
+  const HIT_MS = 600, DEATH_MS = 1300;   // how long the hit / death gifs get to play
 
   // Warrior look by arena aura: he uses the last tier whose `from` is <= his arena AP.
   // Tiers: 0-20, 20-40, 40-60, 60-80. At 80+ AP he keeps the last look.
@@ -304,16 +312,39 @@
     document.getElementById("barFill").style.width = Math.max(0, Math.min(100, pct)) + "%";
   }
 
-  function renderStage(aura) {
+  // Which monster the player is on for a given arena aura
+  function monsterAt(aura) {
     const last = MONSTERS[MONSTERS.length - 1];
     const cleared = aura >= last.max;
-    const m = cleared ? last : (MONSTERS.find(x => aura >= x.min && aura < x.max) || MONSTERS[0]);
+    return { m: cleared ? last : (MONSTERS.find(x => aura >= x.min && aura < x.max) || MONSTERS[0]), cleared };
+  }
+
+  // Swap the monster sprite. restart=true forces a one-shot gif (hit / death) to play from frame 1.
+  function setFoe(src, restart) {
+    const img = document.getElementById("monsterImg");
+    if (!img || (!restart && img.dataset.src === src)) return;
+    img.dataset.src = src;
+    img.src = restart ? src + "?t=" + Date.now() : src;
+  }
+
+  // Per-monster width + position (keeps the monster centred above its HP bar)
+  function sizeFoe(m) {
+    const img = document.getElementById("monsterImg");
+    if (!img) return;
+    const w = m.w ?? FOE_W;
+    img.style.width = w + "%";
+    img.style.right = (12 + (FOE_W - w) / 2 - (m.dx || 0)) + "%";
+  }
+
+  function renderStage(aura) {
+    const { m, cleared } = monsterAt(aura);
     const maxHp = m.max - m.min;
     const hp = cleared ? 0 : Math.max(0, Math.min(maxHp, m.max - aura));
 
     const img = document.getElementById("monsterImg");
     if (img) {
-      if (!img.src.endsWith(m.img)) img.src = m.img;
+      sizeFoe(m);
+      setFoe(cleared && m.death ? m.death : m.img, false);   // final boss stays down once cleared
       img.alt = m.name;
     }
     // Warrior look follows the same arena aura (falls back to the first look if a gif is missing)
@@ -326,6 +357,29 @@
 
     document.getElementById("monsterName").textContent = m.name.toUpperCase();
     setMonsterHp(hp, maxHp, cleared ? "ARENA CLEARED" : null);
+  }
+
+  // Plays the fight after a correct flag: hit gif -> (if it died) death gif -> next monster.
+  let strikeId = 0;
+  function playStrike(prev, next, damage) {
+    const id = ++strikeId, before = monsterAt(prev), after = monsterAt(next), m = before.m;
+    if (!damage || damage <= 0) { renderStage(next); return; }
+    const killed = after.m !== m || (after.cleared && !before.cleared);
+    const later = (fn, ms) => setTimeout(() => { if (id === strikeId) fn(); }, ms);
+
+    if (!killed) {
+      renderStage(next);                                   // HP bar + warrior look
+      if (m.hit) { setFoe(m.hit, true); later(() => setFoe(m.img, false), HIT_MS); }
+      else hitMonster();
+      return;
+    }
+    setMonsterHp(0, m.max - m.min);                        // HP bar empties
+    const die = () => {
+      if (m.death) { setFoe(m.death, true); later(() => renderStage(next), DEATH_MS); }
+      else renderStage(next);
+    };
+    if (m.hit) { setFoe(m.hit, true); later(die, HIT_MS); }
+    else { hitMonster(); later(die, 500); }
   }
 
   // =====================================================
@@ -470,6 +524,7 @@
     else if (!modal.hidden) closeModal();
   }
 
+  // Fallback hit effect (shake + flash) for monsters that have no hit gif
   function hitMonster() {
     const foe = document.getElementById("monsterImg");
     foe.classList.remove("hit");
@@ -496,6 +551,7 @@
       if (data.success && data.correct) {
         correct = true;
         solved.add(current.id);
+        const prevPoints = arenaPoints;   // the monster that is on screen right now
         arenaPoints = Number(data.arena_points) || arenaPoints;
         setMsg(data.already_solved ? "Already solved \u2713" : `Correct! -${data.damage} HP`, "ok");
         mFlag.disabled = true;
@@ -504,8 +560,7 @@
         setTimeout(() => {
           closeModal();
           window.scrollTo({ top: 0, behavior: "smooth" });
-          renderStage(arenaPoints);   // monster, warrior and HP bar update
-          if (data.damage > 0) hitMonster();
+          playStrike(prevPoints, arenaPoints, data.already_solved ? 0 : (data.damage || 0));
         }, 900);
       } else {
         setMsg(data.message || (res.status === 503 ? "Too many requests, slow down." : "Something went wrong."), "err");
